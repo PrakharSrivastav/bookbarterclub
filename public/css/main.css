@@ -1,0 +1,82 @@
+#result 				{z-index:1000;margin-top:-15px;height:400px !important;overflow-y:auto}
+.padding-none 			{padding: 0px !important;}
+.padding-5 				{padding: 5px !important;}
+.padding-10 			{padding: 10px;}
+.padding-15 			{padding: 15px;}
+.padding-25 			{padding: 25px;}
+.padding-top-5 			{padding-top: 5px !important;}
+.padding-top-10			{padding-top: 10px !important;}
+.padding-top-15			{padding-top: 15px !important;}
+.padding-top-20			{padding-top: 20px !important;}
+
+.padding-bottom-10 		{padding-bottom: 20px !important;}
+.margin-top-5 			{margin-top: 5px !important}
+.margin-top--5 			{margin-top: -5px !important}
+.margin-left-5 			{margin-left: 5px;}
+.margin-none 			{margin: 0px !important;}
+.margin-top-100 		{margin-top: 100px}
+.border-none 			{border: none !important;}
+img, .card, .btn 		{border-radius: 0px !important}
+.btn-block, .full-width {width: 100% !important;}
+.title 					{position: absolute;top: 0px;font-weight: 100;font-size: 37px;margin-left: 30px;margin-bottom: -10px;color: #000;}
+.weight-100 			{font-weight: 100 !important}
+.weight-200 			{font-weight: 200 !important}
+.weight-300 			{font-weight: 300 !important}
+.weight-400 			{font-weight: 400 !important}
+.weight-500 			{font-weight: 500 !important}
+.weight-600 			{font-weight: 600 !important}
+.weight-700 			{font-weight: 700 !important}
+.collapsible-header, 
+.collapsible, 
+.collapsible-body 		{border: none;}
+#mobile-view li 		{padding: 0px !important;margin: 0px !important;}
+#mobile-view li a 		{background: #fbc02d;color: #000;}
+
+@media screen and (max-width: 480px) {
+	.title {font-size: 30px;}
+}
+
+.div 					{font-size: 12px;font-weight: 300;color: black;padding: 4px !important}
+.collection-item 		{background: #ffeb3b !important;border-bottom: solid 1px #f9a825 !important;}
+.collection-item:hover 	{background: #fbc02d !important;}
+.min-height-350 		{min-height: 350px !important;}
+
+ul.dropdown-content li span 		{color: black;background: #fbc02d !important;}
+ul.dropdown-content li span:hover 	{background: #f9a825 !important;}
+.text-white 						{color: #000 !important}
+.input-field label 					{color: #000;}
+textarea.materialize-textarea, 
+.input-field input 					{box-shadow: 0 1px 0 0 #000 !important;}
+input, textarea 					{border: none !important}
+
+.input-field input[type=password]:focus + label, 
+textarea.materialize-textarea:focus + label, 
+.input-field input[type=email]:focus + label,
+.input-field input[type=text]:focus + label {color: #000 !important;}
+
+.input-field input[type=password]:focus, 
+textarea.materialize-textarea:focus, 
+.input-field input[type=email]:focus,
+.input-field input[type=text]:focus 		{box-shadow: 0 1px 0 0 #000 !important;}
+
+.input-field input[type=password].valid,
+textarea.materialize-textarea:focus.valid,
+.input-field input[type=email].valid,
+.input-field input[type=text].valid 		{border-bottom: 1px solid #000 !important;box-shadow: 0 1px 0 0 #000 !important;}
+
+.input-field input[type=password].invalid,
+textarea.materialize-textarea:focus.invalid,
+.input-field input[type=email].invalid,
+.input-field input[type=text].invalid		{border-bottom: 1px solid #000 !important;box-shadow: 0 1px 0 0 #000 !important;
+ }
+ .input-field .prefix.active 				{color: #000;}
+/*input[type=text].special { background:#fff !important;padding-left:10px !important;height:50px; width: 100% !important;text-align:left;font-size: 28px;font-weight: 300;font-style: oblique;}
+input.special::-webkit-input-placeholder {color: black;font-weight: 300;font-size: 28px;font-style: oblique;}
+input.special:-moz-placeholder {color: black;font-weight: 300;font-size: 28px;font-style: oblique;}
+input.special::-moz-placeholder {color: black;font-weight: 300;font-size: 28px;font-style: oblique;}
+input.special:-ms-input-placeholder {color: black;font-weight: 300;font-size: 28px;font-style: oblique;}
+input.special:focus::-webkit-input-placeholder{color:transparent;font-weight: 300;font-size: 28px;font-style: oblique;}*/
+
+.gr_review_container,.gr_review_text {background-color:yellow !important;}
+.btn-flat {font-size:13px !important;padding:1px !important;}
+.card-title {font-size:14px !important;line-height: 16px !important;}
