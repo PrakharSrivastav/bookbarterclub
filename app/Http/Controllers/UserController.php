@@ -10,6 +10,7 @@ use App\Trend;
 use App\Book;
 use Auth;
 use Validator;
+use App\Http\Controllers\APIController;
 
 class UserController extends Controller
 {
@@ -42,12 +43,34 @@ class UserController extends Controller
     public function store(Request $request) {
     }
     
-    public function showBooks(Request $request, $id, $book_id) {
+    public function showBooks(Request $request, $book_id) {
         if (Auth::check()) {
-            $owner = User::findOrFail($id);
             $title = "Borrow Book";
             $book = new Book();
             $the_book = $book->where('book_id', $book_id)->first();
+            if (count($the_book) < 1) {
+                $api = new APIController();
+                $the_book = $api->searchBook($book_id);
+            } 
+            else {
+                $the_book['description'] = $the_book['desc'];
+                $the_book['text_reviews_count'] = $the_book['reviews'];
+                $the_book['average_rating'] = $the_book['rating'];
+                unset($the_book['reviews']);
+                unset($the_book['rating']);
+                unset($the_book['desc']);
+            }
+            if (!isset($the_book['author_name'])) {
+                $the_book['author_name'] = "";
+            }
+            
+            if (!isset($the_book['author_id'])) {
+                $the_book['author_id'] = "";
+            }
+            $the_book['reviews_widget'] = str_replace(array("565px", "565"), "100%", $the_book['reviews_widget']);
+            $the_book['reviews_widget'] = str_replace(array("padding: 18px 0;"), "padding:0 !important;margin:0px !important;", $the_book['reviews_widget']);
+            $the_book['reviews_widget'] = str_replace(array("<style>"), "<style> #the_iframe{padding-left:10px;margin:0px !important}", $the_book['reviews_widget']);
+            
             $books = Trend::all();
             $user = Auth::user();
             $other_books = $book->where(['book_id' => $book_id, "is_lendable" => '1'])->get();
@@ -59,7 +82,36 @@ class UserController extends Controller
                     $user_filter[] = $booka->user_id;
                 }
             }
-            return view("profile.show-books", compact("owner", "title", "the_book", "books", "user", "other_users"));
+            
+            // get more suggestions for books around your area
+            $suggestions = [];
+            $more_books = Book::all()->take(100);
+            foreach ($more_books as $more) {
+                $matches = [];
+                $found_user = $more->user;
+                $theta = doubleval($found_user['longitude']) - doubleval($user->longitude);
+                $dist = sin(deg2rad(doubleval($found_user['latitude']))) * sin(deg2rad(doubleval($user->latitude))) + cos(deg2rad(doubleval($found_user['latitude']))) * cos(deg2rad(doubleval($user->latitude))) * cos(deg2rad($theta));
+                $dist = acos($dist);
+                $dist = rad2deg($dist);
+                $miles = round($dist * 60 * 1.1515 * 1.609344, 1);
+                $matches['location_name'] = $found_user['location_name'];
+                $matches['firstname'] = $found_user['firstname'];
+                $matches['distance'] = $miles;
+                $matches['title'] = $more->title;
+                $matches['image'] = $more->image;
+                $matches['rating'] = $more->rating;
+                $matches['publisher'] = $more->publisher;
+                $matches['isbn'] = $more->isbn;
+                $matches['id'] = $more->book_id;
+                $matches['desc'] = $more->desc;
+                $suggestions[] = $matches;
+            }
+            
+            uasort($suggestions, function ($b) {
+                return $b['distance'];
+            });
+            $suggestions = array_slice($suggestions, 0, 4);
+            return view("profile.show-books", compact("title", "the_book", "books", "user", "other_users", "suggestions"));
         } 
         else {
             Auth::logout();
@@ -74,6 +126,168 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+    }
+    
+    public function addToWishlist(Request $request) {
+        
+        $book = new Book();
+        
+        $book->user_id = Auth::user()->id;
+        $book->book_id = $request->input("book_id");
+        $book->title = $request->input("title");
+        $book->desc = $request->input("description");
+        $book->reviews = $request->input("reviews");
+        $book->rating = $request->input("rating");
+        $book->image = $request->input("image");
+        $book->publisher = $request->input("publisher");
+        $book->author_name = $request->input("author_name");
+        $book->author_id = $request->input("author_id");
+        $book->source = $request->input("source");
+        $book->subtitle = $request->input("subtitle");
+        $book->isbn = $request->input("isbn");
+        $book->reviews_widget = $request->input("reviews_widget");
+        $book->is_wishlist = '1';
+        $book->is_fav = '0';
+        $book->is_lendable = '0';
+        $book->is_sellable = '0';
+        
+        $my_books = Auth::user()->books;
+        
+        foreach ($my_books as $books) {
+            if ($books->book_id == $book->book_id) {
+                $message = ["code" => 100, "message" => "This book already exists in your collection. Please chose another book to add to wishlist"];
+                return die(json_encode($message));
+                
+                // break;
+                
+            }
+        }
+        $user = Auth::user();
+        if ($user->books()->save($book)) {
+            $message = ["code" => 101, "message" => "The book has been added to your wishlist."];
+        }
+        return $message;
+    }
+    
+    public function addToBookStore(Request $request) {
+        $my_books = Auth::user()->books;
+        $book_id = $request->input("book_id");
+        $found_book = [];
+        // see if the book already exists in the user books
+        foreach ($my_books as $books) {
+            if ($books->book_id == $book_id) {
+                $found_book[] = $books;
+            }
+        }
+        // return $found_book;
+        if (count($found_book) > 0) {
+            $message = [];
+            // check if the book is in the bookshelf
+            foreach ($found_book as $test_this_book) {
+                // code...
+                if ($test_this_book->is_sellable == '1') {
+                    $message = ["code" => 100, "message" => "This book is already in your book store.<br>To edit the price go to 'My Books' and edit the book in your book store"];
+                    return die(json_encode($message));
+                }
+                // check if the book is in the wishlist:
+                else if ($test_this_book->is_wishlist) {
+                    $found_book->is_wishlist = '0';
+                    # a book can be both lendable as well as sellable
+                    // $found_book->is_lendable = "0";
+                    $found_book->is_sellable = "1";
+                    $found_book->save();
+                    $message = ["code" => 101, "message" => "The book is added to your bookshelf."];
+                    return die(json_encode($message));
+                }
+            }
+        }
+        // if the logic pases through above then book is not in bookshelf.
+        // the logic should create a new book and add it to the users booklist.
+        $book = new Book();
+        
+        // $book->user_id = Auth::user()->id;
+        $book->book_id = $request->input("book_id");
+        $book->title = $request->input("title");
+        $book->desc = $request->input("description");
+        $book->reviews = $request->input("reviews");
+        $book->rating = $request->input("rating");
+        $book->image = $request->input("image");
+        $book->publisher = $request->input("publisher");
+        $book->author_name = $request->input("author_name");
+        $book->author_id = $request->input("author_id");
+        $book->source = $request->input("source");
+        $book->subtitle = $request->input("subtitle");
+        $book->isbn = $request->input("isbn");
+        $book->reviews_widget = $request->input("reviews_widget");
+        $book->is_wishlist = '0';
+        $book->is_fav = '0';
+        $book->is_lendable = '0';
+        $book->is_sellable = '1';
+        $book->selling_price = $request->input("selling_price");
+        $user = Auth::user();
+        if ($user->books()->save($book)) {
+            $message = ["code" => 101, "message" => "The book is added to your bookstore and available to other users to buy."];
+        }
+        return $message;
+    }
+    
+    public function addToBookshelf(Request $request) {
+        $my_books = Auth::user()->books;
+        $book_id = $request->input("book_id");
+        $found_book = [];
+        // see if the book already exists in the user books
+        foreach ($my_books as $books) {
+            if ($books->book_id == $book_id) {
+                $found_book = $books;
+                break;
+            }
+        }
+        
+        if (count($found_book) > 0) {
+            $message = [];
+            // check if the book is in the bookshelf
+            if ($found_book->is_lendable) {
+                $message = ["code" => 100, "message" => "This book is already on your book shelf."];
+                return die(json_encode($message));
+            }
+            // check if the book is in the wishlist:
+            else if ($found_book->is_wishlist) {
+                $found_book->is_wishlist = '0';
+                $found_book->is_lendable = "1";
+                # commented below because book can be sellable as well as lendable
+                // $found_book->is_sellable = "0";
+                $found_book->save();
+                $message = ["code" => 101, "message" => "The book is added to your bookshelf."];
+                return die(json_encode($message));
+            }
+        }
+        // if the logic pases through above then book is not in bookshelf.
+        // the logic should create a new book and add it to the users booklist.
+        $book = new Book();
+        
+        // $book->user_id = Auth::user()->id;
+        $book->book_id = $request->input("book_id");
+        $book->title = $request->input("title");
+        $book->desc = $request->input("description");
+        $book->reviews = $request->input("reviews");
+        $book->rating = $request->input("rating");
+        $book->image = $request->input("image");
+        $book->publisher = $request->input("publisher");
+        $book->author_name = $request->input("author_name");
+        $book->author_id = $request->input("author_id");
+        $book->source = $request->input("source");
+        $book->subtitle = $request->input("subtitle");
+        $book->isbn = $request->input("isbn");
+        $book->reviews_widget = $request->input("reviews_widget");
+        $book->is_wishlist = '0';
+        $book->is_fav = '0';
+        $book->is_lendable = '1';
+        $book->is_sellable = '0';
+        $user = Auth::user();
+        if ($user->books()->save($book)) {
+            $message = ["code" => 101, "message" => "The book is added to your bookshelf."];
+        }
+        return $message;
     }
     
     /**
@@ -123,10 +337,6 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        
-        //
-        
-        
     }
     
     public function savemap(Request $request) {
@@ -156,134 +366,9 @@ class UserController extends Controller
         return view("profile.get-books", compact("user", "title", "books", "my_books"));
     }
     
-    public function createBooks(Request $request, $id) {
-        
-        // find the user
-        $user = User::findOrFail($id);
-        
-        // get book-id
-        $book_id = $request->input('id');
-        
-        // echo $book->book_id;
-        // get type [have:want]
-        $type = $request->input('book_type_for_user');
-        
-        // check if book exists in the database
-        $val = $user->books()->where('book_id', $book_id)->get();
-        if (count($val) > 0 && $type == "have") {
-            $message = array("status" => 98, "message" => "Book is already available in your collection");
-            die(json_encode($message));
-        } 
-        else {
-            $message = array("status" => 99, "message" => "An error has occured. Please try after sometime.");
-            if (count($val) > 0 && $type == "wanted") {
-                
-                // return the search results
-                $book = new Book();
-                $my_book = $book->where(['book_id' => $book_id, "is_lendable" => '1'])->get();
-                
-                // $response[]=$request->user->latitude;
-                $current_user = User::findOrFail($request->user);
-                if (empty($current_user['latitude']) || empty($current_user['longitude'])) {
-                    $message = array("status" => 98, "message" => "Please save your location before finding books near you.");
-                    die(json_encode($message));
-                }
-                $response = [];
-                foreach ($my_book as $this_book) {
-                    if ($this_book->user->id != $request->user) {
-                        $found_user = $this_book->user;
-                        if (empty($found_user['latitude']) || empty($found_user['longitude'])) {
-                            continue;
-                        } 
-                        else {
-                            $theta = doubleval($found_user['longitude']) - doubleval($current_user['longitude']);
-                            $dist = sin(deg2rad(doubleval($found_user['latitude']))) * sin(deg2rad(doubleval($current_user['latitude']))) + cos(deg2rad(doubleval($found_user['latitude']))) * cos(deg2rad(doubleval($current_user['latitude']))) * cos(deg2rad($theta));
-                            $dist = acos($dist);
-                            $dist = rad2deg($dist);
-                            $miles = round($dist * 60 * 1.1515 * 1.609344, 1);
-                            
-                            // distant in kilometers
-                            $found_user['distance'] = $miles . " km";
-                            $response[] = $found_user;
-                        }
-                    }
-                }
-                $message = ["status" => 101, "message" => $response];
-            } 
-            else {
-                $book = new Book();
-                
-                // get rest of the data
-                $book->book_id = $request->input('id');
-                $book->title = $request->input('title');
-                $book->desc = $request->input('description');
-                $book->reviews = $request->input('text_reviews_count');
-                $book->rating = $request->input('average_rating');
-                $book->image = $request->input('image');
-                $book->publisher = $request->input('publisher');
-                $authors = $request->input('authors');
-                $book->author_name = $authors['name'];
-                $book->author_id = $authors['id'];
-                $book->source = "goodreads";
-                $book->isbn = $request->input('isbn') . "/" . $request->input("isbn13");
-                
-                if ($type == "wanted") {
-                    $book->is_wishlist = '1';
-                    $book->is_fav = '0';
-                    $book->is_lendable = '0';
-                    $book->is_sellable = '0';
-                } 
-                else if ($type == "have") {
-                    $book->is_wishlist = '0';
-                    $book->is_fav = '0';
-                    $book->is_lendable = '1';
-                    $book->is_sellable = '0';
-                }
-                
-                // the search results are not in the database we need to persist them
-                if ($user->books()->save($book)) {
-                    $message = array("status" => 100, "message" => "success");
-                    
-                    // return the search results
-                    if ($type == "wanted") {
-                        $book = new Book();
-                        $my_book = $book->where(['book_id' => $book_id, "is_lendable" => '1'])->get();
-                        
-                        // $response[]=$request->user->latitude;
-                        $current_user = User::findOrFail($request->user);
-                        if (empty($current_user['latitude']) || empty($current_user['longitude'])) {
-                            $message = array("status" => 98, "message" => "Please save your location before finding books near you.");
-                            die(json_encode($message));
-                        }
-                        $response = [];
-                        foreach ($my_book as $this_book) {
-                            if ($this_book->user->id != $request->user) {
-                                $found_user = $this_book->user;
-                                if (empty($found_user['latitude']) || empty($found_user['longitude'])) {
-                                    continue;
-                                } 
-                                else {
-                                    
-                                    $theta = doubleval($found_user['longitude']) - doubleval($current_user['longitude']);
-                                    $dist = sin(deg2rad(doubleval($found_user['latitude']))) * sin(deg2rad(doubleval($current_user['latitude']))) + cos(deg2rad(doubleval($found_user['latitude']))) * cos(deg2rad(doubleval($current_user['latitude']))) * cos(deg2rad($theta));
-                                    $dist = acos($dist);
-                                    $dist = rad2deg($dist);
-                                    $miles = round($dist * 60 * 1.1515 * 1.609344, 1);
-                                    
-                                    // distant in kilometers
-                                    $found_user['distance'] = $miles . " km";
-                                    $response[] = $found_user;
-                                }
-                            }
-                        }
-                        $message = ["status" => 101, "message" => $response];
-                    }
-                }
-            }
-            echo json_encode($message);
-        }
+    public function getBookDetails(Request $request, $id) {
     }
-    
+  
     public function deleteBooks($id, $book_id) {
         $user = User::findOrFail($id);
         $user->books()->where('id', $book_id)->delete();

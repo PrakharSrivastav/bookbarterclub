@@ -1,6 +1,6 @@
 @extends("layouts.profile")
 @section('content')
-<form id="edit_profile_form" class="card padding-15 yellow darken-2 z-depth-3" role="form" method="POST" action="{{route('user.update',[$user->id])}}">
+<form id="edit_profile_form" class="margin-top-10 padding-15 grey lighten-2 z-depth-0" role="form" method="POST" action="{{route('user.update',[$user->id])}}">
     <input type="hidden" name="_method" value="PUT">
     <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> -->
     {!! csrf_field() !!}

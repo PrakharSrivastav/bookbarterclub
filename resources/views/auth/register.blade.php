@@ -4,7 +4,7 @@
     <div class="row ">
         <div class="margin-top-100">
             <div class="col m6 offset-m3 s12">
-                <form id="registration_form" class="card padding-15 yellow darken-2 z-depth-3" role="form" method="POST" action="{{ url('/register') }}">
+                <form id="registration_form" class="card padding-15 white z-depth-3" role="form" method="POST" action="{{ url('/register') }}">
                     {!! csrf_field() !!}
                     <h6>Register</h6>
                     <div class="row">

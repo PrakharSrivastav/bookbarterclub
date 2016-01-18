@@ -1,15 +1,14 @@
   $(document).ready(function() {
+      $(window).load(function() {
+          $('#preloader').fadeOut('slow', function() {
+              $(this).remove();
+          });
+      });
       $(".button-collapse").sideNav();
       $('.datepicker').pickadate({
           selectMonths: true, // Creates a dropdown to control month
           selectYears: 75, // Creates a dropdown of 15 years to control year
           format: "yyyy-mm-dd"
-      });
-      $("#owl-demo").owlCarousel({
-          autoPlay: 3000, //Set AutoPlay to 3 seconds
-          items: 4,
-          itemsDesktop: [1199, 3],
-          itemsDesktopSmall: [979, 2]
       });
       $("#owl-demo-sidebar").owlCarousel({
           autoPlay: 3000, //Set AutoPlay to 3 seconds
@@ -32,6 +31,7 @@
                       if (currentRequest != null) {
                           currentRequest.abort();
                       }
+                      // $('#preloader').show();
                   },
                   success: function(a, b, c) {
                       result = $('.results');
@@ -68,7 +68,6 @@
               } else {
                   href = target.attr("href");
               }
-              
               var currentRequestModal = null;
               if (href !== "" && href !== undefined) {
                   e.preventDefault();
@@ -84,8 +83,9 @@
                       },
                       success: function(a, b, c) {
                           console.log(a);
-                          // $('.results').empty();
-                          template = "<div class='modal-footer yellow'><a class='have left modal-action black-text btn-flat'>&nbsp;&nbsp;[Have This]&nbsp;&nbsp;</a><a class='modal-action right btn-flat modal-close'><i class='material-icons'>&#xE5CD;</i></a><a class='modal-action btn-flat left black-text want'>&nbsp;&nbsp;[Want This]&nbsp;&nbsp;</a></div><div class='modal-content'><div class='row'><div class='col s12 m2'><img src='__image_url__' style='border:solid #000 1px;'></div><div class='col s12 m9 right padding-20'><h6>__title__</h6><hr ><div>Publisher : __publisher__</div><div>Ratings : __ratings__</div><div>Total reviews : __total_reviews__</div><div>authors : __authors__</div></div></div><div class='row'><div class='col s12'><p>Description : __description__</p><div>Reviews :__reviews__ </div></div></div></div>";
+                          count_fail = "<div class='red darken-2 padding-5 weight-300 gery-text text-lighten-3 center-align'>Sorry !! No users around you have this book.<br/> Please 'Proceed' to see more options.</div>";
+                          count_success = "<div class='green padding-5 weight-300 gery-text text-lighten-3 center-align'>Awesome !! __count__ match(es) found for this book.<br/> Please 'Proceed' to see more details.</div>";
+                          template = "<div class='modal-footer row amber accent-4'>" + "<h6 class='modal-action col s11 left weight-300'>__title__: by __authors__</h6><a class='modal-action col s1 right btn-flat modal-close'><i class='material-icons right'>&#xE5CD;</i></a>" + "<div style='clear:both'></div></div>" + "<div class='modal-content'>" + "<div class='row padding-5'>" + "<div class='col s4 m2'>" + "<img src='__image_url__' style='border:solid #000 1px;'>" + "</div>" + "<div class='col s7 right m10 padding-left-20'>" + "<div>__title__</div>" + "<div>Publisher : __publisher__</div>" + "<div>Ratings : __ratings__</div>" + "<div>Total reviews : __total_reviews__</div>" + "<div>authors : __authors__</div>" + "</div>" + "<div style='clear:both'></div><div>" + "<div class='row'>" + "<div class='col s12 m8 margin-top-5'>" + "__count__" + "</div>" + "<div class='col s12 m4 margin-top-5'>" + "<a class='btn btn-block btn-large green proceed'>Proceed</a>" + "</div>" + "</div>" + "<div class='row'>" + "<div class='col s12'>" + "<p class='weight-300'>Description : __description__</p>" + "<div class='weight-300'>Reviews :__reviews__ </div>" + "</div>" + "</div>" + "</div>";
                           $('#modal1').empty();
                           if (a.image == "" || a.image == undefined) {
                               if (a.small_image == "" || a.small_image == undefined) {
@@ -104,13 +104,25 @@
                                   }
                               });
                           }
-                          template = template.replace(/__title__/g, a.title);
-                          template = template.replace(/__publisher__/g, a.publisher);
-                          template = template.replace(/__ratings__/g, a.average_rating);
-                          template = template.replace(/__total_reviews__/g, a.text_reviews_count);
-                          template = template.replace(/__authors__/g, author_names);
-                          template = template.replace(/__description__/g, a.description);
-                          template = template.replace(/__reviews__/g, a.reviews_widget);
+                          if (a.title != "") template = template.replace(/__title__/g, a.title);
+                          else template = template.replace(/__title__/g, "");
+                          if (a.publisher != "") template = template.replace(/__publisher__/g, a.publisher);
+                          else template = template.replace(/__publisher__/g, "");
+                          if (a.average_rating != "") template = template.replace(/__ratings__/g, a.average_rating);
+                          else template = template.replace(/__ratings__/g, "0");
+                          if (a.text_reviews_count != "") template = template.replace(/__total_reviews__/g, a.text_reviews_count);
+                          else template = template.replace(/__total_reviews__/g, "0");
+                          if (author_names != "") template = template.replace(/__authors__/g, author_names);
+                          else template = template.replace(/__authors__/g, "");
+                          if (a.description != "") template = template.replace(/__description__/g, a.description.substring(0, 100) + "<a class='btn-flat red-text proceed'>&nbsp;&nbsp;read more </a>");
+                          else template = template.replace(/__description__/g, "");
+                          if (a.reviews_widget != "") template = template.replace(/__reviews__/g, a.reviews_widget);
+                          else template = template.replace(/__reviews__/g, "");
+                          if (a.count == 0) template = template.replace(/__count__/g, count_fail);
+                          else {
+                              count_success = count_success.replace(/__count__/g, a.count);
+                              template = template.replace(/__count__/g, count_success);
+                          }
                           template = template.replace(/565px/g, '100%');
                           template = template.replace(/565/g, '100%');
                           $('body').data('referenced_object', a);
@@ -126,82 +138,9 @@
                   });
               }
               return false;
-          } else if (target.hasClass('want') || target.hasClass('have')) {
-              post_data = $('body').data().referenced_object;
-              if (target.hasClass('want')) 
-                post_data.book_type_for_user = "wanted";
-              else if (target.hasClass('have')) 
-                post_data.book_type_for_user = "have";
-              post_data._token = $("#this_token").val();
-              $.ajax({
-                  url: add_book,
-                  type: "POST",
-                  data: $('body').data().referenced_object,
-                  success: function(a, b, c) {
-                      if (a.status == 100 && a.message == "success") {
-                          $('#modal1').closeModal();
-                          Materialize.toast('Book added to the list', 4000);
-                          setTimeout(function() {
-                              location.reload()
-                          }, 2000);
-                      } else if (a.status == 98) {
-                          $('#modal1').closeModal();
-                          Materialize.toast(a.message, 4000);
-                      } else if (a.status == 101) {
-                          $result = $('.results');
-                          $result.empty();
-                          console.log(a.message.length);
-                          if (a.message != undefined && a.message.length == 0) {
-                              $result.append("<div class='padding-none margin-none yellow'><h7 class='left-align weight-300 padding-10'>No Results Found. Please add it here if you have a copy.</h7></div>");
-                          } else {
-                              $.each(a.message, function(k, v) {
-                                  $template = "<a href='__user__' class='collection-item avatar user-info padding-none black-text weight-300'>" + "<div class='user-div padding-none col s12'>" + "<img class='left user-img padding-5' src='__image__' alt=''>" + "<span class='user-span'>&nbsp;&nbsp;&nbsp;__title__<br/>&nbsp;&nbsp;&nbsp;__author__<br/>&nbsp;&nbsp;&nbsp;__rating__</span><div style='float:clear'></div></div>" + "</a>";
-                                  var img = v.img_path;
-                                  if (img == "" || img == undefined || img == null) {
-                                      img = base+'/img/logo_s.png';
-                                  }
-                                  console.log(v);
-                                  $template = $template.replace(/__image__/g, img);
-                                  $template = $template.replace(/__title__/g, v.firstname + " " + v.lastname);
-                                  $template = $template.replace(/__author__/g, v.location_name);
-                                  $template = $template.replace(/__rating__/g, "Distance - "+v.distance);
-                                  $template = $template.replace(/__user__/g, v.id);
-                                  $result.append($template);
-                              });
-                          }
-                          $('#modal1').closeModal();
-                      }
-                      // return true;
-                  },
-                  dataType: "json",
-                  error: function(a, b, c) {
-                      console.log(a);
-                      console.log(b);
-                      console.log(c);
-                      // $('#modal1').closeModal();
-                  }
-              });
-              // return false;
-          } 
-          else if (target.hasClass("user-info") || target.hasClass("user-div") || target.hasClass("user-img") || target.hasClass("user-span")) {
-            href = "";
-              if (target.hasClass("user-div")) {
-                  href = target.parent().attr("href");
-              } else if (target.hasClass('user-img') || target.hasClass("user-span")) {
-                  href = target.parent().parent().attr("href");
-              } else {
-                  href = target.attr("href");
-              }
-              // console.log(href);
-              // console.log(show_user);
-              new_url = show_user.replace(/__user__id__/g, href);
-              new_url = new_url.replace(/__book__id__/g, $('body').data().referenced_object.id);
-              // console.log(new_url);
-              location.href = new_url;
-              // console.log($('body').data().referenced_object.id);
-              return false;
-          }
-          else {
+          } else if (target.hasClass('proceed')) {
+              location.href = show_user.replace(/__book__id__/g, $('body').data().referenced_object.id);
+          } else {
               // $('.results').empty();
           }
           // return false;

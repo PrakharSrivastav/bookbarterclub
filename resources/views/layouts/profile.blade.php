@@ -12,48 +12,49 @@
         <link type="text/css" rel="stylesheet" href="{{url('css/main.css')}}"  media="screen,projection"/>
         @yield('css')
     </head>
-    <body class="deep-orange lighten-5">
+    <body class="white">
         <ul id="dropdown1"  class="dropdown-content">
             <li><a href="{{route('user.edit',[$user->id])}}" class="black-text">Edit Profile</a></li>
             <li class="divider"></li>
             <li><a href="{{url('/logout')}}" class="red-text">Logout</a></li>
         </ul>
-        <nav class="yellow darken-2">
+        <nav class="white">
             <div class="nav-wrapper margin-left-5">
                 <a href="{{route('dashboard')}}" class="brand-logo weight-300 black-text">Book Barter Club</a>
                 <a href="#" data-activates="mobile-view" class="button-collapse"><i class="material-icons black-text">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <!-- <li><input id="search" type="search" required></li> -->
                     <li><a href="{{route('user.get.books',[$user->id])}}" class="black-text">My Books</a></li>
-                    <li><a href="sass.html" class="black-text">My Stories</a></li>
-                    <li><a href="sass.html" class="black-text">Messages</a></li>
-                    <li><a href="badges.html" class="black-text">Notifications</a></li>
+                    <!-- <li><a href="sass.html" class="black-text">My Stories</a></li> -->
+                    <li><a href="{{route('all_messages')}}" class="black-text">Messages</a></li>
+                    <!-- <li><a href="badges.html" class="black-text">Notifications</a></li> -->
                     <li>
                         <a class="dropdown-button black-text" href="#!" data-beloworigin="true" data-activates="dropdown1">Profile <i class="material-icons right">arrow_drop_down</i></a>
                     </li>
                 </ul>
-                <ul class="side-nav yellow darken-2" id="mobile-view">
+                <ul class="side-nav white" id="mobile-view">
                     <li><a href="{{route('user.get.books',[$user->id])}}">My Books</a></li>
-                    <li><a href="badges.html">My Stories</a></li>
-                    <li><a href="collapsible.html">Messages</a></li>
-                    <li><a href="mobile.html">Notifications</a></li>
+                    <!-- <li><a href="badges.html">My Stories</a></li> -->
+                    <li><a href="{{route('all_messages')}}">Messages</a></li>
+                    <!-- <li><a href="mobile.html">Notifications</a></li> -->
                     <li><a href="{{route('user.edit',[$user->id])}}">Edit Profile</a></li>
                     <li><a href="{{url('/logout')}}" class="red-text text-darken-2">Logout</a></li>
                 </ul>
             </div>
         </nav>
-        <div class="row">
-            <div class="col s12 m8">
+        <div id="preloader"></div>
+        <div class="row margin-none">
+            <div class="col s12 m8 margin-none">
                 @yield('content')
             </div>
-            <div class="col s12 m4 padding-none">
-                <div class="col s12">
-                    <ul class="collapsible " data-collapsible="accordion">
+            <div class="col s12 m4 padding-none margin-none">
+                <div class="col s12 padding-none padding-right-5">
+                    <ul class="collapsible z-depth-0" data-collapsible="accordion">
                         <li>
-                            <div class="collapsible-header yellow darken-2 "><i class="material-icons">search</i>Search Books Near You</div>
-                            <div class="collapsible-body white">
-                                <div class="input-field margin-top--5 white padding-none">
-                                    <input id="search" type="search" class="search border-none" placeholder="Your book title">
+                            <div class="collapsible-header grey lighten-2 active"><i class="material-icons">search</i>Search Books Near You</div>
+                            <div class="collapsible-body grey lighten-2">
+                                <div class="input-field margin-top--5 grey lighten-2 padding-none border-top-grey">
+                                    <input id="search" type="search" class="search border-top-grey" placeholder="Your book title">
                                 </div>
                                 <div id="result" class="results collection border-none">
                                 </div>
@@ -61,10 +62,10 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col s12 " >
-                    <div class="hoverable yellow darken-2 padding-10">
+                <div class="col s12 padding-none margin-none margin-top--5 padding-right-5" >
+                    <div class="hoverable grey lighten-2 padding-10">
                         @if(count($books) > 0)
-                        <h3 class="weight-200 center-align">Trending Books</h3>
+                        <h6 class="weight-300 center-align">Trending Books</h6>
                         <div id="owl-demo-sidebar" style="padding:10px 8px 0px 15px">
                             @foreach($books as $book)
                             <div class="item col s12 l12" style="margin-left:-8px">
@@ -82,7 +83,7 @@
             </div>
         </div>
         <input type="hidden" value="{{csrf_token()}}" id="this_token">
-        <div id="modal1" class="modal bottom-sheet">
+        <div id="modal1" class="modal ">
         </div>
         <!-- JavaScripts -->
         <script type="text/javascript" src="{{url('js/jquery.min.js')}}"></script>
@@ -91,11 +92,11 @@
         <script type="text/javascript" src="{{url('js/jquery.validate.min.js')}}"></script>
         <script type="text/javascript" src="{{url('js/owl.min.js')}}"></script>
         <script>
-        var base_url = "{{url('search')}}";
-        var base = "{{url('/')}}";
-        var book_url = "{{url('searchBook')}}";
-        var add_book = "{{route('user.create.books',$user->id)}}";
-        var show_user = "{{route('user.show.books',['id'=>'__user__id__','book_id'=>'__book__id__'])}}";
+                var base_url = "{{url('search')}}";
+                var base = "{{url('/')}}";
+                var book_url = "{{url('searchBook')}}";
+                // var add_book = "route('user.create.books',$user->id)";
+                var show_user = "{{route('user.show.books',['book_id'=>'__book__id__'])}}";
         </script>
         <script type="text/javascript" src="{{url('js/main.js')}}"></script>
     </body>

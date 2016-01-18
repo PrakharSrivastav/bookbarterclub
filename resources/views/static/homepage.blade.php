@@ -5,30 +5,40 @@
 @stop
 @section("content")
 <div class="row padding-none margin-none">
-    <div class="col s12 m6 yellow darken-2 margin-none padding-none">
-        <nav class="col s12 yellow darken-2 padding-none">
-            <span class="title padding-none">Book Barter Club <small class="hide-on-small-only wieght-200" style='font-size:20px;padding-left:10px'>Let your books relive....</small></span>
-        </nav>
-        <div class="row margin-none">
-            <div class="col s12 white padding-none margin-top-5">
-                <nav class='white'>
-                    <div class="nav-wrapper center">
-                        <div class="col s12">
-                            <a href="{{url('/login')}}" class="btn-flat">[ Login ]</a>
-                            <a href="{{url('/register')}}" class="btn-flat">[ Register ]</a>
-                            <a href="#!" class="btn-flat">[ Read User Stories ]</a>
-                        </div>
-                    </div>
-                </nav>
+    <div class="col s12 m8 padding-none z-depth-1">
+    <!-- white -->
+        <div class="row white grey-text text-darken-3 padding-none margin-none">
+            <span class="title padding-none">Book Barter Club </span><small class="hide-on-med-and-down weight-300" style='font-size:16px;padding-left:10px'>Let your books relive....</small>
+        </div>
+        <div class="row grey lighten-2 padding-5 margin-none center-align">
+            <a href="{{url('/login')}}" class="btn-flat grey-text text-darken-3">[ Login ]</a>
+            <a href="{{url('/register')}}" class="btn-flat  grey-text text-darken-3">[ Register ]</a>
+        </div>
+        <div class="row white grey-text text-darken-3 padding-15 margin-none" >
+            <div class="center-align weight-300 font-20">
+                Book Barter Club is an online book club that helps you exchange, borrow and lend books with other book lover in your neighbourhood for free. It's really easy to use and you can get started in 4 easy steps.
             </div>
         </div>
-        <div class="padding-25" >
-            <p class="flow-text center-align weight-200">
-            <!-- Book Barter Club is an online community of book lovers who believe that books should be shared freely.<br/> -->
-            Book Barter Club is an attempt to bring back to life all the books that have been gathering dust on the bookshelf or have been packed in a carton box, or have been stocked in the garage never to be read by anyone.
-            </p>
+        <div class="row grey lighten-2 grey-text text-darken-3 margin-none padding-10 font-18 weight-300">
+            <ul class="margin-none">
+                <li>
+                    1.&nbsp;&nbsp;<a href="{{url('/register')}}" class="deep-orange-text text-darken-1">Register </a> yourself on [ Book Barter Club ].
+                </li>
+                <li>
+                    2.&nbsp;&nbsp;Save your best address.
+                </li>
+                <li>
+                    3.&nbsp;&nbsp;Search for your favourite title.
+                </li>
+                <li>
+                    4.&nbsp;&nbsp;Meet other book owners around you and barter your books.
+                </li>
+            </ul>
+            <!-- <div class="center-align"><small class="grey-text text-darken-3">Save your location on right and search for your book</small></div> -->
+        </div>
+        <div class="row white grey-text text-darken-3 padding-15 margin-none">
             @if(count($books) > 0)
-            <h3 class="weight-200 center-align">Trending Books</h3>
+            <div class="weight-300 center-align font-20">Trending Books</div>
             <div id="owl-demo" style="padding:10px 8px 0px 8px">
                 @foreach($books as $book)
                 <div class="item col s12 l12" style="margin-left:-8px">
@@ -43,47 +53,18 @@
             @endif
         </div>
     </div>
-    <div class="col s12 m6">
+    <div class="col s12 m4">
         <ul class="collapsible" data-collapsible="accordion">
             <li>
-                <div class="collapsible-header yellow darken-2 margin-top-5"><i class="material-icons">info_outline</i>About Us </div>
-                <div class="collapsible-body white weight-300">
-                    <div  style="height:400px;overflow-y:auto;padding:30px">
-                        Book Barter Club is an online community of book lovers who believe that books should be shared freely. Through book barter club you can Borrow, Lend or Exchange any book with other book lovers around you. In the process you get to meet like-minded people and expand your network of friends.
-                        <br/><br/>
-                        Book Barter Club is an attempt to bring back to life all the books that have been gathering dust on the bookshelf or have been packed in a carton box, or have been stocked in the garage never to be read by anyone.
-                        Book Barter Club is an attempt to build a community of learned people who believe that knowledge is power and that sharing is caring. That a single copy of a book can be read by a million readers and yet there will be one more person to borrow it and one more to lend it.
-                        For the love of books and for the love of free sharing of knowledge, BBC is an attempt to bring out all books into circulation so that there is a library in every neighbourhood.
-                        <br/><br/>
-                        Create your own BBC library online and let books be exchanged freely.
-                        In your attempt to exchange books, you will get a chance to meet new and like-minded people helping you build your circle of friends beyond FB and other social sites. Through BBC we hope we will be able to break free from the clutches of being hooked on to our laptops and phones and meet real people and share real stories.
-                        After all that’s what books do….help to share some stories.
-                        Share a book, meet new people, share some stories…
-                        <!-- </p> -->
-                        <!-- <h4 class="weight-200">How to get stared</h4> -->
-                        <!-- <p> -->
-                        <ul class="weight-300" >
-                            <li>Create your account</li>
-                            <li>Set your location</li>
-                            <li>Add the books that you have and would like to lend/exchange</li>
-                            <li>Search for books you want or books available for borrowing near you</li>
-                            <li>Connect with the owner the book by sending them a quick message</li>
-                            <li>Set up a meeting at an acceptable date, place and time</li>
-                            <li>Meet to exchange/lend/borrow the book - enjoy your new book</li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header yellow darken-2 active margin-top-5"><i class="material-icons">place</i>Your Location</div>
-                <div class="collapsible-body">
-                    <input id="pac-input" class="controls" type="text" placeholder="Search Box" style="margin-top:5px">
+                <div class="collapsible-header white active margin-top-5"><i class="material-icons">place</i>1. Save Your Location</div>
+                <div class="collapsible-body grey lighten-2">
+                    <input id="pac-input" class="controls" type="text" placeholder="Search your location here..." style="margin-top:5px">
                     <div  id="map" style="height:400px"></div>
                 </div>
             </li>
             <li>
-                <div class="collapsible-header yellow darken-2 margin-top-5"><i class="material-icons">book</i>Search your books</div>
-                <div class="collapsible-body white">
+                <div class="collapsible-header white margin-top-5"><i class="material-icons">book</i>2. Search Your Favourite Title</div>
+                <div class="collapsible-body grey lighten-2">
                     <form>
                         <div class="input-field">
                             <input id="search" class="search " type="search"  style="margin-top:-15px" required placeholder="Search your book...">
@@ -96,9 +77,24 @@
                 </div>
             </li>
             <li>
-                <div class="collapsible-header yellow darken-2 margin-top-5"><i class="material-icons">message</i>Contact Us</div>
-                <div class="collapsible-body white padding-15">
-                    <!-- <span class="card-title ">Suggestions</span> -->
+                <div class="collapsible-header white margin-top-5"><i class="material-icons">info_outline</i>About Us </div>
+                <div class="collapsible-body grey lighten-2 grey-text text-darken-3 weight-300">
+                    <div  style="height:400px;overflow-y:auto;padding:30px">
+                       Book Barter Club is an attempt to bring back to life all the books that have been gathering dust on the bookshelf or have been packed in a carton box, or have been stocked in the garage never to be read by anyone.
+                        Book Barter Club is an attempt to build a community of learned people who believe that knowledge is power and that sharing is caring. That a single copy of a book can be read by a million readers and yet there will be one more person to borrow it and one more to lend it.
+                        For the love of books and for the love of free sharing of knowledge, Book Barker Club is an attempt to bring out all books into circulation so that there is a library in every neighbourhood.
+                        <br/><br/>
+                        Create your own Book Barker Club library online and let books be exchanged freely.
+                        In your attempt to exchange books, you will get a chance to meet new and like-minded people helping you build your circle of friends beyond FB and other social sites. Through BBC we hope we will be able to break free from the clutches of being hooked on to our laptops and phones and meet real people and share real stories.
+                        After all that’s what books do….help to share some stories.
+                        Share a book, meet new people, share some stories…
+                    </div>
+                </div>
+            </li>
+<input type="hidden" id="csrf_t" name="_token" value="<?php echo csrf_token(); ?>">
+            <li>
+                <div class="collapsible-header white margin-top-5"><i class="material-icons">message</i>Contact Us</div>
+                <div class="collapsible-body grey lighten-2 padding-15">
                     <form class="row padding-none">
                         <div class="input-field col s12 padding-none">
                             <input id="first_name" type="text" class="validate padding-none">
@@ -112,16 +108,16 @@
                             <textarea id="textarea1" rows='5' class="materialize-textarea padding-none"></textarea>
                             <label for="textarea1">Your Message</label>
                         </div>
-                        <input type="submit" class="waves-effect waves-light btn btn-large  btn-block  brown-text text-darken-4 yellow darken-2" value="Send">
+                        <input type="submit" class="waves-effect waves-light btn btn-large  btn-block  grey-text text-darken-3 white darken-3" value="Send">
                     </form>
                 </div>
             </li>
         </ul>
     </div>
 </div>
-<footer class="page-footer padding-none margin-none white yellow-text">
+<footer class="page-footer padding-none margin-none grey lighten-2">
     <div class="footer-copyright">
-        <div class="container brown-text text-darken-4">
+        <div class="container grey-text text-darken-3">
             © 2016 : Book Barter Club
             <a class="margin-top-5 padding-5 right"  href="#!"><img alt="social media" src="img/facebook.svg"></a>
             <a class="margin-top-5 padding-5 right"  href="#!"><img alt="social media" src="img/google.svg"></a>
@@ -132,6 +128,7 @@
 @stop
 @section('javascript')
 <script type="text/javascript" src="{{url('js/owl.min.js')}}"></script>
+<script type="text/javascript" src="{{url('js/public.script.js')}}"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWQggw-OmClnyma5MoBfzCnKmA7exSqtQ&libraries=places&callback=initAutocomplete"></script>
 <script type="text/javascript" src="{{url('js/google.style.js')}}"></script>
 @stop

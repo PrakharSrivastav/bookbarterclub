@@ -8,14 +8,14 @@
 <div class="container">
     <div class="row">
         <div class="margin-top-100">
-            <div class="col m6   offset-m3 s12">
+            <div class="col m6 offset-m3 s12">
                 <!-- <div class="panel-body"> -->
                 @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
                 </div>
                 @endif
-                <form  method="POST" role="form" class="card padding-15 yellow darken-2 z-depth-3" action="{{ url('/password/email') }}">
+                <form  method="POST" role="form" class="card padding-15 white z-depth-3" action="{{ url('/password/email') }}">
                     {!! csrf_field() !!}
                     <h6>Reset Password</h6>
                     <div class="row">

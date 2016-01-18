@@ -2,9 +2,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Auth;
+use App\Book;
+
 
 class APIController extends Controller
 {
@@ -15,10 +17,6 @@ class APIController extends Controller
         $this->key = "dTSlo84cL7VoH1TyZLKwNw";
         $this->url = "https://www.goodreads.com/search/index.xml?key=__API_KEY__&q=__QUERY__";
         $this->bookUrl = "https://www.goodreads.com/book/show/__QUERY__?format=xml&key=__API_KEY__";
-        
-        // $this->middleware("auth", ["only" => ["index"]]);
-        
-        
     }
     
     public function index($query) {
@@ -44,7 +42,7 @@ class APIController extends Controller
         return $message;
     }
     
-    public function searchBook($id) {
+    public function searchBook( $id) {
         if (!empty($id)) {
             
             // $query = str_replace(" ", "+", $query);
@@ -69,6 +67,7 @@ class APIController extends Controller
             curl_close($ch);
             
             $message_response['id'] = (string)$message->book->id;
+            $message_response['book_id'] = (string)$message->book->id;
             $message_response['title'] = (string)$message->book->title;
             $message_response['isbn'] = (string)$message->book->isbn;
             $message_response['isbn13'] = (string)$message->book->isbn13;
@@ -93,7 +92,22 @@ class APIController extends Controller
                     $message_response['authors'] = $author;
                 }
             }
+            $message_response['source'] = "Good Reads";
+            $message_response['subtitle'] = "";
             $message_response['reviews_widget'] = (string)$message->book->reviews_widget;
+            $all_books = Book::where(["book_id"=>$message->book->id,"is_wishlist"=>'0'])->get();
+            // $books = [];
+            $user = Auth::user();
+            $user_count = [];
+            foreach ($all_books as $book) {
+                if($book->user_id != $user->id){
+                    // $books[] = $book;
+                    if(!in_array($book->user_id, $user_count)){
+                        $user_count[] = $book->user_id;
+                    }
+                }
+            }
+            $message_response['count'] = count($user_count);
             return $message_response;
         } 
         else {

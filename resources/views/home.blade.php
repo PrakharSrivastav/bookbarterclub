@@ -3,49 +3,59 @@
 <link type="text/css" rel="stylesheet" href="{{url('css/google.style.css')}}"  media="screen,projection"/>
 @stop
 @section('content')
-<ul class="collapsible " data-collapsible="accordion">
+<ul class="collapsible z-depth-0" data-collapsible="accordion">
     <li class="margin-top-5">
-        <div class="collapsible-header margin-top-5 yellow darken-2"><i class="material-icons">book</i>My Books <small class='right weight-400'>Add Books to your profile</small></div>
-        <div class="collapsible-body white  min-height-350 padding-10">
-            <div class="chip yellow darken-2 black-text weight-300">
-                Number of books : {{count($my_books)}}
+        <div class="collapsible-header margin-top-5 grey lighten-2 "><i class="material-icons">book</i>My Books <small class='right weight-400'>Add Books to your profile</small></div>
+        <div class="collapsible-body grey lighten-2  min-height-350 padding-10">
+            <div class="row">
+                @if(isset($in_stock) && isset($wish_list))
+                <div class="padding-5 amber left accent-4 s12 black-text weight-300">
+                    {{count($in_stock)}} in stock , {{count($wish_list)}} in wishlist
+                </div>
+                @endif
+                <div class="padding-5 amber accent-4 s12 right">
+                    <a class="black-text weight-300" href="{{route('user.get.books',[$user->id])}}">Add /Edit Your Books</a>
+                </div>
             </div>
-            <div class="chip yellow darken-2 right">
-                <a class="black-text weight-300" href="{{route('user.get.books',[$user->id])}}">Add More Books</a>
-            </div>
-            @if(count($my_books) < 1)
+            @if(isset($in_stock) && isset($wish_list))
+            @if(count($in_stock)+count($wish_list) < 1)
             <p>You have not added any books. Please add books to your profile.</p>
             @else
+
             <div>
-                @if(isset($my_books) && count($my_books)>0)
+                
                 <div class="row">
                     <h5>My Books</h5>
-                    @foreach($my_books as $book)
+                    @if(isset($in_stock))
+                    @foreach($in_stock as $book)
                     @if($book->is_lendable == '1')
                     <div class="col s6 m2">
                         <div class="card hoverable">
                             <div class="card-image">
                                 <img class="activator" width="auto" height="180px" src="{{$book->image}}">
                             </div>
-                            <div class="card-title padding-5 yellow darken-2">
+                            <div class="card-title padding-5 yellow">
                                 <a class="black-text">{{substr($book->title,0,10).".."}}</a>
                             </div>
                         </div>
                     </div>
                     @endif
                     @endforeach
+                    
                 </div>
                 <hr/>
+                @endif
+                @if(isset($wish_list))
                 <div class="row">
                     <h5>My wishLlist</h5>
-                    @foreach($my_books as $book)
+                    @foreach($wish_list as $book)
                     @if($book->is_wishlist == '1')
                     <div class="col s6 m2">
                         <div class="card hoverable">
                             <div class="card-image">
                                 <img class="activator" width="auto" height="180px" src="{{$book->image}}">
                             </div>
-                            <div class="card-title padding-5 yellow darken-2">
+                            <div class="card-title padding-5 yellow">
                                 <a class="black-text">{{substr($book->title,0,10).".."}}</a>
                             </div>
                         </div>
@@ -54,18 +64,21 @@
                     @endforeach
                 </div>
                 @endif
+                @endif
             </div>
             @endif
         </div>
     </li>
     <li>
-        <div class="collapsible-header margin-top-5 yellow darken-2 "><i class="material-icons">perm_identity</i>My Profile <small class='weight-400 right'>View profile details</small></div>
-        <div class="collapsible-body white padding-10">
-            <div class="chip yellow darken-2 weight-300 black-text left">
-                {{$user->name}}
-            </div>
-            <div class="chip yellow darken-2 weight-300 black-text right">
-                <a href="{{route('user.edit',[$user->id])}}" class="black-text">Edit Profile</a>
+        <div class="collapsible-header margin-top-5 grey lighten-2  "><i class="material-icons">perm_identity</i>My Profile <small class='weight-400 right'>View profile details</small></div>
+        <div class="collapsible-body grey lighten-2 padding-10 weight-300">
+            <div class="row">
+                <div class="grey lighten-2 padding-5 left  black-text">
+                    {{$user->name}}
+                </div>
+                <div class="grey lighten-2  padding-5 black-text right">
+                    <a href="{{route('user.edit',[$user->id])}}" class="black-text">Edit Profile</a>
+                </div>
             </div>
             <div class="row padding-10 weight-300">
                 <div  class="col s12">
@@ -91,7 +104,9 @@
                         <div class="col s4 m2">Fav Quote</div><div class="col s8 m10">{{ empty($user->fav_quote)?"--":$user->fav_quote}}</div>
                     </div>
                     <div class="row  padding-none margin-none">
-                        <div class="col s4 m2">Books count</div><div class="col s8 m10">{{ empty($user->book_num)?"0":$user->book_num}}&nbsp; books so far</div>
+                        @if(isset($in_stock) && isset($wish_list)))
+                        <div class="col s4 m2">Books count</div><div class="col s8 m10">{{count($in_stock)}}&nbsp; books in Stock , {{count($wish_list)}} in wishlist</div>
+                        @endif
                     </div>
                     <div class="row  padding-none margin-none">
                         <div class="col s4 m2">Mobile</div><div class="col s8 m10">{{ empty($user->contact_num)?"--":$user->contact_num}}</div>
@@ -109,29 +124,23 @@
             </div>
         </div>
     </li>
-    
+    <!-- <li>
+                                                <div class="collapsible-header grey lighten-2  margin-top-5"><i class="material-icons">view_carousel</i>My Stories <small class="right weight-400">List of published stories</small></div>
+                                                <div class="collapsible-body grey lighten-2  min-height-350"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li> -->
     <li>
-        <div class="collapsible-header yellow margin-top-5  darken-2"><i class="material-icons">view_carousel</i>My Stories <small class="right weight-400">List of published stories</small></div>
-        <div class="collapsible-body white  min-height-350"><p>Lorem ipsum dolor sit amet.</p></div>
-    </li>
-    <li>
-        <div class="collapsible-header yellow darken-2 margin-top-5 active"><i class="material-icons">room</i>My Location <small class='right weight-400'>{{ (empty($user->longitude) || (empty($user->latitue)))?'Setup / Edit your location':''}}</small></div>
-        <div class="collapsible-body white  min-height-350 padding-10">
-
-            <div class="chip yellow darken-2 weight-300 black-text">
-                <span class="currentLocation">{{$user->location_name}}</span>
+        <div class="collapsible-header grey lighten-2  margin-top-5 active"><i class="material-icons">room</i>My Location <small class='right weight-400'>{{ (empty($user->longitude) || (empty($user->latitue)))?'Setup / Edit your location':''}}</small></div>
+        <div class="collapsible-body grey lighten-2  min-height-350 padding-10">
+            <div class="row no-margin no-padding">
+                <span class="currentLocation grey lighten-2 padding-5 left">{{$user->location_name}}</span>
+                <a href="" id="saveLocation" class="grey lighten-2 padding-5 right black-text">Save</a>
             </div>
-            <div class="chip yellow darken-2 weight-300 black-text right">
-                <a href="" id="saveLocation" class="black-text">Save New Location</a>
-            </div>
-            <br/><br/>
-            <div>
+            <div class="row no-margin no-padding">
                 <input id="pac-input" class="controls" type="text" placeholder="Search Box" style="margin-top:5px">
                 <div  id="map" style="height:400px"></div>
             </div>
         </div>
     </li>
-
 </ul>
 @endsection
 @section('javascript')
