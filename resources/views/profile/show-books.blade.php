@@ -85,7 +85,7 @@
 <div class="col s12  margin-none margin-top-5 padding-top-5 grey lighten-2" style="height:auto;">
     <div class="row margin-none">
         @if(isset($other_users) && count($other_users) > 0)
-        <h5 class="weight-300">People who are willing to lend / rent this book.</h5>
+        <h5 class="weight-300">Users having this book.</h5>
         @foreach ($other_users as $other)
         <div class="row card amber accent-4 padding-5">
             <div class="col s12 m2 margin-none" >
@@ -153,13 +153,15 @@
                     <div class="card-content">
                         <span class="card-title weight-400 activator grey-text text-darken-4"><i class="mdi-navigation-more-vert right"></i>{{ substr($abook['title'],0,30)}}</span>
                         <div class="weight-300 margin-top-5">Distance : {{$abook['distance']}}</div>
-                        <div class="weight-300 margin-top-5">Rating : {{$abook['rating']}}</div>
+                        <a class="btn white black-text" href="{{route('user.show.books',['book_id'=>$abook['id']])}}" style="position:absolute;bottom:5px;left:5px">&nbsp;&nbsp;View Details&nbsp;&nbsp;</a>
+                        <div style="clear:both"></div>
                     </div>
-                    <div class="card-reveal yellow" style="overflow-x:hidden">
+                    <div class="card-reveal yellow paddig-5" style="overflow-x:hidden">
                         <span class="card-title grey-text text-darken-4"><i class="mdi-hardware-keyboard-arrow-down right"></i>{{$abook['title']}}</span>
                         <hr/>
                         <p class="weight-300">{!! substr($abook['desc'],0,100)."..." !!}</p>
-                        <a class="btn white black-text" style="position:absolute;bottom:5px;left:5px">&nbsp;&nbsp;View Details&nbsp;&nbsp;</a>
+                        <div class="weight-300 margin-top-5">Rating : {{$abook['rating']}}</div>
+                        <a class="btn white black-text" href="{{route('user.show.books',['book_id'=>$abook['id']])}}" style="position:absolute;bottom:5px;left:5px">&nbsp;&nbsp;View Details&nbsp;&nbsp;</a>
                     </div>
                 </div>
             </div>
@@ -207,10 +209,6 @@ $("#borrow_btn").click(function(e){
         $("#modal-borrow").closeModal();
     });
 });
-
-
-
-
 
 $(".complete").hide();
 $(".more").click(function(e) {
@@ -261,7 +259,7 @@ $("#addToWishlist").click(function(e) {
         beforeSend: function() {
             if (currentRequest != null) {
                 currentRequest.abort();
-                            }
+            }
         },
         success: function(a, b, c) {
             if(a.code == 100 ){
@@ -293,7 +291,7 @@ $("#addToBookshelf").click(function(e) {
         beforeSend: function() {
             if (currentRequest != null) {
                 currentRequest.abort();
-                            }
+            }
         },
         success: function(a, b, c) {
             if(a.code == 100 ){
@@ -359,7 +357,6 @@ $("#selling_btn").click(function(e){
                     $('#modal-sell').closeModal();
                     return false;
                 }
-                
             },
             error: function(a, b, c) {
                 console.log(a);
@@ -369,7 +366,7 @@ $("#selling_btn").click(function(e){
                 Materialize.toast("You are not allowed to make that operation" , 5000);
                 return false;
             }
-            });
+        });
     }
     else{
         $("#error_price").text("Please check the price format");

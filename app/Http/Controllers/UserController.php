@@ -100,7 +100,7 @@ class UserController extends Controller
             $suggestions = [];
             $more_books = Book::all()->take(100);
             foreach ($more_books as $more) {
-                if ($more->user_id != $user->id) {
+                if ($more->user_id != $user->id && $more->is_wishlist == '0') {
                     $matches = [];
                     $found_user = $more->user;
                     $theta = doubleval($found_user['longitude']) - doubleval($user->longitude);
@@ -118,6 +118,7 @@ class UserController extends Controller
                     $matches['isbn'] = $more->isbn;
                     $matches['id'] = $more->book_id;
                     $matches['desc'] = $more->desc;
+                    // $matches['book_id'] = $more->
                     $suggestions[] = $matches;
                 }
             }
