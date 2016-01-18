@@ -24,7 +24,7 @@
           if (len > 2) {
               result = $('.results');
               // console.log(location_mine);
-              if(location_mine == "" || location_mine == null || location_mine == undefined){
+              if (location_mine == "" || location_mine == null || location_mine == undefined) {
                   Materialize.toast("Please save your location in the system before seaching for books.<br>Go to Profile > Edit Location to save your location preference.", 5000);
                   return false;
               }
@@ -86,7 +86,7 @@
                           $('body').data('referenced_object', undefined);
                           if (currentRequestModal != null) {
                               currentRequestModal.abort();
-                          }                          
+                          }
                       },
                       success: function(a, b, c) {
                           console.log(a);

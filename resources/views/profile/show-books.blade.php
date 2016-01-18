@@ -23,7 +23,7 @@
                     <input type="hidden" id="subtitle" value="{{$the_book['subtitle']}}">
                     <input type="hidden" id="isbn" value="{{$the_book['isbn']}}">
                     <input type="hidden" id="reviews_widget" value="{{$the_book['reviews_widget']}}">
-                    @if(isset( $the_book['is_sellable'] ))
+                    @if(isset( $the_book['is_sellable'] ) && $the_book['is_sellable'] == '1')
                     <input type="hidden" id="is_sellable" value="1">
                     @else
                     <input type="hidden" id="is_sellable" value="0">
@@ -89,28 +89,33 @@
         @foreach ($other_users as $other)
         <div class="row card amber accent-4 padding-5">
             <div class="col s12 m2 margin-none" >
-                <div align="center margin-none border-grey">
+                <div align="center">
                     @if(isset($other->image))
                     <img class="img-responsive hoverable margin-top-10 border-grey" width="200px" height="200px"  src="{{$other->image}}" >
                     @else
                     <img class="img-responsive hoverable margin-top-10 border-grey"  src="{{url('img/Man-14.svg')}}" >
                     @endif
-                </div>
+                </div>  
             </div>
             <div class="col s12 m7 weight-300 padding-left-10">
+                @if($other->is_sellable)
+                    <div class="padding-left-10 margin-top-5 weight-500 center-align red-text white">The user is selling this book at a special price of {{$other->selling_price}}</div>
+                @endif
                 <div class="padding-left-10"><strong>First Name : </strong><span> {{ucwords($other->firstname)}}</span></div>
                 <div class="padding-left-10"><strong>Last Name : </strong><span> {{ucwords($other->lastname)}}</span></div>
                 <div class="padding-left-10"><strong>Location : </strong><span> {{ucwords($other->location_name)}}</span></div>
                 @if($other->privacy == 1)
                 <div class="padding-left-10"><strong>Email Address : </strong><span> {{ucwords($other->email)}}</span></div>
-                <div class="padding-left-10"><strong>Gender : </strong><span> {{ucwords($other->gender == '0' ? 'Unknown':($other->gender=='1')?'Male':'Female')}}</span></div>
-                <div class="padding-left-10"><strong>Date of Birth : </strong><span> {{ucwords($other->dob)}}</span></div>
+                <!-- <div class="padding-left-10"><strong>Gender : </strong><span> {{ucwords($other->gender == '0' ? 'Unknown':($other->gender=='1')?'Male':'Female')}}</span></div> -->
+                <!-- <div class="padding-left-10"><strong>Date of Birth : </strong><span> {{ucwords($other->dob)}}</span></div> -->
                 @endif
             </div>
-            <div class="col m3 s12 margin-top-5" >
+            <div class="col m3 s12 " >
                 <a href="" id="{{ $other->id }}" class="btn borrow btn-block grey lighten-2 black-text margin-top-5">Borrow</a>
                 <a href="" id="" class="btn btn-block grey lighten-2 black-text margin-top-5">bookshelf</a>
-                <a href="" id="" class="btn btn-block grey lighten-2 black-text margin-top-5">Buy It</a>
+                @if($other->is_sellable)
+                    <a href="" id="" class="btn btn-block grey lighten-2 black-text margin-top-5">Buy It</a>
+                @endif
             </div>
         </div>
         @endforeach
@@ -151,7 +156,7 @@
                         <img class="activator" src="{{$abook['image']}}">
                     </div>
                     <div class="card-content">
-                        <span class="card-title weight-400 activator grey-text text-darken-4"><i class="mdi-navigation-more-vert right"></i>{{ substr($abook['title'],0,30)}}</span>
+                        <span class="card-title weight-400 activator grey-text text-darken-4"><i class="mdi-navigation-more-vert right"></i>{{ substr($abook['title'],0,15)." ..."}}</span>
                         <div class="weight-300 margin-top-5">Distance : {{$abook['distance']}}</div>
                         <a class="btn white black-text" href="{{route('user.show.books',['book_id'=>$abook['id']])}}" style="position:absolute;bottom:5px;left:5px">&nbsp;&nbsp;View Details&nbsp;&nbsp;</a>
                         <div style="clear:both"></div>

@@ -91,11 +91,15 @@ class UserController extends Controller
             $user_filter = [];
             foreach ($other_books as $booka) {
                 if ($booka->user_id != $user->id && !in_array($booka->user_id, $user_filter)) {
-                    $other_users[] = $booka->user;
+                    $temp_user_in_this_loop = $booka->user;
+                    $temp_user_in_this_loop['is_sellable'] = $booka->is_sellable;
+                    $temp_user_in_this_loop['selling_price'] = $booka->selling_price;
+                    $other_users[] = $temp_user_in_this_loop;
                     $user_filter[] = $booka->user_id;
                 }
             }
             
+            // return $other_users;
             // get more suggestions for books around your area
             $suggestions = [];
             $more_books = Book::all()->take(100);
@@ -118,11 +122,11 @@ class UserController extends Controller
                     $matches['isbn'] = $more->isbn;
                     $matches['id'] = $more->book_id;
                     $matches['desc'] = $more->desc;
+                    
                     // $matches['book_id'] = $more->
                     $suggestions[] = $matches;
                 }
             }
-            
             uasort($suggestions, function ($b) {
                 return $b['distance'];
             });
@@ -182,6 +186,12 @@ class UserController extends Controller
         }
     }
     
+    /**
+     *   This function takes care of adding the book to the bookstore [sellable]
+     *   If book is sellable : Do nothing and send message confirm book is in the bookstore
+     *   If book in wishlist : Remove from wishlist and add to the bookstore
+     *   If book is bookshelf [lendable] : mark it is sellable as well. Same book can be sellable as well as lendable.
+     */
     public function addToBookStore(Request $request) {
         if (Auth::check()) {
             
@@ -203,16 +213,23 @@ class UserController extends Controller
                 // check if the book is in the bookshelf
                 foreach ($found_book as $test_this_book) {
                     
+                    // if the book is sellable. then send back notifaction and abort
                     if ($test_this_book->is_sellable == '1') {
                         $message = ["code" => 100, "message" => "This book is already in your book store.<br>To edit the price go to 'My Books' and edit the book in your book store"];
                         return die(json_encode($message));
                     }
-                    // check if the book is in the wishlist:
+                    
+                    // if the book is in the wishlist, then remove it from wishlist and mark as sellable
                     else if ($test_this_book->is_wishlist == '1') {
-                        // return $test_this_book;
                         $test_this_book->is_wishlist = 0;
-                        // a book can be both lendable as well as sellable
-                        // $found_book->is_lendable = "0";
+                        $test_this_book->is_sellable = "1";
+                        $test_this_book->save();
+                        $message = ["code" => 101, "message" => "The book is added to your bookshelf."];
+                        return die(json_encode($message));
+                    }
+                    
+                    // if book is lendable, still mark it as sellable.
+                    else if ($test_this_book->is_lendable == '1') {
                         $test_this_book->is_sellable = "1";
                         $test_this_book->save();
                         $message = ["code" => 101, "message" => "The book is added to your bookshelf."];
@@ -252,9 +269,17 @@ class UserController extends Controller
         }
     }
     
+    /**
+     *   This method takes care of adding the book to the bookshelf.
+     *   If book is in the bookshelf :
+     *       Send a message "This book is already on your book shelf."
+     *   If book is in the wishlist  :
+     *       Remove from wishlist and add to booksheld. Send a message "The book is added to your bookshelf."
+     *   If the book is sellable :
+     *       Still mark is as lendable. User can led or sell the same book. Send message "The book is added to your bookshelf."
+     */
     public function addToBookshelf(Request $request) {
         if (Auth::check()) {
-            
             $my_books = Auth::user()->books;
             $book_id = $request->input("book_id");
             $found_book = [];
@@ -283,6 +308,12 @@ class UserController extends Controller
                     
                     // commented below because book can be sellable as well as lendable
                     // $found_book->is_sellable = "0";
+                    $found_book->save();
+                    $message = ["code" => 101, "message" => "The book is added to your bookshelf."];
+                    return die(json_encode($message));
+                } 
+                else if ($found_book->is_sellable) {
+                    $found_book->is_lendable = "1";
                     $found_book->save();
                     $message = ["code" => 101, "message" => "The book is added to your bookshelf."];
                     return die(json_encode($message));
@@ -422,14 +453,45 @@ class UserController extends Controller
     public function getBookDetails(Request $request, $id) {
     }
     
-    public function deleteBooks($id, $book_id) {
+    public function deleteBooks($id, $book_id, $book_type) {
+        
+        // return Auth::check();
         if (!Auth::check()) {
             Auth::logout();
             return redirect()->route('home');
         } 
         else {
             $user = User::findOrFail($id);
-            $user->books()->where('id', $book_id)->delete();
+            $book = $user->books()->where('id', $book_id)->get();
+            foreach ($book as $kitab) {
+                if ($book_type == "lendable") {
+                    if ($kitab->is_sellable || $kitab->is_wishlist) {
+                        $kitab->is_lendable = '0';
+                        $kitab->save();
+                    } 
+                    else {
+                        $kitab->delete();
+                    }
+                } 
+                else if ($book_type == "sellable") {
+                    if ($kitab->is_lendable || $kitab->is_wishlist) {
+                        $kitab->is_sellable = '0';
+                        $kitab->save();
+                    } 
+                    else {
+                        $kitab->delete();
+                    }
+                } 
+                else if ($book_type == "wishlist") {
+                    if ($kitab->is_lendable || $kitab->is_sellable) {
+                        $kitab->is_wishlist = '0';
+                        $kitab->save();
+                    } 
+                    else {
+                        $kitab->delete();
+                    }
+                }
+            }
             return redirect()->route('user.getuser.books');
         }
     }

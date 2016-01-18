@@ -4,7 +4,7 @@
     @if(isset($my_books) && count($my_books)>0)
     <div class="row grey lighten-2 margin-none padding-none">
         <div class="col s12 margin-none padding-none">
-            <ul class="tabs padding-none margin-none">
+            <ul class="tabs padding-none margin-none" style="overflow:hidden">
                 <li class="tab col s4 grey lighten-1"><a href="#mybooks" class="black-text active">My Books</a></li>
                 <li class="tab col s4 grey lighten-1"><a class="black-text"href="#wishlist">My Wishlist</a></li>
                 <li class="tab col s4 grey lighten-1"><a href="#bookstore" class="black-text">My Bookstore</a></li>
@@ -24,12 +24,12 @@
                             @endif
                         </div>
                         <div class="card-content yellow lighten-1 ">
-                            <a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id])}}" class="red-text btn-flat weight-400">Remove</a>
+                            <a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'lendable'])}}" class="red-text btn-flat weight-400">Remove</a>
                         </div>
                         <div class="card-reveal yellow lighten-1 ">
                             <div style="position:absolute;top:5px;left:5px"><span class="card-title padding-none margin-none grey-text text-darken-4 col s10">{{substr($book->title,0,30).' ...'}}</span></div>
                             <div style="position:absolute;top:5px;right:5px"><i class="card-title mdi-hardware-keyboard-arrow-down "></i></div>
-                            <p><a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id])}}" class="red-text  btn-flat weight-400">Remove</a></p>
+                            <p><a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'lendable'])}}" class="red-text  btn-flat weight-400">Remove</a></p>
                         </div>
                     </div>
                 </div>
@@ -51,13 +51,13 @@
                             @endif
                         </div>
                         <div class="card-content yellow lighten-1 ">
-                            <p><a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id])}}" class="red-text btn-flat weight-400">Remove</a></p>
+                            <p><a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'wishlist'])}}" class="red-text btn-flat weight-400">Remove</a></p>
                         </div>
                         <div class="card-reveal yellow lighten-1 ">
                             <div style="position:absolute;top:5px;left:5px"><span class="card-title padding-none margin-none grey-text text-darken-4 col s10">{{substr($book->title,0,30).' ...'}}</span></div>
                             <div style="position:absolute;top:5px;right:5px"><i class="card-title mdi-hardware-keyboard-arrow-down "></i></div>
                             <!-- <span class="card-title grey-text  padding-none margin-none  text-darken-4"><i class="mdi-hardware-keyboard-arrow-down right"></i>{{substr($book->title,0,30).' ...'}}</span> -->
-                            <p><a href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id])}}" class="red-text  btn-flat weight-300" style="position:absolute;bottom:5px;left:15px">Remove</a></p>
+                            <p><a href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'wishlist'])}}" class="red-text  btn-flat weight-300" style="position:absolute;bottom:5px;left:15px">Remove</a></p>
                         </div>
                     </div>
                 </div>
@@ -82,13 +82,13 @@
                             <input type="hidden" id="id_{{$book->book_id}}" value="{{$book->id}}">
                         </div>
                         <div class="card-content yellow lighten-1 ">
-                            <a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id])}}" class="red-text btn-flat weight-400">Remove</a>
+                            <a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'sellable'])}}" class="red-text btn-flat weight-400">Remove</a>
                             <a style="position:absolute;bottom:5px;right:5px" href="" id="{{$book->book_id}}" class="red-text edit btn-flat weight-400">Edit</a>
                         </div>
                         <div class="card-reveal yellow lighten-1 row padding-none margin-none">
                             <div style="position:absolute;top:5px;left:5px"><span class="card-title padding-none margin-none grey-text text-darken-4 col s10">{{substr($book->title,0,30).' ...'}}</span></div>
                             <div style="position:absolute;top:5px;right:5px"><i class="card-title mdi-hardware-keyboard-arrow-down "></i></div>
-                            <a href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id])}}" class="red-text  btn-flat weight-300" style="position:absolute;bottom:5px;left:15px">Remove</a>
+                            <a href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'sellable'])}}" class="red-text  btn-flat weight-300" style="position:absolute;bottom:5px;left:15px">Remove</a>
                             <a style="position:absolute;bottom:5px;right:5px" href="" id="{{$book->book_id}}" class="red-text edit btn-flat weight-400">Edit</a>
                         </div>
                     </div>
