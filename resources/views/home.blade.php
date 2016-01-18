@@ -4,7 +4,7 @@
 @stop
 @section('content')
 <ul class="collapsible z-depth-0" data-collapsible="accordion">
-    <li class="margin-top-5">
+    <!-- <li class="margin-top-5">
         <div class="collapsible-header margin-top-5 grey lighten-2 "><i class="material-icons">book</i>My Books <small class='right weight-400'>Add Books to your profile</small></div>
         <div class="collapsible-body grey lighten-2  min-height-350 padding-10">
             <div class="row">
@@ -14,7 +14,7 @@
                 </div>
                 @endif
                 <div class="padding-5 amber accent-4 s12 right">
-                    <a class="black-text weight-300" href="{{route('user.get.books',[$user->id])}}">Add /Edit Your Books</a>
+                    <a class="black-text weight-300" href="{{route('user.getuser.books')}}">Add /Edit Your Books</a>
                 </div>
             </div>
             @if(isset($in_stock) && isset($wish_list))
@@ -69,7 +69,7 @@
             @endif
         </div>
     </li>
-    <li>
+     --><!-- <li>
         <div class="collapsible-header margin-top-5 grey lighten-2  "><i class="material-icons">perm_identity</i>My Profile <small class='weight-400 right'>View profile details</small></div>
         <div class="collapsible-body grey lighten-2 padding-10 weight-300">
             <div class="row">
@@ -77,7 +77,7 @@
                     {{$user->name}}
                 </div>
                 <div class="grey lighten-2  padding-5 black-text right">
-                    <a href="{{route('user.edit',[$user->id])}}" class="black-text">Edit Profile</a>
+                    <a href="{{route('user.edit.profile')}}" class="black-text">Edit Profile</a>
                 </div>
             </div>
             <div class="row padding-10 weight-300">
@@ -123,7 +123,7 @@
                 </div>
             </div>
         </div>
-    </li>
+    </li> -->
     <!-- <li>
                                                 <div class="collapsible-header grey lighten-2  margin-top-5"><i class="material-icons">view_carousel</i>My Stories <small class="right weight-400">List of published stories</small></div>
                                                 <div class="collapsible-body grey lighten-2  min-height-350"><p>Lorem ipsum dolor sit amet.</p></div>
@@ -153,35 +153,28 @@ $(document).ready(function($) {
         e.preventDefault();
         locName = $("#pac-input").val();
         locCoord = loc;
-        // console.log(locName , locCoord);
         var flag = true;
         message = [];
-        if(locName == "" || locName == undefined){
-            message.push("Please provide the location in the map");
+        if(locName == "" || locName == undefined || locCoord == "" || locCoord == undefined){
+            Materialize.toast("Please provide the location in the map", 5000);
             flag = false;
-            if(locCoord == "" || locCoord == undefined){
-                message.push("Please provide the location coordinate");
-                flag = false;
-            }
         }
         if (flag){
             $.ajax({
-            type: "POST",
-            url: "{{route('savemap')}}",
-            data: {user:{{$user->id}},name:locName,location:locCoord,_token:"{{csrf_token()}}"},
-            success: function(a,b,c){
-                if(a !== false && a.status == 100){
-                    $(".currentLocation").empty().text(a.location_name);
+                type: "POST",
+                url: "{{route('savemap')}}",
+                data: {user:{{$user->id}},name:locName,location:locCoord,_token:"{{csrf_token()}}"},
+                success: function(a,b,c){
+                    if(a !== false && a.status == 100){
+                        $(".currentLocation").empty().text(a.location_name);
+                        location_mine = a.location_name;
+                    }
+                },
+                dataType: "json",
+                error : function(a,b,c){
+                    Materialize.toast("Invalid session token. Invalid request", 5000);
                 }
-            },
-            dataType: "json",
-            error : function(a,b,c){
-                console.log("Invalid session token. Invalid request");
-            }
             });
-        }
-        else{
-            console.log("flag is false");
         }
     });
 });

@@ -22,6 +22,12 @@
           data = $(this).val();
           len = data.length;
           if (len > 2) {
+              result = $('.results');
+              // console.log(location_mine);
+              if(location_mine == "" || location_mine == null || location_mine == undefined){
+                  Materialize.toast("Please save your location in the system before seaching for books.<br>Go to Profile > Edit Location to save your location preference.", 5000);
+                  return false;
+              }
               data = data.replace(/ /g, "+");
               currentRequest = jQuery.ajax({
                   url: base_url + "/" + data,
@@ -31,10 +37,11 @@
                       if (currentRequest != null) {
                           currentRequest.abort();
                       }
-                      // $('#preloader').show();
+                      preloader = "<div class='center-align padding-5'><div class='preloader-wrapper small active'><div class='spinner-layer spinner-yellow-only'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div></div></div>";
+                      result.empty();
+                      result.append(preloader);
                   },
                   success: function(a, b, c) {
-                      result = $('.results');
                       result.empty();
                       books = a.search.results.work;
                       $.each(books, function(k, v) {
@@ -79,7 +86,7 @@
                           $('body').data('referenced_object', undefined);
                           if (currentRequestModal != null) {
                               currentRequestModal.abort();
-                          }
+                          }                          
                       },
                       success: function(a, b, c) {
                           console.log(a);

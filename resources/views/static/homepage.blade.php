@@ -8,7 +8,7 @@
     <div class="col s12 m8 padding-none z-depth-1">
     <!-- white -->
         <div class="row white grey-text text-darken-3 padding-none margin-none">
-            <span class="title padding-none">Book Barter Club </span><small class="hide-on-med-and-down weight-300" style='font-size:16px;padding-left:10px'>Let your books relive....</small>
+            <span class="title padding-none"><a href="{{url('/')}}" class="black-text">Book Barter Club</a></span><small class="hide-on-med-and-down weight-300" style='font-size:16px;padding-left:10px'>Let your books relive....</small>
         </div>
         <div class="row grey lighten-2 padding-5 margin-none center-align">
             <a href="{{url('/login')}}" class="btn-flat grey-text text-darken-3">[ Login ]</a>

@@ -122,3 +122,4 @@ input.search:focus::-webkit-input-placeholder{color:transparent;font-weight: 300
 .card-title {font-size:14px !important;line-height: 16px !important;}
 .font-20 	{font-size:20px !important;}
 .font-18 	{font-size:18px !important;}
+#profile_table tr td {padding:5px !important;}

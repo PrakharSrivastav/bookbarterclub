@@ -1,5 +1,63 @@
 @extends("layouts.profile")
 @section('content')
+<div class="row padding-10 weight-300">
+    <div  class="col grey lighten-2 s12 padding-5">
+        <table class="responsive-table striped bordered">
+            <thead>
+                <tr>
+                    <th data-field="id">Item</th>
+                    <th data-field="price">Details</th>
+                </tr>
+            </thead>
+            <tbody id="profile_table" class="padding-none">
+                <tr>
+                    <td>Name</td>
+                    <td>{{ empty($user->firstname)?"--":$user->firstname}}</td>
+                </tr>
+                <tr>
+                    <td>Surname</td>
+                    <td>{{ empty($user->lastname)?"--":$user->lastname}}</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>{{ empty($user->email)?"--":$user->email}}</td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>{{ empty($user->gender)?"--":$user->gender}}</td>
+                </tr>
+                <tr>
+                    <td>About</td>
+                    <td>{{ empty($user->about)?"--":$user->about}}</td>
+                </tr>
+                <tr>
+                    <td>Birthday</td>
+                    <td>{{ empty($user->dob)?"--":$user->dob}}</td>
+                </tr>
+                <tr>
+                    <td>Fav Quote</td>
+                    <td>{{ empty($user->fav_quote)?"--":$user->fav_quote}}</td>
+                </tr>
+                <tr>
+                    <td>Mobile</td>
+                    <td>{{ empty($user->contact_num)?"--":$user->contact_num}}</td>
+                </tr>
+                <tr>
+                    <td>Contact</td>
+                    <td>{{ empty($user->mobile_num)?"--":$user->mobile_num}}</td>
+                </tr>
+                <tr>
+                    <td>Pref location</td>
+                    <td>{{ empty($user->pref_location)?"--":$user->pref_location}}</td>
+                </tr>
+                <tr>
+                    <td>Address</td><td class="currentLocation">{{ empty($user->location_name)?"--":$user->location_name}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
 <form id="edit_profile_form" class="margin-top-10 padding-15 grey lighten-2 z-depth-0" role="form" method="POST" action="{{route('user.update',[$user->id])}}">
     <input type="hidden" name="_method" value="PUT">
     <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> -->

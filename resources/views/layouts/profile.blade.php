@@ -14,30 +14,36 @@
     </head>
     <body class="white">
         <ul id="dropdown1"  class="dropdown-content">
-            <li><a href="{{route('user.edit',[$user->id])}}" class="black-text">Edit Profile</a></li>
+            <li><a href="{{route('dashboard')}}" class="black-text">Edit Location</a></li>
+            <li><a href="{{route('user.edit.profile')}}" class="black-text">Edit Profile</a></li>
             <li class="divider"></li>
             <li><a href="{{url('/logout')}}" class="red-text">Logout</a></li>
         </ul>
         <nav class="white">
             <div class="nav-wrapper margin-left-5">
-                <a href="{{route('dashboard')}}" class="brand-logo weight-300 black-text">Book Barter Club</a>
+                <div class="left">
+                    <a href="{{route('dashboard')}}" class="brand-logo weight-300 black-text">Book Barter Club</a>
+                </div>
                 <a href="#" data-activates="mobile-view" class="button-collapse"><i class="material-icons black-text">menu</i></a>
                 <ul class="right hide-on-med-and-down">
-                    <!-- <li><input id="search" type="search" required></li> -->
-                    <li><a href="{{route('user.get.books',[$user->id])}}" class="black-text">My Books</a></li>
+                    <li class="margin-right-10"><span class="red-text margin-right-10">Welcome {{$user->email}}</span></li>
+                    <li><a href="{{route('user.getuser.books')}}" class="black-text">My Books</a></li>
                     <!-- <li><a href="sass.html" class="black-text">My Stories</a></li> -->
                     <li><a href="{{route('all_messages')}}" class="black-text">Messages</a></li>
-                    <!-- <li><a href="badges.html" class="black-text">Notifications</a></li> -->
-                    <li>
+                    <!-- <li><a href="{{route('dashboard')}}" class="black-text">Dashboard</a></li> -->
+                    <li style="width:150px !important">
                         <a class="dropdown-button black-text" href="#!" data-beloworigin="true" data-activates="dropdown1">Profile <i class="material-icons right">arrow_drop_down</i></a>
                     </li>
                 </ul>
                 <ul class="side-nav white" id="mobile-view">
-                    <li><a href="{{route('user.get.books',[$user->id])}}">My Books</a></li>
+
+                    <li class="margin-right-10"><span class="red-text">Welcome {{$user->email}}</span></li>
+                    <li><a href="{{route('user.getuser.books')}}">My Books</a></li>
                     <!-- <li><a href="badges.html">My Stories</a></li> -->
                     <li><a href="{{route('all_messages')}}">Messages</a></li>
                     <!-- <li><a href="mobile.html">Notifications</a></li> -->
-                    <li><a href="{{route('user.edit',[$user->id])}}">Edit Profile</a></li>
+                    <li><a href="{{route('dashboard')}}" class="black-text">Edit Location</a></li>
+                    <li><a href="{{route('user.edit.profile')}}">Edit Profile</a></li>
                     <li><a href="{{url('/logout')}}" class="red-text text-darken-2">Logout</a></li>
                 </ul>
             </div>
@@ -92,11 +98,12 @@
         <script type="text/javascript" src="{{url('js/jquery.validate.min.js')}}"></script>
         <script type="text/javascript" src="{{url('js/owl.min.js')}}"></script>
         <script>
-                var base_url = "{{url('search')}}";
-                var base = "{{url('/')}}";
-                var book_url = "{{url('searchBook')}}";
-                // var add_book = "route('user.create.books',$user->id)";
-                var show_user = "{{route('user.show.books',['book_id'=>'__book__id__'])}}";
+            var location_mine = "{{$user->location_name}}";
+            var base_url = "{{url('search')}}";
+            var base = "{{url('/')}}";
+            var book_url = "{{url('searchBook')}}";
+                        // var add_book = "route('user.create.books',$user->id)";
+            var show_user = "{{route('user.show.books',['book_id'=>'__book__id__'])}}";
         </script>
         <script type="text/javascript" src="{{url('js/main.js')}}"></script>
     </body>

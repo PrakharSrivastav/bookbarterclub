@@ -1,11 +1,13 @@
 @extends("layouts.app")
 <div class="row amber accent-4  margin-none">
-
     <div class="col s12 m8 margin-none padding-none">
         <div class="row amber accent-4  padding-none margin-none">
-            <h3 class="center-align weight-300"> We found below books matching your selection</h3>
+            <div class="row white grey-text text-darken-3 padding-none margin-none">
+                <span class="title padding-none"><a href="{{url('/')}}" class="black-text">Book Barter Club</a></span><small class="hide-on-med-and-down weight-300" style='font-size:16px;padding-left:10px'>Let your books relive....</small>
+            </div>
+            <h4 class="center-align weight-300">We found below books matching your selection</h4>
             <div class="center-align grey-text text-darken-3 padding-bottom-10">
-                <span>By default we show only first 3 matches. To get more matches please register in our system.</span>
+                <span>By default we show only first 3 matches. To get more matches please <a  href="{{url('/register')}}" class="black-text">[Register]</a> in our system.</span>
             </div>
         </div>
         @if(isset($valid_users))

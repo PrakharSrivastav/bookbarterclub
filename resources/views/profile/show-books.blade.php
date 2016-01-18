@@ -317,7 +317,7 @@ $("#addToBookshelf").click(function(e) {
 $("#sell_the_book").click(function(e){
     e.preventDefault();
     sellable = $("#is_sellable").val();
-    if(sellable == "0"){
+    if(sellable == "1"){
         Materialize.toast("This book is already in your book store.<br>To edit the price go to 'My Books' and edit the book in your book store" , 5000);
         return false;
     }
