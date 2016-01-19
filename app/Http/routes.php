@@ -11,7 +11,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/user/edit', "UserController@edit")->name('user.edit.profile');
     
     Route::resource('user', 'UserController');
-    
+    Route::get("/user/{id}/bookshelf","UserController@showUserBookshelf")->name("user.show.bookshelf");
     Route::get("/user/showBooks/{book_id}", "UserController@showBooks")->name('user.show.books');
     Route::post("/user/addWishlist", "UserController@addToWishlist")->name('user.add.wishlist');
     Route::post("/user/addBookshelf", "UserController@addToBookshelf")->name('user.add.bookshelf');

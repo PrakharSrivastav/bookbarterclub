@@ -112,7 +112,7 @@
             </div>
             <div class="col m3 s12 " >
                 <a href="" id="{{ $other->id }}" class="btn borrow btn-block grey lighten-2 black-text margin-top-5">Borrow</a>
-                <a href="" id="" class="btn btn-block grey lighten-2 black-text margin-top-5">bookshelf</a>
+                <a href="{{route('user.show.bookshelf',['id'=>$other->id])}}"  class="btn btn-block grey lighten-2 black-text margin-top-5">bookshelf</a>
                 @if($other->is_sellable)
                     <a href="" id="" class="btn btn-block grey lighten-2 black-text margin-top-5">Buy It</a>
                 @endif

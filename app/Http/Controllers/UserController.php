@@ -450,6 +450,21 @@ class UserController extends Controller
         }
     }
     
+    public function showUserBookshelf($id) {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $new_user = User::findOrFail($id);
+            $my_books = $new_user->books;
+            $title = "Show User Bookshelf";
+            $books = Trend::all();
+            return view("profile.user-bookshelf", compact("user","new_user", "title", "books", "my_books"));
+        } 
+        else {
+            Auth::logout();
+            return redirect()->route('home');
+        }
+    }
+    
     public function getBookDetails(Request $request, $id) {
     }
     
