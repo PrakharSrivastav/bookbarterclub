@@ -106,15 +106,13 @@
                 <div class="padding-left-10"><strong>Location : </strong><span> {{ucwords($other->location_name)}}</span></div>
                 @if($other->privacy == 1)
                 <div class="padding-left-10"><strong>Email Address : </strong><span> {{ucwords($other->email)}}</span></div>
-                <!-- <div class="padding-left-10"><strong>Gender : </strong><span> {{ucwords($other->gender == '0' ? 'Unknown':($other->gender=='1')?'Male':'Female')}}</span></div> -->
-                <!-- <div class="padding-left-10"><strong>Date of Birth : </strong><span> {{ucwords($other->dob)}}</span></div> -->
                 @endif
             </div>
             <div class="col m3 s12 " >
                 <a href="" id="{{ $other->id }}" class="btn borrow btn-block grey lighten-2 black-text margin-top-5">Borrow</a>
                 <a href="{{route('user.show.bookshelf',['id'=>$other->id])}}"  class="btn btn-block grey lighten-2 black-text margin-top-5">bookshelf</a>
                 @if($other->is_sellable)
-                    <a href="" id="" class="btn btn-block grey lighten-2 black-text margin-top-5">Buy It</a>
+                    <a href="" data-user-id="{{ $other->id }}" class="btn btn-block grey buy_the_book lighten-2 black-text margin-top-5">Buy It</a>
                 @endif
             </div>
         </div>
@@ -124,7 +122,7 @@
         <div id="modal-borrow" class="modal">
             <div class="row modal-content">
                 <div class="row margin-none">
-                    <h5 class="weight-300 left">Please send a quick message to the Owner </h5>
+                    <h5 class="weight-300 left">Please send a borrow request to the Owner </h5>
                     <a href="#!" class="right modal-action modal-close btn-flat margin-right-10"><i class="material-icons">close</i></a>
                 </div>
                 <br>
@@ -142,6 +140,35 @@
                 </div>
             </div>
         </div>
+        
+
+        <!-- Modal for Sending request structure -->
+        <div id="modal-buy" class="modal">
+            <div class="row modal-content">
+                <div class="row margin-none">
+                    <h5 class="weight-300 left">Please send a purchase request to the Owner </h5>
+                    <a href="#!" class="right modal-action modal-close btn-flat margin-right-10"><i class="material-icons">close</i></a>
+                </div>
+                <br>
+                <div class="row margin-none padding-none">
+                    <div class="col s12 m8 margin-none padding-none push-m2">
+                        <div class="input-field col s12">
+                            <textarea id="buy_message" class="materialize-textarea"></textarea>
+                            <label for="buy_message">Your Message</label>
+                            <span id="error_buy_message" class="red-text"></span>
+                        </div>
+                        <div class="input-field col s12">
+                            <a id="buy_btn" class="margin-top--5 btn yellow black-text z-depth-0 btn-block btn-large">Send Message</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+
         @if(isset($suggestions))
         <div class="row ">
             @if(count($other_users) > 0)
@@ -182,10 +209,43 @@ addToWishList = "{{route('user.add.wishlist')}}";
 addToBookshelf = "{{route('user.add.bookshelf')}}";
 addToBookstore = "{{route('user.add.bookstore')}}";
 sendMessage = "{{route('create.message')}}";
+sendPurchaseRequest = "{{route('create.purchase.request')}}";
 var messge_target_user = "";
 var borrow_message = {
     _token : $("#csrf_token").val()
 }
+
+$(".buy_the_book").click(function(e){
+    e.preventDefault();
+    messge_target_user = $(this).attr("data-user-id");
+    $("#modal-buy").openModal();
+})
+
+$("#buy_btn").click(function(event) {
+    event.preventDefault();
+    borrow_message.user = messge_target_user;
+    borrow_message.data = $("textarea#buy_message").val();
+    console.log(borrow_message);
+    $.ajax({
+        url: sendPurchaseRequest,
+        type: 'POST',
+        dataType: 'json',
+        data: borrow_message,
+    })
+    .done(function(a) {
+        Materialize.toast(a.message , 5000);
+        return false;
+    })
+    .fail(function(a) {
+        Materialize.toast("You are not allowed to make this operation" , 5000);
+        return false;
+    })
+    .always(function() {
+        $("#modal-buy").closeModal();
+    });
+    
+});
+
 $(".borrow").click(function(e){
     e.preventDefault();
     messge_target_user = $(this).attr("id"); 

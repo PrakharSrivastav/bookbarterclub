@@ -19,9 +19,7 @@
                     <div class="card  hoverable yellow lighten-1 ">
                         <div class="card-image waves-effect waves-block waves-light yellow lighten-1 ">
                             <img class="activator weight-300" height="150px" src="{{$book->image}}">
-                            @if($book->image == "https://s.gr-assets.com/assets/nophoto/book/111x148-bcc042a9c91a29c1d680899eff700a03.png")
-                            <span style="position:absolute;top:5px;right:5px" class="black-text card-title padding-5 weight-400">{{substr($book->title,0,30).' ...'}}</span>
-                            @endif
+                            
                         </div>
                         <div class="card-content yellow lighten-1 ">
                             <a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'lendable'])}}" class="red-text btn-flat weight-400">Remove</a>
@@ -30,7 +28,7 @@
                             <div style="position:absolute;top:5px;left:2px"><small class="card-title font-12 grey-text text-darken-4 col s10">{{substr($book->title,0,15).' ...'}}</small></div>
                             <div style="position:absolute;top:5px;right:2px"><i class="card-title mdi-hardware-keyboard-arrow-down "></i></div>
                             <hr style="margin-top:35px;color:#000;background:#000" />
-                            <div class="weight-300 padding-5 font-12 col s12">{!!substr($book->desc,0,80)." ..."!!}</div>
+                            <div class="weight-300 padding-5 font-12 col s12">{{substr($book->desc,0,80)." ..."}}</div>
                             <p><a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'lendable'])}}" class="red-text  btn-flat weight-400">Remove</a></p>
                         </div>
                     </div>
@@ -56,7 +54,7 @@
                             <div style="position:absolute;top:5px;left:2px"><small class="card-title font-12 grey-text text-darken-4 col s10">{{substr($book->title,0,15).' ...'}}</small></div>
                             <div style="position:absolute;top:5px;right:2px"><i class="card-title mdi-hardware-keyboard-arrow-down "></i></div>
                             <hr style="margin-top:35px;color:#000;background:#000" />
-                            <div class="weight-300 padding-5 font-12 col s12">{!!substr($book->desc,0,80)." ..."!!}</div>
+                            <div class="weight-300 padding-5 font-12 col s12">{{substr($book->desc,0,80)." ..."}}</div>
                             <p><a href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'wishlist'])}}" class="red-text  btn-flat weight-300" style="position:absolute;bottom:5px;left:15px">Remove</a></p>
                         </div>
                     </div>
@@ -75,9 +73,7 @@
                     <div class="card  hoverable yellow lighten-1 ">
                         <div class="card-image waves-effect waves-block waves-light yellow lighten-1 ">
                             <img class="activator" height="150px" src="{{$book->image}}">
-                            @if($book->image == "https://s.gr-assets.com/assets/nophoto/book/111x148-bcc042a9c91a29c1d680899eff700a03.png")
-                            <span style="position:absolute;top:5px;right:5px" class="black-text card-title padding-5 weight-400">{{substr($book->title,0,30).' ...'}}</span>
-                            @endif
+                            
                             <input type="hidden" id="price_{{$book->book_id}}" value="{{$book->selling_price}}">
                             <input type="hidden" id="id_{{$book->book_id}}" value="{{$book->id}}">
                         </div>
@@ -89,7 +85,7 @@
                             <div style="position:absolute;top:5px;left:2px"><small class="card-title font-12 grey-text text-darken-4 col s10">{{substr($book->title,0,15).' ...'}}</small></div>
                             <div style="position:absolute;top:5px;right:2px"><i class="card-title mdi-hardware-keyboard-arrow-down "></i></div>
                             <hr style="margin-top:35px;color:#000;background:#000" />
-                            <div class="weight-300 padding-5 font-12 col s12">{!!substr($book->desc,0,80)." ..."!!}</div>
+                            <div class="weight-300 padding-5 font-12 col s12">{{substr($book->desc,0,80)." ..."}}</div>
                             <a href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'sellable'])}}" class="red-text  btn-flat weight-300" style="position:absolute;bottom:5px;left:15px">Remove</a>
                             <a style="position:absolute;bottom:5px;right:5px" href="" id="{{$book->book_id}}" class="red-text edit btn-flat weight-400">Edit</a>
                         </div>

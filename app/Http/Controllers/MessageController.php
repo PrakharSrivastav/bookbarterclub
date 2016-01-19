@@ -45,7 +45,7 @@ class MessageController extends Controller
         foreach ($all as $senders) {
             
             $temp = [];
-
+            
             if ($count == 0 || $id != $senders->sender_id) {
                 $sender_name = $senders->sender_name;
                 $id = $senders->sender_id;
@@ -71,9 +71,12 @@ class MessageController extends Controller
                 $all_data[$sender_name][] = $temp;
             }
             $count++;
+            
             // print_r($temp);
             // $all_data[] = $temp;
+            
         }
+        
         // print_r($all_data);
         return view("profile.message", compact("all_data", "user", "books", "first_sender"));
     }
@@ -158,28 +161,78 @@ class MessageController extends Controller
     public function conversation(Request $request) {
         
         $currentUser = Auth::user();
+        
         // $currentUser = User::findOrFail($currentUser->id);
         $targetId = $request->input("to");
         $targetUser = User::findOrFail($targetId);
         $text = $request->input("text");
-
+        
         $message = new Message();
-
+        
         $message->from = $currentUser->id;
         $message->from_name = $currentUser->firstname;
         $message->to = $targetUser->id;
         $message->to_name = $targetUser->firstname;
         $message->type = '0';
         $message->message = $text;
-        if($message->save()){
-            $status = ["code"=>100,"message"=>"Message sent"];
-            return die(json_encode($status));    
+        if ($message->save()) {
+            $status = ["code" => 100, "message" => "Message sent"];
+            return die(json_encode($status));
+        } 
+        else {
+            $status = ["code" => 101, "message" => "There was error sending the message. Please try after sometime"];
+            return die(json_encode($status));
         }
-        else{
-            $status = ["code"=>101,"message"=>"There was error sending the message. Please try after sometime"];
-            return die(json_encode($status));    
-        }
+    }
+    
+    public function purchaseReq(Request $request) {
+        $targetId = $request->input("user");
+        $currentUser = Auth::user();
+        $targetUser = User::findOrFail($targetId);
+        $text = $request->input("data");
         
+        // get the latest purchase request if any for this user
+        $getMessage = Message::where([
+            "from" => $currentUser->id, 
+            "to" => $targetUser->id, 
+            "type" => '2'
+        ])->orderBy('created_at', 'desc')->first();
+        
+        // if the purchase request is found
+        if (count($getMessage) > 0) {
+            $now = Carbon::now();
+            $time = $getMessage->created_at;
+            $diff = $now->diffInHours($time);
+            
+            if ($diff > 1) {
+                $message = new Message();
+                $message->from = $currentUser->id;
+                $message->from_name = $currentUser->firstname;
+                $message->to = $targetUser->id;
+                $message->to_name = $targetUser->firstname;
+                $message->type = '2';
+                $message->message = $text;
+                $message->save();
+                $reply = ["code" => 100, "message" => "A purchse request has been sent to the Owner. Wait for his reply to continue further."];
+                return die(json_encode($reply));
+            } 
+            else {
+                $reply = ["code" => 101, "message" => "You have sent a purchase request recently. Please wait for the Owner to reply"];
+                return die(json_encode($reply));
+            }
+        } 
+        else {
+            $message = new Message();
+            $message->from = $currentUser->id;
+            $message->from_name = $currentUser->firstname;
+            $message->to = $targetUser->id;
+            $message->to_name = $targetUser->firstname;
+            $message->type = '2';
+            $message->message = $text;
+            $message->save();
+        }
+        $reply = ["code" => 100, "message" => "A purchase request has been sent to the Owner. Wait for his reply to continue further."];
+        return die(json_encode($reply));
     }
     
     /**

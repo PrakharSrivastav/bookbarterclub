@@ -25,5 +25,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::post("/create/message", "MessageController@store")->name("create.message");
     Route::get("/message", "MessageController@index")->name("all_messages");
     Route::post("/send/message", "MessageController@conversation")->name("send.message");
+    Route::post("/send/purchaseReq", "MessageController@purchaseReq")->name("create.purchase.request");
 });
 
