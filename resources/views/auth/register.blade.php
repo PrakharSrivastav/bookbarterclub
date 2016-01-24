@@ -2,15 +2,15 @@
 @section('content')
 <div class="container">
     <div class="row ">
-        <div class="margin-top-100">
-            <div class="col m6 offset-m3 s12">
-                <form id="registration_form" class="card padding-15 white z-depth-3" role="form" method="POST" action="{{ url('/register') }}">
+        <div class="margin-top-60">
+            <div class="col m6 push-m3 s12 card padding-none">
+                <h4 class="red margin-none padding-10 grey-text text-lighten-3 light">Register</h4>
+                <form id="registration_form" class="padding-15 white z-depth-3" role="form" method="POST" action="{{ url('/register') }}">
                     {!! csrf_field() !!}
-                    <h6>Register</h6>
                     <div class="row">
                         <div class="input-field col s12">
                             <input  required="" type="text"  name="name" value="{{ old('name') }}" id="name" class="validate black-text">
-                            <label class="black-text" for="name">Name</label>
+                            <label class="black-text" for="name">Name (How would you like to be called) </label>
                             @if ($errors->has('name'))
                             <small class="red-text text-darken-3">{{ $errors->first('name') }}</small>
                             @endif
@@ -44,14 +44,13 @@
                         </div>
                     </div>
                     <p>
-                    <input type="submit" class="btn waves-effect waves-light white black-text" value="Register">
+                    <input type="submit" class="btn red darken-2 grey-text text-lighten-3" value="Register">
                     </p>
                 </form>
             </div>
         </div>
     </div>
     @endsection
-
     @section('javascript')
 <script type="text/javascript" src="js/app.validate.js"></script>
 @stop

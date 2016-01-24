@@ -2,10 +2,11 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	font-smoothing: antialiased;
--moz-font-smoothing: antialiased;
--webkit-font-smoothing: antialiased;
--webkit-font-smoothing: subpixel-antialiased;
+	-moz-font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
+	-webkit-font-smoothing: subpixel-antialiased;
 }
+
 #result 				{z-index:1;margin-top:-15px;height:400px !important;overflow-y:auto}
 .padding-none 			{padding: 0px !important;}
 .padding-5 				{padding: 5px !important;}
@@ -21,6 +22,7 @@ body {
 .padding-top-20			{padding-top: 20px !important;}
 .padding-left-20		{padding-left: 20px !important;}
 .padding-left-10		{padding-left: 10px !important;}
+.padding-2 				{padding: 2px !important;}
 
 
 
@@ -40,7 +42,7 @@ div#preloader { position: fixed; left: 0; top: 0; z-index: 999; width: 100%; hei
 .border-grey 			{border: solid #aaa 1px;}
 .border-top-grey  		{border-top: solid #999 1px;}
 .border-grey 			{border-color: #444 !important}
-
+.margin-top-60 			{margin-top: 60px}
 .margin-top-100 		{margin-top: 100px}
 .margin-bottom-5		{margin-bottom:5px !important;}
 .border-none 			{border: none !important;}
@@ -122,6 +124,7 @@ input.search:focus::-webkit-input-placeholder{color:transparent;font-weight: 300
 .card-title {font-size:14px !important;line-height: 16px !important;}
 .font-20 	{font-size:20px !important;}
 .font-18 	{font-size:18px !important;}
+.font-11 	{font-size:11px !important;}
 .font-12 	{font-size:12px !important;}
 .font-13 	{font-size:13px !important;}
 .font-14 	{font-size:14px !important;}
@@ -130,3 +133,7 @@ input.search:focus::-webkit-input-placeholder{color:transparent;font-weight: 300
 .font-17 	{font-size:17px !important;}
 .font-19 	{font-size:19px !important;}
 #profile_table tr td {padding:5px !important;}
+.bg-darkblue 			{background-color: #091A23 !important}
+.bg-bluegrey			{background-color: #152F40 !important}
+.darkblue-text 			{color: #091A23 !important}
+.bluegrey-text 			{color: #152F40 !important}

@@ -15,7 +15,7 @@ $(document).ready(function($) {
         len = data.length;
         if (len > 2) {
             if (loc == "" || loc == undefined) {
-                Materialize.toast('Please setup your location before searching for books!', 500);
+                Materialize.toast('Please setup your location before searching for books!', 5000);
                 return false;
             } else {
                 data = data.replace(/ /g, "+");
@@ -96,7 +96,7 @@ $(document).ready(function($) {
                             var $toastContent = $('<span>No one near you has this book. Please search another book</span>');
                             Materialize.toast($toastContent, 3000);
                         } else {
-                            alert("book found");
+                            // alert("book found");
                             nearest_user = nearest_user.replace(/__book_id__/g, href);
                             location.href = nearest_user;
                         }

@@ -35,17 +35,13 @@ class MessageController extends Controller
         $first = Message::where("from", $user->id)->select('from as my_id', 'from_name as my_name', 'message', 'to as sender_id', 'to_name as sender_name', 'created_at');
         $all = Message::where("to", $user->id)->select('to as my_id', 'to_name as my_name', 'message', 'from as sender_id', 'from_name as sender_name', 'created_at')->union($first)->orderBy('created_at', 'desc')->get();
         $books = Trend::all();
-        
-        // print_r($all);
         $all_data = [];
         $count = 0;
         $sender_id = "";
         $id = "";
         $first_sender = "";
         foreach ($all as $senders) {
-            
             $temp = [];
-            
             if ($count == 0 || $id != $senders->sender_id) {
                 $sender_name = $senders->sender_name;
                 $id = $senders->sender_id;
@@ -71,27 +67,13 @@ class MessageController extends Controller
                 $all_data[$sender_name][] = $temp;
             }
             $count++;
-            
-            // print_r($temp);
-            // $all_data[] = $temp;
-            
         }
-        
-        // print_r($all_data);
+        $user->notif = 0;
+        $user->save();
         return view("profile.message", compact("all_data", "user", "books", "first_sender"));
     }
     
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() {
-        
-        //
-        
-        
-    }
+    public function create() {}
     
     /**
      * Store a newly created resource in storage.
@@ -121,8 +103,10 @@ class MessageController extends Controller
                 $message->to = $targetUser->id;
                 $message->to_name = $targetUser->firstname;
                 $message->type = '1';
-                $message->message = $text;
+                $message->message = $currentUser->firstname." said .. : ".$text;
                 $message->save();
+                $currentUser->notif = 1;
+                $currentUser->save();
                 $reply = ["code" => 100, "message" => "A borrow request has been sent to the Owner. Wait for his reply to continue further."];
                 return die(json_encode($reply));
             } 
@@ -138,45 +122,33 @@ class MessageController extends Controller
             $message->to = $targetUser->id;
             $message->to_name = $targetUser->firstname;
             $message->type = '1';
-            $message->message = $text;
+            $message->message = $currentUser->firstname." said .. : ".$text;
             $message->save();
+            $currentUser->notif = 1;
+            $currentUser->save();
         }
         $reply = ["code" => 100, "message" => "A borrow request has been sent to the Owner. Wait for his reply to continue further."];
         return die(json_encode($reply));
     }
     
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id) {
-        
-        //
-        
-        
-    }
+    public function show($id) {}
     
     public function conversation(Request $request) {
-        
         $currentUser = Auth::user();
-        
-        // $currentUser = User::findOrFail($currentUser->id);
         $targetId = $request->input("to");
         $targetUser = User::findOrFail($targetId);
         $text = $request->input("text");
-        
         $message = new Message();
-        
         $message->from = $currentUser->id;
         $message->from_name = $currentUser->firstname;
         $message->to = $targetUser->id;
         $message->to_name = $targetUser->firstname;
         $message->type = '0';
-        $message->message = $text;
+        $message->message = $currentUser->firstname." said .. : ".$text;
         if ($message->save()) {
             $status = ["code" => 100, "message" => "Message sent"];
+            $currentUser->notif = 1;
+            $currentUser->save();
             return die(json_encode($status));
         } 
         else {
@@ -211,8 +183,10 @@ class MessageController extends Controller
                 $message->to = $targetUser->id;
                 $message->to_name = $targetUser->firstname;
                 $message->type = '2';
-                $message->message = $text;
+                $message->message = $currentUser->firstname." said .. : ".$text;
                 $message->save();
+                $currentUser->notif = 1;
+                $currentUser->save();
                 $reply = ["code" => 100, "message" => "A purchse request has been sent to the Owner. Wait for his reply to continue further."];
                 return die(json_encode($reply));
             } 
@@ -228,50 +202,16 @@ class MessageController extends Controller
             $message->to = $targetUser->id;
             $message->to_name = $targetUser->firstname;
             $message->type = '2';
-            $message->message = $text;
+            $message->message = $currentUser->firstname." said .. : ".$text;
             $message->save();
+            $currentUser->notif = 1;
+            $currentUser->save();
         }
         $reply = ["code" => 100, "message" => "A purchase request has been sent to the Owner. Wait for his reply to continue further."];
         return die(json_encode($reply));
     }
     
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id) {
-        
-        //
-        
-        
-    }
-    
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id) {
-        
-        //
-        
-        
-    }
-    
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id) {
-        
-        //
-        
-        
-    }
+    public function edit($id) {}
+    public function update(Request $request, $id) {}
+    public function destroy($id) {}
 }

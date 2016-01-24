@@ -129,7 +129,8 @@
                 <div class="row margin-none padding-none">
                     <div class="col s12 m8 margin-none padding-none push-m2">
                         <div class="input-field col s12">
-                            <textarea id="message" class="materialize-textarea"></textarea>
+                            <textarea id="message" class="materialize-textarea">Hi,&#13;&#10;&#13;&#10;I would like to borrow this book from you.&#13;&#10;Please let me know your thoughts
+                            </textarea>
                             <label for="message">Your Message</label>
                             <span id="error_message" class="red-text"></span>
                         </div>

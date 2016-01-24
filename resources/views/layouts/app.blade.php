@@ -7,12 +7,14 @@
         <!-- <meta name="csrf-token" content=""> -->
         <title>{{ isset($title)?$title: "Book Barter Club"}}</title>
         <!-- Fonts -->
+        <!-- <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'> -->
+        <!-- <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'> -->
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="{{url('css/materialize.min.css')}}"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="{{url('css/main.css')}}"  media="screen,projection"/>
         @yield('css')
     </head><!-- style="background: url('img/dots.png');" -->
-    <body class="grey lighten-5">
+    <body class="grey lighten-2">
         @yield('content')
 
         <!-- JavaScripts -->

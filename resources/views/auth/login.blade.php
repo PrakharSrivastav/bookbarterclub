@@ -3,13 +3,13 @@
 <div class="container">
     <div class="row ">
         <div class="margin-top-100">
-            <div class="col m6 offset-m3 s12">
-                <form id="login_form" class="card z-depth-3 padding-15 white" role="form" method="POST" action="{{ url('/login') }}">
+            <div class="col m6 push-m3 s12 card margin-none padding-none">
+                <h4 class="red margin-none padding-10 grey-text text-lighten-3 light">Login</h4>
+                <form id="login_form" class="z-depth-3 padding-15 white" role="form" method="POST" action="{{ url('/login') }}">
                     {!! csrf_field() !!}
-                    <h6>Login</h6>
+                    
                     <div class="row">
                         <div class="input-field col s12">
-                            <i class="mdi-communication-email prefix"></i>
                             <input type="email"  name="email" value="{{ old('email') }}" id="email" class="validate white black-text" required="">
                             <label for="email">E-Mail Address</label>
                             @if ($errors->has('email'))
@@ -19,7 +19,6 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <i class="mdi-communication-vpn-key prefix"></i>
                             <input type="password"  name="password" id="password" class="validate"  required="">
                             <label for="password">Password</label>
                             @if ($errors->has('password'))
@@ -32,8 +31,8 @@
                     <label for="remember" class="black-text">Remember Me</label>
                     </p>
                     <p>
-                    <button type="submit" id="submit_login_form" class="btn z-depth-0 amber black-text">Login</button>
-                    <a class="right small black-text" href="{{ url('/password/reset') }}">Forgot Password?</a>
+                    <button type="submit" id="submit_login_form" class="btn red derken-3 grey-text text-lighten-3">Login</button>
+                    <small><a class="right margin-top-15 red-text" href="{{ url('/password/reset') }}">Forgot Password?</a></small>
                     </p>
                 </form>
             </div>
