@@ -94,6 +94,16 @@ class UserController extends Controller
                     $temp_user_in_this_loop = $booka->user;
                     $temp_user_in_this_loop['is_sellable'] = $booka->is_sellable;
                     $temp_user_in_this_loop['selling_price'] = $booka->selling_price;
+                    
+                    // $found_user = $more->user;
+                    $theta = doubleval($temp_user_in_this_loop['longitude']) - doubleval($user->longitude);
+                    $dist = sin(deg2rad(doubleval($temp_user_in_this_loop['latitude']))) * sin(deg2rad(doubleval($user->latitude))) + cos(deg2rad(doubleval($temp_user_in_this_loop['latitude']))) * cos(deg2rad(doubleval($user->latitude))) * cos(deg2rad($theta));
+                    $dist = acos($dist);
+                    $dist = rad2deg($dist);
+                    $miles = round($dist * 60 * 1.1515 * 1.609344, 1);
+
+                    $temp_user_in_this_loop['distance'] = $miles;
+
                     $other_users[] = $temp_user_in_this_loop;
                     $user_filter[] = $booka->user_id;
                 }
@@ -113,7 +123,8 @@ class UserController extends Controller
                     $dist = rad2deg($dist);
                     $miles = round($dist * 60 * 1.1515 * 1.609344, 1);
                     $matches['location_name'] = $found_user['location_name'];
-                    $matches['firstname'] = $found_user['firstname'];
+                    // $matches['firstname'] = $found_user['firstname'];
+                    $matches['firstname'] = $found_user['name'];
                     $matches['distance'] = $miles;
                     $matches['title'] = $more->title;
                     $matches['image'] = $more->image;
@@ -383,13 +394,22 @@ class UserController extends Controller
             return redirect()->route('home');
         } 
         else {
-            $validator = Validator::make($request->all(), ["firstname" => "required|min:2|max:255", "lastname" => "required|min:2|max:255", "gender" => "required", "about" => "min:10", "dob" => "required|date_format:Y-m-d", "fav_quote" => "min:5", "contact_num" => "digits_between:8,12", "mobile_num" => "digits_between:8,12"]);
+            $validator = Validator::make($request->all(), [
+                "firstname" => "required|min:2|max:255", 
+                "lastname" => "min:2|max:255", 
+                // "gender" => "required", 
+                "about" => "min:10", 
+                "dob" => "date_format:Y-m-d", 
+                "fav_quote" => "min:5", 
+                "contact_num" => "digits_between:8,12", 
+                "mobile_num" => "digits_between:8,12"]
+            );
             if ($validator->fails()) {
                 return redirect()->route('user.edit.profile')->withErrors($validator)->withInput();
             } 
             else {
                 $user = User::findOrFail($id);
-                $user->firstname = $request->input("firstname");
+                $user->name = $request->input("firstname");
                 $user->lastname = $request->input("lastname");
                 $user->about = $request->input("about");
                 $user->dob = $request->input("dob");
@@ -397,6 +417,12 @@ class UserController extends Controller
                 $user->contact_num = $request->input("contact_num");
                 $user->mobile_num = $request->input("mobile_num");
                 $user->gender = $request->input("gender");
+                # privacy 0->dont show, 1-> show
+                if($request->input("private") == "on")
+                    $user->privacy = "1";
+                else
+                    $user->privacy = "0";
+                // return $user;
                 $user->save();
                 return redirect()->route('user.edit.profile');
             }

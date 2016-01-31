@@ -6,7 +6,7 @@
             <div class="collection margin-none">
             	@if(isset($all_data))
             		@foreach($all_data as $sender=>$val)
-            			<a href="#!" id="{{str_replace(' ','_',$sender)}}" data-user="{{$val[0]['sender_id']}}" class="collection-item yellow-text text-darken-2 name">{{$sender}}</a>
+            			<a href="#!" id="{{str_replace(' ','_',$sender)}}" data-user="{{$val[0]['sender_id']}}" class="collection-item red darken-2 grey-text text-lighten-2 name">{{$sender}}</a>
             		@endforeach
             	@endif
                 </div>
@@ -27,7 +27,7 @@
                         <input type="hidden" value="{{csrf_token()}}" id="csrf_token">
                     </div>
                     <div class="margin-left-10">
-                        <button type="button" id="send_message" class="yellow darken-2 text-grey text-lighten-3 btn">Send</button>
+                        <button type="button" id="send_message" class="red darken-2 text-grey text-lighten-3 btn">Send</button>
                     </div>
                 </form>
             </div>

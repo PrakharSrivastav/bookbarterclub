@@ -14,100 +14,44 @@
         <link type="text/css" rel="stylesheet" href="{{url('css/main.css')}}"  media="screen,projection"/>
         @yield('css')
     </head>
-    <body class="white">
+    <body class="grey lighten-2">
         <ul id="dropdown1"  class="dropdown-content">
-            <li>
-                <a href="{{route('dashboard')}}" class="black-text">
-                    Edit Location
-                </a>
-            </li>
-            <li>
-                <a href="{{route('user.edit.profile')}}" class="black-text">
-                    Edit Profile
-                </a>
-            </li>
-            <li class="divider">
-            </li>
-            <li>
-                <a href="{{url('/logout')}}" class="red-text">
-                    Logout
-                </a>
-            </li>
+            <li><a href="{{route('dashboard')}}" class="black-text">Edit Location</a></li>
+            <li><a href="{{route('user.edit.profile')}}" class="black-text">Edit Profile</a></li>
+            <li class="divider"></li>
+            <li><a href="{{url('/logout')}}" class="red-text">Logout</a></li>
         </ul>
-        <nav class="white">
+        <nav class="red darken-2">
             <div class="nav-wrapper margin-left-5">
                 <div class="left">
-                    <a href="{{route('dashboard')}}" class="brand-logo weight-300 black-text">
-                        Book Barter Club
-                    </a>
+                    <a href="{{route('dashboard')}}" class="brand-logo weight-300 grey-text text-lighten-4">Book Barter Club</a>
                 </div>
-                <a href="#" data-activates="mobile-view" class="button-collapse">
-                    <i class="material-icons black-text">
-                        menu
-                    </i>
-                </a>
+                <a href="#" data-activates="mobile-view" class="button-collapse"><i class="material-icons grey-text text-lighten-4">menu</i></a>
                 <ul class="right hide-on-med-and-down">
-                    <li class="margin-right-10">
-                        <span class="red-text margin-right-10">
-                            Welcome {{$user->email}}
-                        </span>
-                    </li>
-                    <li>
-                        <a href="{{route('user.getuser.books')}}" class="black-text">
-                            My Books
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{route('all_messages')}}" class="black-text">
+                    <li class="margin-right-10"><span class="grey-text text-lighten-4 margin-right-10">Welcome {{$user->email}}</span></li>
+                    <li><a href="{{route('user.getuser.books')}}" class="grey-text text-lighten-4">My Books</a></li>
+                    <li><a href="{{route('all_messages')}}" class="grey-text text-lighten-4">
                         Messages
                         @if($user->notif == '1')
-                        <span class="red font-12 padding-2 yellow-text" style="border-radius:2px">new</span>
+                            <span class="white font-12 padding-2 blue-text" style="border-radius:2px">new</span>
                         @endif
-                        </a>
-                    </li>
-                    <li style="width:150px !important">
-                        <a class="dropdown-button black-text" href="#!" data-beloworigin="true" data-activates="dropdown1">
-                            Profile
-                            <i class="material-icons right">
-                                arrow_drop_down
-                            </i>
-                        </a>
-                    </li>
+                        </a></li>
+                    <li style="width:150px !important"><a class="dropdown-button grey-text text-lighten-4" href="#!" data-beloworigin="true" data-activates="dropdown1">Profile<i class="material-icons right">arrow_drop_down</i></a></li>
                 </ul>
-                <ul class="side-nav white" id="mobile-view">
-                    <li class="margin-right-10">
-                        <span class="red-text">
-                            Welcome {{$user->email}}
-                        </span>
-                    </li>
-                    <li>
-                        <a href="{{route('user.getuser.books')}}">
-                            My Books
-                        </a>
-                    </li>
+                <ul class="side-nav red darken-2" id="mobile-view">
+                    <li class="margin-right-10 red darken-2"><span class="margin-left-10 grey-text text-lighten-4">Welcome {{$user->email}}</span></li>
+                    <li><a href="{{route('user.getuser.books')}}">My Books</a></li>
                     <li>
                         <a href="{{route('all_messages')}}">
                             Messages
                             @if($user->notif == '1')
-                        <span class="red font-12 padding-2 yellow-text" style="border-radius:2px">new</span>
-                        @endif
+                                <span class="white font-12 padding-2 blue-text" style="border-radius:2px">new</span>
+                            @endif
                         </a>
                     </li>
-                    <li>
-                        <a href="{{route('dashboard')}}" class="black-text">
-                            Edit Location
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{route('user.edit.profile')}}">
-                            Edit Profile
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{url('/logout')}}" class="red-text text-darken-2">
-                            Logout
-                        </a>
-                    </li>
+                    <li><a href="{{route('dashboard')}}" class="grey-text text-lighten-4">Edit Location</a></li>
+                    <li><a href="{{route('user.edit.profile')}}">Edit Profile</a></li>
+                    <li><a href="{{url('/logout')}}" class="red-text text-darken-2">Logout</a></li>
                 </ul>
             </div>
         </nav>
@@ -121,14 +65,11 @@
                 <div class="col s12 padding-none padding-right-5">
                     <ul class="collapsible z-depth-0" data-collapsible="accordion">
                         <li>
-                            <div class="collapsible-header grey lighten-2 active">
-                                <i class="material-icons">
-                                    search
-                                </i>
-                                Search Books Near You
+                            <div class="collapsible-header grey-text text-lighten-4 red darken-2 active">
+                                <i class="material-icons ">search</i>Search Books Near You
                             </div>
-                            <div class="collapsible-body grey lighten-2">
-                                <div class="input-field margin-top--5 grey lighten-2 padding-none border-top-grey">
+                            <div class="collapsible-body white">
+                                <div class="input-field margin-top--5 white padding-none border-top-grey">
                                     <input id="search" type="search" class="search border-top-grey" placeholder="Your book title"/>
                                 </div>
                                 <div id="result" class="results collection border-none">
@@ -138,11 +79,11 @@
                     </ul>
                 </div>
                 <div class="col s12 padding-none margin-none margin-top--5 padding-right-5" >
-                    <div class="hoverable grey lighten-2 padding-10">
+                    <div class="hoverable white padding-none">
                         @if(count($books) > 0)
-                        <h6 class="weight-300 center-align">
-                            Trending Books
-                        </h6>
+                        <div class="red darken-2 padding-5">
+                            <h6 class=" grey-text text-lighten-4 left-align">Trending Books</h6>
+                        </div>
                         <div id="owl-demo-sidebar" style="padding:10px 8px 0px 15px">
                             @foreach($books as $book)
                             <div class="item col s12 l12" style="margin-left:-8px">
@@ -160,18 +101,13 @@
             </div>
         </div>
         <input type="hidden" value="{{csrf_token()}}" id="this_token"/>
-        <div id="modal1" class="modal ">
-        </div>
+        <div id="modal1" class="modal "></div>
         <!-- JavaScripts -->
-        <script type="text/javascript" src="{{url('js/jquery.min.js')}}">
-        </script>
-        <script type="text/javascript" src="{{url('js/materialize.min.js')}}">
-        </script>
+        <script type="text/javascript" src="{{url('js/jquery.min.js')}}"></script>
+        <script type="text/javascript" src="{{url('js/materialize.min.js')}}"></script>
         @yield('javascript')
-        <script type="text/javascript" src="{{url('js/jquery.validate.min.js')}}">
-        </script>
-        <script type="text/javascript" src="{{url('js/owl.min.js')}}">
-        </script>
+        <script type="text/javascript" src="{{url('js/jquery.validate.min.js')}}"></script>
+        <script type="text/javascript" src="{{url('js/owl.min.js')}}"></script>
         <script>
             var location_mine = "{{$user->location_name}}";
             var base_url = "{{url('search')}}";
@@ -180,7 +116,6 @@
             // var add_book = "route('user.create.books',$user->id)";
             var show_user = "{{route('user.show.books',['book_id'=>'__book__id__'])}}";
         </script>
-        <script type="text/javascript" src="{{url('js/main.js')}}">
-        </script>
+        <script type="text/javascript" src="{{url('js/main.js')}}"></script>
     </body>
 </html>

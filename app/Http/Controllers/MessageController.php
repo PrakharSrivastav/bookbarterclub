@@ -99,35 +99,35 @@ class MessageController extends Controller
             if ($diff > 1) {
                 $message = new Message();
                 $message->from = $currentUser->id;
-                $message->from_name = $currentUser->firstname;
+                $message->from_name = $currentUser->name;
                 $message->to = $targetUser->id;
-                $message->to_name = $targetUser->firstname;
+                $message->to_name = $targetUser->name;
                 $message->type = '1';
-                $message->message = $currentUser->firstname." said .. : ".$text;
+                $message->message = $currentUser->name." said .. : ".$text;
                 $message->save();
                 $currentUser->notif = 1;
                 $currentUser->save();
-                $reply = ["code" => 100, "message" => "A borrow request has been sent to the Owner. Wait for his reply to continue further."];
+                $reply = ["code" => 100, "message" => "A borrow request has been sent to the Owner. In the meanwhile add or search for more books."];
                 return die(json_encode($reply));
             } 
             else {
-                $reply = ["code" => 101, "message" => "You have sent a borrow request recently. Please wait for the Owner to reply"];
+                $reply = ["code" => 101, "message" => "You have sent a borrow request recently. In the meanwhile add or search for more books"];
                 return die(json_encode($reply));
             }
         } 
         else {
             $message = new Message();
             $message->from = $currentUser->id;
-            $message->from_name = $currentUser->firstname;
+            $message->from_name = $currentUser->name;
             $message->to = $targetUser->id;
-            $message->to_name = $targetUser->firstname;
+            $message->to_name = $targetUser->name;
             $message->type = '1';
-            $message->message = $currentUser->firstname." said .. : ".$text;
+            $message->message = $currentUser->name." said .. : ".$text;
             $message->save();
             $currentUser->notif = 1;
             $currentUser->save();
         }
-        $reply = ["code" => 100, "message" => "A borrow request has been sent to the Owner. Wait for his reply to continue further."];
+        $reply = ["code" => 100, "message" => "A borrow request has been sent to the Owner. In the meanwhile add or search for more books."];
         return die(json_encode($reply));
     }
     
@@ -140,11 +140,11 @@ class MessageController extends Controller
         $text = $request->input("text");
         $message = new Message();
         $message->from = $currentUser->id;
-        $message->from_name = $currentUser->firstname;
+        $message->from_name = $currentUser->name;
         $message->to = $targetUser->id;
-        $message->to_name = $targetUser->firstname;
+        $message->to_name = $targetUser->name;
         $message->type = '0';
-        $message->message = $currentUser->firstname." said .. : ".$text;
+        $message->message = $currentUser->name." said .. : ".$text;
         if ($message->save()) {
             $status = ["code" => 100, "message" => "Message sent"];
             $currentUser->notif = 1;
@@ -179,35 +179,35 @@ class MessageController extends Controller
             if ($diff > 1) {
                 $message = new Message();
                 $message->from = $currentUser->id;
-                $message->from_name = $currentUser->firstname;
+                $message->from_name = $currentUser->name;
                 $message->to = $targetUser->id;
-                $message->to_name = $targetUser->firstname;
+                $message->to_name = $targetUser->name;
                 $message->type = '2';
-                $message->message = $currentUser->firstname." said .. : ".$text;
+                $message->message = $currentUser->name." said .. : ".$text;
                 $message->save();
                 $currentUser->notif = 1;
                 $currentUser->save();
-                $reply = ["code" => 100, "message" => "A purchse request has been sent to the Owner. Wait for his reply to continue further."];
+                $reply = ["code" => 100, "message" => "A purchse request has been sent to the Owner. In the meanwhile add or search for more books."];
                 return die(json_encode($reply));
             } 
             else {
-                $reply = ["code" => 101, "message" => "You have sent a purchase request recently. Please wait for the Owner to reply"];
+                $reply = ["code" => 101, "message" => "You have sent a purchase request recently. In the meanwhile add or search for more books."];
                 return die(json_encode($reply));
             }
         } 
         else {
             $message = new Message();
             $message->from = $currentUser->id;
-            $message->from_name = $currentUser->firstname;
+            $message->from_name = $currentUser->name;
             $message->to = $targetUser->id;
-            $message->to_name = $targetUser->firstname;
+            $message->to_name = $targetUser->name;
             $message->type = '2';
-            $message->message = $currentUser->firstname." said .. : ".$text;
+            $message->message = $currentUser->name." said .. : ".$text;
             $message->save();
             $currentUser->notif = 1;
             $currentUser->save();
         }
-        $reply = ["code" => 100, "message" => "A purchase request has been sent to the Owner. Wait for his reply to continue further."];
+        $reply = ["code" => 100, "message" => "A purchase request has been sent to the Owner. In the meanwhile add or search for more books."];
         return die(json_encode($reply));
     }
     

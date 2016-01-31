@@ -1,8 +1,10 @@
 @extends('layouts.profile')
 @section('content')
-<div class="col s12 padding-top-5 margin-none margin-top-5 grey lighten-2" style="height:auto;">
+<div class="col s12 padding-none margin-none margin-top-5 white" style="height:auto;">
     <div class="row">
-        <h5 class="weight-300 padding-left-10">{{$the_book['title']}}</h5>
+    <div class="col s12 red darken-2 margin-none">
+        <h5 class="weight-300 padding-left-10 grey-text text-lighten-4">{{$the_book['title']}}</h5>
+    </div>
         <div class="col s12 m2"><br>
             <img class="img-responsive full-width"  src="{{$the_book['image']}}" >
         </div>
@@ -37,10 +39,10 @@
                     <div>ISBN/ISBN13 :  {{ $the_book['isbn']}}</div>
                 </div>
                 <div class="col s12 m6 ">
-                    <a href="" id="addToWishlist" class="btn btn-block green black-text margin-top-5">Add To Wishlist</a>
-                    <a href="" id="addToBookshelf" class="btn btn-block blue black-text margin-top-5">Add to Bookshelf</a>
-                    <a href="" class="btn btn-block red darken-4 black-text margin-top-5">Buy It</a>
-                    <a id="sell_the_book" class="btn btn-block yellow black-text margin-top-5" href="#modal-sell">Sell It</a>
+                    <a href="" id="addToWishlist" class="btn btn-block green black-text margin-top-5 tooltipped" data-position="right" data-tooltip="We will notify you when this book is available">Add To Wishlist</a>
+                    <a href="" id="addToBookshelf" class="btn btn-block blue black-text margin-top-5 tooltipped" data-position="right" data-tooltip="Lend / Exchange your books.">Add to Bookshelf</a>
+                    <!-- <a href="" class="btn btn-block red darken-4 black-text margin-top-5">Buy It</a> -->
+                    <a id="sell_the_book" class="btn btn-block yellow black-text margin-top-5 tooltipped" href="#modal-sell" data-position="right" data-tooltip="Sell your books / Set price">Sell It</a>
                 </div>
                 <!-- Modal Structure -->
                 <div id="modal-sell" class="modal">
@@ -70,49 +72,50 @@
     </div>
     <div class="row margin-none padding-10">
         @if(strlen($the_book['description'])>250)
-        <span class="teaser weight-300">Description : {!! substr($the_book['description'],0,250) !!}</span>
-        <span class="complete  weight-300">Description : {!! $the_book['description'] !!}</span>
-        <a href="" class="more blue-text text-darken-2 weight-400"><br>Show More...</a>
+        <span class="teaser weight-300">Description : {{ substr($the_book['description'],0,250) }}</span>
+        <span class="complete  weight-300">Description : {{ $the_book['description'] }}</span>
+        <a href="" class="more red-text text-darken-2 weight-400"><br>Show More...</a>
         @else
-        <p>{!! $the_book['description'] !!}</p>
+        <p>{{ $the_book['description'] }}</p>
         @endif
     </div>
     <div class="row margin-none padding-10">
-        <a href="" id="show_review_component" class="margin-top--5 btn amber black-text">Show Reviews</a>
+        <a href="" id="show_review_component" class="margin-top--5 btn red darken-2 grey-text text-lighten-4">Show Reviews</a>
         <div id="review_component">{!! $the_book['reviews_widget'] !!}</div>
     </div>
 </div>
-<div class="col s12  margin-none margin-top-5 padding-top-5 grey lighten-2" style="height:auto;">
+<div class="col s12  margin-none margin-top-5 padding-top-5 white" style="height:auto;">
     <div class="row margin-none">
         @if(isset($other_users) && count($other_users) > 0)
         <h5 class="weight-300">Users having this book.</h5>
         @foreach ($other_users as $other)
-        <div class="row card amber accent-4 padding-5">
+        <div class="row card yellow darken-2 padding-5">
             <div class="col s12 m2 margin-none" >
                 <div align="center">
                     @if(isset($other->image))
-                    <img class="img-responsive hoverable margin-top-10 border-grey" width="200px" height="200px"  src="{{$other->image}}" >
+                    <img class="img-responsive margin-top-10 border-grey" width="200px" height="200px"  src="{{$other->image}}" >
                     @else
-                    <img class="img-responsive hoverable margin-top-10 border-grey"  src="{{url('img/Man-14.svg')}}" >
+                    <img class="img-responsive margin-top-10 border-grey"  src="{{url('img/Man-14.svg')}}" >
                     @endif
                 </div>  
             </div>
             <div class="col s12 m7 weight-300 padding-left-10">
                 @if($other->is_sellable)
-                    <div class="padding-left-10 margin-top-5 weight-500 center-align red-text white">The user is selling this book at a special price of {{$other->selling_price}}</div>
+                    <div class="padding-left-10 margin-top-5 weight-400 left-align red-text">The user is selling this book at a special price of {{$other->selling_price}}</div>
                 @endif
                 <div class="padding-left-10"><strong>First Name : </strong><span> {{ucwords($other->firstname)}}</span></div>
                 <div class="padding-left-10"><strong>Last Name : </strong><span> {{ucwords($other->lastname)}}</span></div>
                 <div class="padding-left-10"><strong>Location : </strong><span> {{ucwords($other->location_name)}}</span></div>
+                <div class="padding-left-10"><strong>Distance : </strong><span> {{ucwords($other->distance)}} Km</span></div>
                 @if($other->privacy == 1)
                 <div class="padding-left-10"><strong>Email Address : </strong><span> {{ucwords($other->email)}}</span></div>
                 @endif
             </div>
             <div class="col m3 s12 " >
-                <a href="" id="{{ $other->id }}" class="btn borrow btn-block grey lighten-2 black-text margin-top-5">Borrow</a>
-                <a href="{{route('user.show.bookshelf',['id'=>$other->id])}}"  class="btn btn-block grey lighten-2 black-text margin-top-5">bookshelf</a>
+                <a href="" id="{{ $other->id }}" class="btn borrow btn-block white black-text margin-top-5">Borrow</a>
+                <a href="{{route('user.show.bookshelf',['id'=>$other->id])}}"  class="btn btn-block white black-text margin-top-5">bookshelf</a>
                 @if($other->is_sellable)
-                    <a href="" data-user-id="{{ $other->id }}" class="btn btn-block grey buy_the_book lighten-2 black-text margin-top-5">Buy It</a>
+                    <a href="" data-user-id="{{ $other->id }}" class="btn btn-block white buy_the_book  black-text margin-top-5">Buy It</a>
                 @endif
             </div>
         </div>
@@ -135,7 +138,7 @@
                             <span id="error_message" class="red-text"></span>
                         </div>
                         <div class="input-field col s12">
-                            <a id="borrow_btn" class="margin-top--5 btn yellow black-text z-depth-0 btn-block btn-large">Send Message</a>
+                            <a id="borrow_btn" class="margin-top--5 btn red black-text z-depth-0 btn-block btn-large">Send Message</a>
                         </div>
                     </div>
                 </div>
@@ -154,46 +157,43 @@
                 <div class="row margin-none padding-none">
                     <div class="col s12 m8 margin-none padding-none push-m2">
                         <div class="input-field col s12">
-                            <textarea id="buy_message" class="materialize-textarea"></textarea>
+                            <textarea id="buy_message" class="materialize-textarea">Hi,&#13;&#10;&#13;&#10;I would like to purchase this book from you.&#13;&#10;Please let me know your thoughts</textarea>
                             <label for="buy_message">Your Message</label>
                             <span id="error_buy_message" class="red-text"></span>
                         </div>
                         <div class="input-field col s12">
-                            <a id="buy_btn" class="margin-top--5 btn yellow black-text z-depth-0 btn-block btn-large">Send Message</a>
+                            <a id="buy_btn" class="margin-top--5 btn red black-text z-depth-0 btn-block btn-large">Send Message</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-
-
-
 
         @if(isset($suggestions))
         <div class="row ">
             @if(count($other_users) > 0)
-            <h5 class="center-align weight-300">More books near your area</h5>
+            <h5 class="left-align weight-300">More books near your area</h5>
             @else
-            <h5 class="center-align weight-300">Sorry, we could not find any matches for this book. Here are some more book near your area.</h5>
+            <h5 class="left-align weight-300">Few more suggestions.</h5>
             @endif
             @foreach($suggestions as $abook)
             <div class="col s6 m4 l3 margin-top-5 padding-10">
-                <div class="card hoverable yellow small padding-none margin-none">
-                    <div class="card-image waves-effect waves-block waves-light">
+                <div class="card hoverable red darken-2 grey-text text-lighten-4 small">
+                    <div class="card-image">
                         <img class="activator" src="{{$abook['image']}}">
                     </div>
-                    <div class="card-content">
-                        <span class="card-title weight-400 activator grey-text text-darken-4"><i class="mdi-navigation-more-vert right"></i>{{ substr($abook['title'],0,15)." ..."}}</span>
-                        <div class="weight-300 margin-top-5">Distance : {{$abook['distance']}}</div>
-                        <a class="btn white black-text" href="{{route('user.show.books',['book_id'=>$abook['id']])}}" style="position:absolute;bottom:5px;left:5px">&nbsp;&nbsp;View Details&nbsp;&nbsp;</a>
+                    <div class="card-content padding-5">
+                        <span class="card-title activator grey-text text-lighten-4 light "><i class="mdi-navigation-more-vert right"></i>{{ substr($abook['title'],0,12).".."}}</span>
+                        <div class="light margin-top-5">Distance : {{$abook['distance']}}</div>
+                        <a class="btn white black-text" href="{{route('user.show.books',['book_id'=>$abook['id']])}}" style="position:absolute;bottom:5px;left:5px;">&nbsp;&nbsp;View Details&nbsp;&nbsp;</a>
                         <div style="clear:both"></div>
                     </div>
-                    <div class="card-reveal yellow paddig-5" style="overflow-x:hidden">
-                        <span class="card-title grey-text text-darken-4"><i class="mdi-hardware-keyboard-arrow-down right"></i>{{$abook['title']}}</span>
-                        <hr/>
-                        <p class="weight-300">{!! substr($abook['desc'],0,100)."..." !!}</p>
-                        <div class="weight-300 margin-top-5">Rating : {{$abook['rating']}}</div>
+                    <div class="card-reveal row red darken-2 padding-none" style="overflow-x:hidden">
+                        <div class="card-title col s12 activator red darken-2 padding-5 grey-text text-lighten-4"><i class="mdi-navigation-more-vert right"></i>{{substr($abook['title'],0,12).".."}}</div>
+                        <div class="col s12 white black-text" style="height:227px">
+                            <div class="padding-5 font-13">{{ substr($abook['desc'],0,100)."..." }}</div>
+                            <div class="padding-5 font-13">Rating : {{$abook['rating']}}</div>
+                        </div>
                         <a class="btn white black-text" href="{{route('user.show.books',['book_id'=>$abook['id']])}}" style="position:absolute;bottom:5px;left:5px">&nbsp;&nbsp;View Details&nbsp;&nbsp;</a>
                     </div>
                 </div>

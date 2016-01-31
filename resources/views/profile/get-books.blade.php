@@ -1,13 +1,13 @@
 @extends('layouts.profile')
 @section('content')
-<div class="col s12 grey padding-none margin-none margin-top-10 lighten-2" style="height:auto; overflow:hidden;min-height:400px">
+<div class="col s12 padding-none margin-none margin-top-10" style="height:auto; overflow:hidden;min-height:400px">
     @if(isset($my_books) && count($my_books)>0)
-    <div class="row grey lighten-2 margin-none padding-none">
+    <div class="row white margin-none padding-none">
         <div class="col s12 margin-none padding-none">
             <ul class="tabs padding-none margin-none" style="overflow:hidden">
-                <li class="tab col s4 grey lighten-1"><a href="#mybooks" class="black-text active">My Books</a></li>
-                <li class="tab col s4 grey lighten-1"><a class="black-text"href="#wishlist">My Wishlist</a></li>
-                <li class="tab col s4 grey lighten-1"><a href="#bookstore" class="black-text">My Bookstore</a></li>
+                <li class="tab col s4 red darken-2"><a href="#mybooks" class="grey-text text-lighten-4 active">My Books</a></li>
+                <li class="tab col s4 red darken-2"><a class="grey-text text-lighten-4"href="#wishlist">My Wishlist</a></li>
+                <li class="tab col s4 red darken-2"><a href="#bookstore" class="grey-text text-lighten-4">My Bookstore</a></li>
             </ul>
         </div>
         <div id="mybooks" class="col s12">
@@ -15,21 +15,22 @@
                 <h5 class=" weight-300">My Books Available for lending</h5>
                 @foreach($my_books as $book)
                 @if($book->is_lendable == '1')
-                <div class="col s6 m2">
-                    <div class="card  hoverable yellow lighten-1 ">
-                        <div class="card-image waves-effect waves-block waves-light yellow lighten-1 ">
+                <div class="col s6 m4 l2">
+                    <div class="card  hoverable ">
+                        <div class="card-image">
                             <img class="activator weight-300" height="150px" src="{{$book->image}}">
-                            
                         </div>
-                        <div class="card-content yellow lighten-1 ">
-                            <a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'lendable'])}}" class="red-text btn-flat weight-400">Remove</a>
+                        <div class="card-content red darken-2 ">
+                            <a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'lendable'])}}" class="grey-text text-lighten-4 btn-flat weight-400">Remove</a>
                         </div>
-                        <div class="card-reveal yellow lighten-1 padding-5">
-                            <div style="position:absolute;top:5px;left:2px"><small class="card-title font-12 grey-text text-darken-4 col s10">{{substr($book->title,0,15).' ...'}}</small></div>
-                            <div style="position:absolute;top:5px;right:2px"><i class="card-title mdi-hardware-keyboard-arrow-down "></i></div>
-                            <hr style="margin-top:35px;color:#000;background:#000" />
+                        <div class="card-reveal padding-none margin-none">
+                            <div class="red darken-2 padding-2">
+                            <small class="card-title left font-13 grey-text text-lighten-4">{{substr($book->title,0,11).' ..'}}</small>
+                            <i class="card-title grey-text text-lighten-4 mdi-hardware-keyboard-arrow-down right "></i>
+                            <div style="clear:both"></div>
+                            </div>
                             <div class="weight-300 padding-5 font-12 col s12">{{substr($book->desc,0,80)." ..."}}</div>
-                            <p><a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'lendable'])}}" class="red-text  btn-flat weight-400">Remove</a></p>
+                            <p><a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'lendable'])}}" class="grey-text text-lighten-4  btn-flat weight-400">Remove</a></p>
                         </div>
                     </div>
                 </div>
@@ -43,19 +44,23 @@
                 @foreach($my_books as $book)
                 @if($book->is_wishlist == '1')
                 <div class="col s6 m2">
-                    <div class="card  hoverable yellow lighten-1 ">
-                        <div class="card-image waves-effect waves-block waves-light yellow lighten-1 ">
+                    <div class="card  hoverable red darken-2 ">
+                        <div class="card-image">
                             <img class="activator" height="150px" src="{{$book->image}}">
                         </div>
-                        <div class="card-content yellow lighten-1 ">
-                            <p><a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'wishlist'])}}" class="red-text btn-flat weight-400">Remove</a></p>
+                        <div class="card-content red darken-2 ">
+                            <p><a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'wishlist'])}}" class="grey-text text-lighten-4 btn-flat weight-400">Remove</a></p>
                         </div>
-                        <div class="card-reveal yellow lighten-1 padding-5">
-                            <div style="position:absolute;top:5px;left:2px"><small class="card-title font-12 grey-text text-darken-4 col s10">{{substr($book->title,0,15).' ...'}}</small></div>
-                            <div style="position:absolute;top:5px;right:2px"><i class="card-title mdi-hardware-keyboard-arrow-down "></i></div>
-                            <hr style="margin-top:35px;color:#000;background:#000" />
-                            <div class="weight-300 padding-5 font-12 col s12">{{substr($book->desc,0,80)." ..."}}</div>
-                            <p><a href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'wishlist'])}}" class="red-text  btn-flat weight-300" style="position:absolute;bottom:5px;left:15px">Remove</a></p>
+                        <div class="card-reveal padding-none">
+                            <div class="red row darken-2 padding-2 margin-none">
+                            <small class="card-title left font-13 grey-text text-lighten-4">{{substr($book->title,0,11).' ..'}}</small>
+                            <i class="card-title grey-text text-lighten-4 mdi-hardware-keyboard-arrow-down right "></i>
+                            <div style="clear:both"></div>
+                            </div>
+                            <div class="weight-300 row white padding-5 margin-none font-12 col s12" style="height:133px">{{substr($book->desc,0,80)." ..."}}</div>
+                            <div class="red darken-2 row margin-none">
+                                <a href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'wishlist'])}}" class="grey-text text-lighten-4 btn-flat margin-left-2">Remove</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,24 +75,30 @@
                 @foreach($my_books as $book)
                 @if($book->is_sellable == '1')
                 <div class="col s6 m2">
-                    <div class="card  hoverable yellow lighten-1 ">
-                        <div class="card-image waves-effect waves-block waves-light yellow lighten-1 ">
+                    <div class="card  hoverable red darken-2 ">
+                        <div class="card-image">
                             <img class="activator" height="150px" src="{{$book->image}}">
-                            
                             <input type="hidden" id="price_{{$book->book_id}}" value="{{$book->selling_price}}">
                             <input type="hidden" id="id_{{$book->book_id}}" value="{{$book->id}}">
                         </div>
-                        <div class="card-content yellow lighten-1 ">
-                            <a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'sellable'])}}" class="red-text btn-flat weight-400">Remove</a>
-                            <a style="position:absolute;bottom:5px;right:5px" href="" id="{{$book->book_id}}" class="red-text edit btn-flat weight-400">Edit</a>
+                        <div class="card-content red darken-2 ">
+                            <a style="position:absolute;bottom:5px;left:5px" href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'sellable'])}}" class="grey-text text-lighten-4 btn-flat weight-400">Remove</a>
+                            <a style="position:absolute;bottom:5px;right:5px" href="" id="{{$book->book_id}}" class="grey-text text-lighten-4 edit btn-flat weight-400">Edit</a>
                         </div>
-                        <div class="card-reveal yellow lighten-1 row padding-5 margin-none">
-                            <div style="position:absolute;top:5px;left:2px"><small class="card-title font-12 grey-text text-darken-4 col s10">{{substr($book->title,0,15).' ...'}}</small></div>
-                            <div style="position:absolute;top:5px;right:2px"><i class="card-title mdi-hardware-keyboard-arrow-down "></i></div>
-                            <hr style="margin-top:35px;color:#000;background:#000" />
-                            <div class="weight-300 padding-5 font-12 col s12">{{substr($book->desc,0,80)." ..."}}</div>
-                            <a href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'sellable'])}}" class="red-text  btn-flat weight-300" style="position:absolute;bottom:5px;left:15px">Remove</a>
-                            <a style="position:absolute;bottom:5px;right:5px" href="" id="{{$book->book_id}}" class="red-text edit btn-flat weight-400">Edit</a>
+                        <div class="card-reveal padding-none margin-none">
+                            <!-- <div style="position:absolute;top:5px;left:2px"><small class="card-title font-12 grey-text text-darken-4 col s10">{{substr($book->title,0,15).' ...'}}</small></div> -->
+                            <!-- <div style="position:absolute;top:5px;right:2px"><i class="card-title mdi-hardware-keyboard-arrow-down "></i></div> -->
+                            <!-- <hr style="margin-top:35px;color:#000;background:#000" /> -->
+                            <div class="red darken-2 row padding-2 margin-none">
+                                <small class="card-title left font-13 grey-text text-lighten-4">{{substr($book->title,0,11).' ..'}}</small>
+                                <i class="card-title grey-text text-lighten-4 mdi-hardware-keyboard-arrow-down right "></i>
+                                <div style="clear:both"></div>
+                            </div>
+                            <div class="weight-300 row padding-5 white margin-none font-12 col s12" style="height:133px">{{substr($book->desc,0,100)." ..."}}</div>
+                            <div class="red darken-2 row padding-none margin-none">
+                                <a href="{{route('user.delete.books',['id'=>$user->id,'book_id'=>$book->id,'book_type'=>'sellable'])}}" class="left grey-text text-lighten-4 btn-flat margin-left-2">Remove</a>
+                                <a href="" id="{{$book->book_id}}" class="grey-text text-lighten-4 edit btn-flat right margin-right-2">Edit</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,16 +108,20 @@
         </div>
     </div>
     @else
-    <h5 class="weight-300">Hi!! You do not have any books in your bookshelf.</h5>
-    <p>
-    You can easily get started by :
-    <ul>
-        <li>1. Add your location in the system <a href="{{route('dashboard')}}" class="red-text text-darken-2">here.</a></li>
-        <li>2. Complete rest of your profile <a href="{{route('user.edit.profile')}}" class="red-text text-darken-2">here.</a></li>
-        <li>3. Search for the books of your interest from the search box on the right.</li>
-        <li>4. Add the books to your bookshelf / bookstore [to sell] / or wishlist.</li>
-    </ul>
-    </p>
+    <div class="row white padding-20" style="min-height:400px;margin-top:-15px">
+        <h5 class="weight-300">Hey!! You do not have any books in your bookshelf.</h5>
+        <hr>
+        <p>
+            You can easily get started by :
+            <ul>
+                <li>1. Add your location in the system <a href="{{route('dashboard')}}" class="red-text text-darken-2">here.</a></li>
+                <li>2. Complete rest of your profile <a href="{{route('user.edit.profile')}}" class="red-text text-darken-2">here.</a></li>
+                <li>3. Search for the books of your interest from the search box on the right.</li>
+                <li>4. Add the books to your bookshelf / bookstore [to sell] / or wishlist.</li>
+            </ul>
+        </p>
+    </div>
+    
     @endif
     <!-- Modal Structure -->
     <div id="modal-sell" class="modal">
@@ -121,7 +136,7 @@
                     <div class="input-field col s8">
                         <input placeholder="Your price" id="selling_price" name="selling_price" type="number" step="0.01" min="0" class="validate">
                         <label for="selling_price">Earlier Selling Price</label>
-                        <span id="error_price" class="red-text"></span>
+                        <span id="error_price" class="grey-text text-lighten-4"></span>
                     </div>
                     <div class="input-field col s4">
                         <a id="selling_btn" class="margin-top--5 btn yellow black-text z-depth-0 btn-block btn-large">Save</a>

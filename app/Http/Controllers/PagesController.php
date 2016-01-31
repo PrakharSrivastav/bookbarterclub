@@ -112,7 +112,7 @@ class PagesController extends Controller
                     $dist = rad2deg($dist);
                     $miles = round($dist * 60 * 1.1515 * 1.609344, 1);
                     $matches['location_name'] = $found_user['location_name'];
-                    $matches['firstname'] = $found_user['firstname'];
+                    $matches['firstname'] = $found_user['name'];
                     $matches['distance'] = $miles;
                     $valid_users[] = $matches;
                 }
@@ -129,7 +129,7 @@ class PagesController extends Controller
                     $dist = rad2deg($dist);
                     $miles = round($dist * 60 * 1.1515 * 1.609344, 1);
                     $matches['location_name'] = $found_user['location_name'];
-                    $matches['firstname'] = $found_user['firstname'];
+                    $matches['firstname'] = $found_user['name'];
                     $matches['distance'] = $miles;
                     $matches['title'] = $more->title;
                     $matches['image'] = $more->image;

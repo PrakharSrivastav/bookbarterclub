@@ -36,10 +36,11 @@
             </ul>
             <!-- <div class="center-align"><small class="">Save your location on right and search for your book</small></div> -->
         </div>
-        <div class="row  white black-text padding-15 margin-none">
+        <div class="row  white black-text padding-none margin-none">
             @if(count($books) > 0)
             <br/>
-            <div class="center-align light font-20">Trending Books</div>
+            <!-- red darken-2 grey-text text-lighten-4 -->
+            <div class="center-align light font-20 padding-5 red-text text-darken-2">Trending Books</div>
             <div id="owl-demo" style="padding:10px 8px 0px 8px">
                 @foreach($books as $book)
                 <div class="item col s12 l12" style="margin-left:-8px">
@@ -120,9 +121,9 @@
     <div class="footer-copyright">
         <div class="container">
             © 2016 : Book Barter Club
-            <a class="margin-top-5 padding-5 right"  href="#!"><img alt="social media" src="img/facebook.svg"></a>
-            <a class="margin-top-5 padding-5 right"  href="#!"><img alt="social media" src="img/google.svg"></a>
-            <a class="margin-top-5 padding-5 right"  href="#!"><img alt="social media" src="img/twitter.svg"></a>
+            <a class="margin-top-5 padding-5 right"  href="#!"><img alt="social media" src="{{url('img/facebook.svg')}}"></a>
+            <a class="margin-top-5 padding-5 right"  href="#!"><img alt="social media" src="{{url('img/google.svg')}}"></a>
+            <a class="margin-top-5 padding-5 right"  href="#!"><img alt="social media" src="{{url('img/twitter.svg')}}"></a>
         </div>
     </div>
 </footer>
