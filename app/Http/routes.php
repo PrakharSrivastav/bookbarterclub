@@ -1,12 +1,15 @@
 <?php
 Route::get("/search/{query}", "APIController@index")->name("search");
 Route::get("/stories", "PagesController@stories")->name("stories");
+Route::get("/register-success/{token}","PagesController@register_success")->name("register-success");
+Route::get("/register-success-email","PagesController@register_success_email");
+
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
     Route::get("/", "PagesController@home")->name("home");
     Route::get('/user/mybooks', "UserController@userbooks")->name('user.getuser.books');
-    
+
     Route::get("/user/{id}/deleteBooks/{book_id}/{book_type}", "UserController@deleteBooks")->name('user.delete.books');
     Route::get('/user/edit', "UserController@edit")->name('user.edit.profile');
     
