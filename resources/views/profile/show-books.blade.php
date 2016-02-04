@@ -60,7 +60,7 @@
                                     <span id="error_price" class="red-text"></span>
                                 </div>
                                 <div class="input-field col s4">
-                                    <a id="selling_btn" class="margin-top--5 btn yellow black-text z-depth-0 btn-block btn-large">Save</a>
+                                    <a id="selling_btn" class="margin-top--5 red grey-text text-lighten-4 z-depth-0 btn-block btn-large">Save</a>
                                 </div>
                             </div>
                         </div>
@@ -103,12 +103,11 @@
                 @if($other->is_sellable)
                     <div class="padding-left-10 margin-top-5 weight-400 left-align red-text">The user is selling this book at a special price of {{$other->selling_price}}</div>
                 @endif
-                <div class="padding-left-10"><strong>First Name : </strong><span> {{ucwords($other->firstname)}}</span></div>
-                <div class="padding-left-10"><strong>Last Name : </strong><span> {{ucwords($other->lastname)}}</span></div>
+                <div class="padding-left-10"><strong>Name : </strong><span> {{ucwords($other->name)}}</span></div>
                 <div class="padding-left-10"><strong>Location : </strong><span> {{ucwords($other->location_name)}}</span></div>
                 <div class="padding-left-10"><strong>Distance : </strong><span> {{ucwords($other->distance)}} Km</span></div>
                 @if($other->privacy == 1)
-                <div class="padding-left-10"><strong>Email Address : </strong><span> {{ucwords($other->email)}}</span></div>
+                    <div class="padding-left-10"><strong>Email Address : </strong><span> {{ucwords($other->email)}}</span></div>
                 @endif
             </div>
             <div class="col m3 s12 " >
@@ -132,7 +131,7 @@
                 <div class="row margin-none padding-none">
                     <div class="col s12 m8 margin-none padding-none push-m2">
                         <div class="input-field col s12">
-                            <textarea id="message" class="materialize-textarea">Hi,&#13;&#10;&#13;&#10;I would like to borrow this book from you.&#13;&#10;Please let me know your thoughts
+                            <textarea id="message" class="materialize-textarea">Hi,&#13;&#10;&#13;&#10;I would like to borrow the book "__book__title__" from you.&#13;&#10;Please let me know your thoughts
                             </textarea>
                             <label for="message">Your Message</label>
                             <span id="error_message" class="red-text"></span>
@@ -144,8 +143,6 @@
                 </div>
             </div>
         </div>
-        
-
         <!-- Modal for Sending request structure -->
         <div id="modal-buy" class="modal">
             <div class="row modal-content">
@@ -157,7 +154,7 @@
                 <div class="row margin-none padding-none">
                     <div class="col s12 m8 margin-none padding-none push-m2">
                         <div class="input-field col s12">
-                            <textarea id="buy_message" class="materialize-textarea">Hi,&#13;&#10;&#13;&#10;I would like to purchase this book from you.&#13;&#10;Please let me know your thoughts</textarea>
+                            <textarea id="buy_message" class="materialize-textarea">Hi,&#13;&#10;&#13;&#10;I would like to purchase the book "__book__title__" from you.&#13;&#10;Please let me know your thoughts</textarea>
                             <label for="buy_message">Your Message</label>
                             <span id="error_buy_message" class="red-text"></span>
                         </div>
@@ -219,6 +216,9 @@ var borrow_message = {
 $(".buy_the_book").click(function(e){
     e.preventDefault();
     messge_target_user = $(this).attr("data-user-id");
+    b_msg = $("textarea#buy_message").val();
+    b_msg = b_msg.replace(/__book__title__/g, $("#title").val());
+    $("textarea#buy_message").val(b_msg);
     $("#modal-buy").openModal();
 })
 
@@ -226,6 +226,7 @@ $("#buy_btn").click(function(event) {
     event.preventDefault();
     borrow_message.user = messge_target_user;
     borrow_message.data = $("textarea#buy_message").val();
+    borrow_message.book_id = $("#book_id").val();
     console.log(borrow_message);
     $.ajax({
         url: sendPurchaseRequest,
@@ -234,10 +235,12 @@ $("#buy_btn").click(function(event) {
         data: borrow_message,
     })
     .done(function(a) {
+        console.log(a);
         Materialize.toast(a.message , 5000);
         return false;
     })
     .fail(function(a) {
+        console.log(a);
         Materialize.toast("You are not allowed to make this operation" , 5000);
         return false;
     })
@@ -250,12 +253,16 @@ $("#buy_btn").click(function(event) {
 $(".borrow").click(function(e){
     e.preventDefault();
     messge_target_user = $(this).attr("id"); 
+    b_msg = $("textarea#message").val();
+    b_msg = b_msg.replace(/__book__title__/g, $("#title").val());
+    $("textarea#message").val(b_msg);
     $("#modal-borrow").openModal();
 });
 $("#borrow_btn").click(function(e){
     e.preventDefault();
     borrow_message.user = messge_target_user;
     borrow_message.data = $("textarea#message").val();
+    borrow_message.book_id = $("#book_id").val();
     console.log(borrow_message);
     $.ajax({
         url: sendMessage,

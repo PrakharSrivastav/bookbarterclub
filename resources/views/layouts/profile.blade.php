@@ -30,12 +30,12 @@
                 <ul class="right hide-on-med-and-down">
                     <li class="margin-right-10"><span class="grey-text text-lighten-4 margin-right-10">Welcome {{$user->email}}</span></li>
                     <li><a href="{{route('user.getuser.books')}}" class="grey-text text-lighten-4">My Books</a></li>
-                    <li><a href="{{route('all_messages')}}" class="grey-text text-lighten-4">
-                        Messages
-                        @if($user->notif == '1')
-                            <span class="white font-12 padding-2 blue-text" style="border-radius:2px">new</span>
-                        @endif
-                        </a></li>
+                    <li>
+                        <a href="{{route('all_messages')}}" class="grey-text text-lighten-4">
+                            Messages
+                            <span class="weight-600 amber-text text-lighten-3 message_count"></span>
+                        </a>
+                    </li>
                     <li style="width:150px !important"><a class="dropdown-button grey-text text-lighten-4" href="#!" data-beloworigin="true" data-activates="dropdown1">Profile<i class="material-icons right">arrow_drop_down</i></a></li>
                 </ul>
                 <ul class="side-nav red darken-2" id="mobile-view">
@@ -44,9 +44,7 @@
                     <li>
                         <a href="{{route('all_messages')}}">
                             Messages
-                            @if($user->notif == '1')
-                                <span class="white font-12 padding-2 blue-text" style="border-radius:2px">new</span>
-                            @endif
+                            <span class="weight-600 amber-text text-lighten-3 message_count"></span>
                         </a>
                     </li>
                     <li><a href="{{route('dashboard')}}" class="grey-text text-lighten-4">Edit Location</a></li>
@@ -115,6 +113,7 @@
             var book_url = "{{url('searchBook')}}";
             // var add_book = "route('user.create.books',$user->id)";
             var show_user = "{{route('user.show.books',['book_id'=>'__book__id__'])}}";
+            var unreadCount = "{{route('unread')}}";
         </script>
         <script type="text/javascript" src="{{url('js/main.js')}}"></script>
     </body>

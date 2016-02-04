@@ -1,12 +1,12 @@
 @extends('layouts.profile')
 @section('content')
-<div class="margin-none row padding-10" style="min-height:550px">
-    <div class="col s12 m2 padding-none">
+<div class="margin-none white margin-top-10 row padding-10" style="min-height:550px">
+    <div class="col s12 m2 padding-5">
         <div class="col s12 margin-none padding-none"  style="min-height:540px">
             <div class="collection margin-none">
             	@if(isset($all_data))
             		@foreach($all_data as $sender=>$val)
-            			<a href="#!" id="{{str_replace(' ','_',$sender)}}" data-user="{{$val[0]['sender_id']}}" class="collection-item red darken-2 grey-text text-lighten-2 name">{{$sender}}</a>
+            			<a href="#!" id="{{str_replace(' ','_',$sender)}}" data-user="{{$val[0]['sender_id']}}" class="collection-item red darken-2 grey-text text-lighten-3 name">{{$sender}}</a>
             		@endforeach
             	@endif
                 </div>
@@ -14,9 +14,9 @@
         </div>
     </div>
     <div class="col s12 m10 padding-none">
-        <div class="col s12 margin-none padding-none">
-            <div class="row padding-10">
-                <form class="col s12">
+        <div class="col s12  margin-none padding-none">
+            <div class="row padding-5">
+                <form class="grey lighten-3 padding-5">
                     <div class="row">
                         <div class="input-field col s12">
                             <textarea id="message" class="materialize-textarea"></textarea>
@@ -37,12 +37,24 @@
                     @if(isset($all_data))
 	                    @foreach($all_data as $each=>$value)
 		                    @foreach($value as $every)
-		                    <li class="collection-item {{str_replace(' ','_',$each)}} news">
-		                        <div class="">
-		                        	<small>{{$every['created_at']}}</small>
-		                            <div>{{$every['message']}}</div>
-		                        </div>
-		                    </li>
+			                    @if($every['read'] == '1')
+								<li data-attr-id="{{$every['id']}}" class="collection-item yellow {{str_replace(' ','_',$each)}} news">
+			                        <div class="">
+			                        	<div><small>{{$every['created_at']}}</small><span class="right">
+      <i class="tiny material-icons">visibility_off</i>
+            </span></div>
+			                            <div>{{$every['message']}}</div>
+			                        </div>
+			                    </li>
+			                    @else
+								<li data-attr-id="{{$every['id']}}" class="collection-item {{str_replace(' ','_',$each)}} news">
+			                        <div class="">
+			                        	<div><small>{{$every['created_at']}}</small><span class="right">
+      <i class="tiny material-icons">visibility</i></span></div>
+			                            <div>{{$every['message']}}</div>
+			                        </div>
+			                    </li>
+			                    @endif
 		                    @endforeach
 	                    @endforeach
                     @endif
@@ -60,6 +72,38 @@
 <script>
 $(".news").hide();
 $(document).ready(function($) {
+
+	$(".collection-item").click(function(){
+		msg_clicked = $(this);
+		if(msg_clicked.hasClass('yellow')){
+			message_id = msg_clicked.attr("data-attr-id");
+			msg_clicked.removeClass('yellow');
+			msg_clicked.addClass('white');
+			icon = msg_clicked.find('i.material-icons');
+			icon.html("visibility");
+			$.ajax({
+		          url: "{{route('markasread')}}",
+		          type: 'GET',
+		          dataType: 'json',
+		          data : {message_id : message_id}
+		      }).done(function(a) {
+		          cnt = $(".message_count");
+		          if(a.length > 0){
+		            cnt.empty();
+		            cnt.text(a.length);
+		          }
+		          else{
+		            cnt.empty();
+		          }
+		      }).fail(function(a) {
+		          cnt.empty();
+		      });
+			
+		}
+	});
+
+
+
 	@if(isset($first_sender['name']) && $first_sender['name'] !="")
 	$(".{{$first_sender['name']}}").show();
 	$("#message_to").val({{$first_sender['id']}});

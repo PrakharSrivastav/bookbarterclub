@@ -6,6 +6,8 @@ Route::get("/register-success-email","PagesController@register_success_email");
 
 
 Route::group(['middleware' => 'web'], function () {
+    Route::get("/getUnreadCount","MessageController@getUnreadCount")->name("unread");
+    Route::get("/markAsRead","MessageController@markAsRead")->name("markasread");
     Route::auth();
     Route::get("/", "PagesController@home")->name("home");
     Route::get('/user/mybooks', "UserController@userbooks")->name('user.getuser.books');

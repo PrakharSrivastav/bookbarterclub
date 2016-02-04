@@ -90,9 +90,9 @@
                       },
                       success: function(a, b, c) {
                           console.log(a);
-                          count_fail = "<div class='red darken-2 padding-5 weight-300 gery-text text-lighten-3 center-align'>Sorry !! No users around you have this book.<br/> Please 'Proceed' to see more options.</div>";
-                          count_success = "<div class='green padding-5 weight-300 gery-text text-lighten-3 center-align'>Awesome !! __count__ match(es) found for this book.<br/> Please 'Proceed' to see more details.</div>";
-                          template = "<div class='modal-footer row amber accent-4'>" + "<h6 class='modal-action col s11 left weight-300'>__title__: by __authors__</h6><a class='modal-action col s1 right btn-flat modal-close'><i class='material-icons right'>&#xE5CD;</i></a>" + "<div style='clear:both'></div></div>" + "<div class='modal-content'>" + "<div class='row padding-5'>" + "<div class='col s4 m2'>" + "<img src='__image_url__' style='border:solid #000 1px;'>" + "</div>" + "<div class='col s7 right m10 padding-left-20'>" + "<div>__title__</div>" + "<div>Publisher : __publisher__</div>" + "<div>Ratings : __ratings__</div>" + "<div>Total reviews : __total_reviews__</div>" + "<div>authors : __authors__</div>" + "</div>" + "<div style='clear:both'></div><div>" + "<div class='row'>" + "<div class='col s12 m8 margin-top-5'>" + "__count__" + "</div>" + "<div class='col s12 m4 margin-top-5'>" + "<a class='btn btn-block btn-large green proceed'>Proceed</a>" + "</div>" + "</div>" + "<div class='row'>" + "<div class='col s12'>" + "<p class='weight-300'>Description : __description__</p>" + "<div class='weight-300'>Reviews :__reviews__ </div>" + "</div>" + "</div>" + "</div>";
+                          count_fail = "<div class='red darken-2 padding-5 light center-align grey-text text-lighten-4'>Sorry !! No users around you have this book.<br/> Please 'Proceed' to see more options.</div>";
+                          count_success = "<div class='green padding-5 light center-align  grey-text text-lighten-4'>Awesome !! __count__ match(es) found for this book.<br/> Please 'Proceed' to see more details.</div>";
+                          template = "<div class='modal-footer row red darken-2' style='height:auto !important'>" + "<h5 class='red darken-2 modal-action col s11 left light grey-text text-lighten-4'>__title__: by __authors__</h5><a class='modal-action col s1 right btn-flat modal-close grey-text text-lighten-4'><i class='material-icons right'>&#xE5CD;</i></a>" + "<div class='red darken-2' style='clear:both'></div></div>" + "<div class='modal-content'>" + "<div class='row padding-5'>" + "<div class='col s4 m2'>" + "<img src='__image_url__' style='border:solid #000 1px;'>" + "</div>" + "<div class='col s7 right m10 padding-left-20'>" + "<div>__title__</div>" + "<div>Publisher : __publisher__</div>" + "<div>Ratings : __ratings__</div>" + "<div>Total reviews : __total_reviews__</div>" + "<div>authors : __authors__</div>" + "</div>" + "<div style='clear:both'></div><div>" + "<div class='row'>" + "<div class='col s12 m8 margin-top-5'>" + "__count__" + "</div>" + "<div class='col s12 m4 margin-top-5'>" + "<a class='btn btn-block btn-large green proceed'>Proceed</a>" + "</div>" + "</div>" + "<div class='row'>" + "<div class='col s12'>" + "<p class='weight-300'>Description : __description__</p>" + "<div class='weight-300'>Reviews :__reviews__ </div>" + "</div>" + "</div>" + "</div>";
                           $('#modal1').empty();
                           if (a.image == "" || a.image == undefined) {
                               if (a.small_image == "" || a.small_image == undefined) {
@@ -153,4 +153,20 @@
           // return false;
       });
       $('.modal-trigger').leanModal();
+      $.ajax({
+          url: unreadCount,
+          type: 'GET',
+          dataType: 'json',
+      }).done(function(a) {
+          cnt = $(".message_count");
+          if(a.length > 0){
+            cnt.empty();
+            cnt.text(a.length);
+          }
+          else{
+            cnt.empty();
+          }
+      }).fail(function(a) {
+          cnt.empty();
+      });
   });

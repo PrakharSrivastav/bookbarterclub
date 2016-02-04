@@ -112,7 +112,7 @@ class PasswordBroker implements PasswordBrokerContract
 
         return $this->mailer->send($view, compact('token', 'user'), function ($m) use ($user, $token, $callback) {
             $m->to($user->getEmailForPasswordReset());
-            $m->from('admin@bookbarterclub.com',"Book Barter Club");
+            $m->from('test@bookbarterclub.com',"Book Barter Club");
             if (! is_null($callback)) {
                 call_user_func($callback, $m, $user, $token);
             }

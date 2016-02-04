@@ -84,10 +84,10 @@ class AuthController extends Controller
     private function sendEmail($user)
     {   
         Mail::send("auth.emails.register-success", ["user"=>$user], function ($message) use($user){
-            $message->from("admin@bookbarterclub.com", "Book Barter Club");
-            $message->sender("admin@bookbarterclub.com", "Book Barter Club");
+            $message->from("test@bookbarterclub.com", "Book Barter Club");
+            $message->sender("test@bookbarterclub.com", "Book Barter Club");
             $message->to($user->email, $user->name);
-            $message->replyTo("admin@bookbarterclub.com", "Book Barter Club");
+            $message->replyTo("test@bookbarterclub.com", "Book Barter Club");
             $message->subject("Book Barter Club : Account Activation");
             $message->getSwiftMessage();
         });
