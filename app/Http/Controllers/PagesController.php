@@ -16,7 +16,7 @@ class PagesController extends Controller
         // $this->middleware('auth',["only"=>["dashboard"]]);
 
     }
-    
+
     public function home()
     {
         session_start();
@@ -164,34 +164,37 @@ class PagesController extends Controller
     public function register_success($token)
     {
         # split the token on the delimiter "|"
-        $token = explode("|", $token);
+        $token_arr = explode("|", $token);
         # get the first character of the token. Thats userid
-        $user_id = $token[0];
+        $user_id = $token_arr[0];
         # get the rest of the characters thats actual token
-        $actual_token = $token[1];
+        $actual_token = substr($token, strlen($token_arr[0]) + 1);
         # get the user details from the database matching this criteria.
-        $users = User::where(["id" => $user_id, "registration_token" => $actual_token, "active" => "0"])->get();
+        $users = User::where(["id" => $user_id, "active" => "0"])->get();
         # if user found redirect to the registrasuccess page.
-
-        if (count($users) == 1) {
-            foreach ($users as $user) {
-                if ($user->active == "0") {
+        foreach ($users as $user) {
+            if ($user->active == "0") {
+                if (trim($user->registration_token) == trim($actual_token)) {
                     $user->registration_token = "";
                     $user->active             = "1";
                     $user->save();
                     return view("static.registrationSuccess");
-                }
-                # if active == 1 , customer already activated
-                elseif ($user->active == "1") {
-                    $status_message = "The user hs been activated already.";
+                } else {
+                    $status_message = "Your account is already active. Please login to continue.";
                     return view("static.registrationWarning", compact("status_message"));
                 }
+
             }
-        }
-        # someone hacking
-        else {
-            $status_message = "Invalid user token OR your account has been arady activated.<br>Please check and try again";
-            return view("static.registrationWarning", compact("status_message"));
+            # if active == 1 , customer already activated
+            elseif ($user->active == "1") {
+                $status_message = "Your account is already active. Please login to continue.";
+                return view("static.registrationWarning", compact("status_message"));
+            }
+            # someone hacking
+            else {
+                $status_message = "Invalid user token OR your account has been arady activated.<br>Please check and try again";
+                return view("static.registrationWarning", compact("status_message"));
+            }
         }
     }
 

@@ -7,7 +7,6 @@
                 <h4 class="red margin-none padding-10 grey-text text-lighten-3 light">Login</h4>
                 <form id="login_form" class="z-depth-3 padding-15 white" role="form" method="POST" action="{{ url('/login') }}">
                     {!! csrf_field() !!}
-                    
                     <div class="row">
                         <div class="input-field col s12">
                             <input type="email"  name="email" value="{{ old('email') }}" id="email" class="validate white black-text" required="">

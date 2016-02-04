@@ -30,9 +30,9 @@ class AuthController extends Controller
      * @var string
      */
     // protected $redirectTo = '/home';
-    protected $redirectTo          = "/register-success-email";
-    protected $redirectAfterLogout = '/';
-    protected $redirectToLogin = "/user/mybooks";
+    protected $redirectTo           = "/register-success-email";
+    protected $redirectAfterLogout  = '/';
+    protected $redirectToLogin      = "/user/mybooks";
     /**
      * Create a new authentication controller instance.
      *

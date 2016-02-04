@@ -7,12 +7,11 @@
 <div class="container">
     <div class="row">
         <div class="margin-top-100">
-            <div class="col m6   offset-m3 s12">
-
+            <div class="col m6  white padding-none z-depth-3 offset-m3 s12">
+                <h4 class="red margin-none padding-10 grey-text text-lighten-3 light">Reset Password</h4>
                 <!-- <div class="panel-body"> -->
-                <form  role="form" method="POST" action="{{ url('/password/reset') }}">
+                <form  class="padding-15" method="POST" action="{{ url('/password/reset') }}">
                     {!! csrf_field() !!}
-                    <h6>Reset Password</h6>
                     <input type="hidden" name="token" value="{{ $token }}">
                     <div class="row">
                         <div class="input-field col s12">
@@ -33,10 +32,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-4 control-label">Confirm Password</label>
                         <div class="input-field col s12">
                             <input type="password"  name="password_confirmation" id="password_confirmation" class="validate black-text">
-                            <label class="black-text" for="password_confirmation">Password</label>
+                            <label class="black-text" for="password_confirmation">Confirm Password</label>
                             @if ($errors->has('password_confirmation'))
                             <small class="red-text text-darken-3">{{ $errors->first('password_confirmation') }}</small>
                             @endif
@@ -44,9 +42,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <button type="submit" class="btn">
-                            <i class="fa fa-btn fa-refresh"></i>Reset Password
-                            </button>
+                            <button type="submit" class="btn red darken-2 grey-text text-lighten-4">Reset Password</button>
                         </div>
                     </div>
                 </form>

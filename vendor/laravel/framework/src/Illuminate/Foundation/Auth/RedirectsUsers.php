@@ -25,8 +25,8 @@ trait RedirectsUsers
      */
     public function redirectPathLogin()
     {
-        if (property_exists($this, 'redirectPath')) {
-            return $this->redirectPath;
+        if (property_exists($this, 'redirectToLogin')) {
+            return $this->redirectToLogin;
         }
 
         return property_exists($this, 'redirectToLogin') ? $this->redirectToLogin : '/user/mybooks';

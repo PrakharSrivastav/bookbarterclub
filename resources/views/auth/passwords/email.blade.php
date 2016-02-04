@@ -8,16 +8,16 @@
 <div class="container">
     <div class="row">
         <div class="margin-top-100">
-            <div class="col m6 offset-m3 s12">
+            <div class="col m6 push-m3 s12 margin-none padding-none">
                 <!-- <div class="panel-body"> -->
                 @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
                 </div>
                 @endif
-                <form  method="POST" role="form" class="card padding-15 white z-depth-3" action="{{ url('/password/email') }}">
+                <h4 class="red margin-none padding-10 grey-text margin-none text-lighten-3 light">Reset Password</h4>
+                <form  method="POST" role="form" class="card padding-15 margin-none white z-depth-3" action="{{ url('/password/email') }}">
                     {!! csrf_field() !!}
-                    <h6>Reset Password</h6>
                     <div class="row">
                         <div class="input-field col s12">
                             <input type="email" class="form-control" name="email" value="{{ old('email') }}">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <button type="submit" class="btn white black-text btn-primary">
+                            <button type="submit" class="btn red grey-text text-lighten-4 btn-primary">
                             Send Password Reset Link
                             </button>
                         </div>
