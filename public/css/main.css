@@ -42,6 +42,7 @@ div#preloader { position: fixed; left: 0; top: 0; z-index: 999; width: 100%; hei
 .margin-top--15 		{margin-top: -15px !important}
 .margin-top-none 		{margin-top: 0px !important}
 .margin-left-5 			{margin-left: 5px;}
+.margin-left-15 			{margin-left: 15px;}
 .margin-left-2 			{margin-left: 2px;}
 .margin-right-2 		{margin-right: 2px;}
 .margin-left-10 		{margin-left: 10px;}

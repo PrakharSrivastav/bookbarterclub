@@ -140,9 +140,10 @@ class UserController extends Controller
                     $suggestions[] = $matches;
                 }
             }
-            uasort($suggestions, function ($b) {
-                return $b['distance'];
-            });
+            // uasort($suggestions, function ($b) {
+            //     return $b['distance'];
+            // });
+            $suggestions = $this->sort_by_key($suggestions, 'distance');
             $suggestions = array_slice($suggestions, 0, 4);
             return view("profile.show-books", compact("title", "the_book", "books", "user", "other_users", "suggestions"));
         } else {
@@ -574,15 +575,44 @@ class UserController extends Controller
                     $suggestions[] = $matches;
                 }
             }
-            uasort($suggestions, function ($b) {
-                return $b['distance'];
-            });
+
+            $suggestions = $this->sort_by_key($suggestions, 'distance');
             // $suggestions = array_slice($suggestions, 0, 50);
-            return view("profile.nearby-books",compact("books","suggestions","user"));
+            return view("profile.nearby-books", compact("books", "suggestions", "user"));
         } else {
             Auth::logout();
             return redirect()->route('home');
         }
 
+    }
+    public function sort_by_key($arr, $key)
+    {
+        global $key2sort;
+        $key2sort = $key;
+        uasort($arr, function ($a, $b) {
+            global $key2sort;
+            // return (strcasecmp($b[$key2sort],$a[$key2sort] ));
+            return intval($a[$key2sort]) - intval($b[$key2sort]);
+        });
+        return ($arr);
+    }
+
+    public function uploadImage(Request $request){
+        if(Auth::check()){
+            $user = Auth::user();
+            if($request->hasFile("file") && $request->file('file')->isValid() ){
+                $filename = $request->input("file");
+                $upload_name = str_replace(array(" ",":"), "_", $user->id."|".$request->file("file")->getClientOriginalName());
+                $request->file('file')->move("uploads/",$upload_name);
+                $user->img_path = url("/uploads")."/".$upload_name;
+                $user->save();
+                return $user->img_path;
+            }
+            else 
+                return false;
+        }
+        else{
+            return false;
+        }
     }
 }

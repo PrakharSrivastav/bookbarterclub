@@ -28,7 +28,7 @@
                 </div>
                 <a href="#" data-activates="mobile-view" class="button-collapse"><i class="material-icons grey-text text-lighten-4">menu</i></a>
                 <ul class="right hide-on-med-and-down">
-                    <li class="margin-right-10"><span class="grey-text text-lighten-4 margin-right-10">Welcome {{$user->email}}</span></li>
+                    <li class="margin-right-10"><span class="grey-text text-lighten-4 margin-right-10">Welcome {{$user->name}}</span></li>
                     <li><a href="{{route('user.getuser.books')}}" class="grey-text text-lighten-4">My Books</a></li>
                     <li>
                         <a href="{{route('all_messages')}}" class="grey-text text-lighten-4">
@@ -39,7 +39,7 @@
                     <li style="width:150px !important"><a class="dropdown-button grey-text text-lighten-4" href="#!" data-beloworigin="true" data-activates="dropdown1">Profile<i class="material-icons right">arrow_drop_down</i></a></li>
                 </ul>
                 <ul class="side-nav red darken-2" id="mobile-view">
-                    <li class="margin-right-10 red darken-2"><span class="margin-left-10 grey-text text-lighten-4">Welcome {{$user->email}}</span></li>
+                    <li class="margin-right-10 red darken-2"><span class="margin-left-10 grey-text text-lighten-4">Welcome {{$user->name}}</span></li>
                     <li><a href="{{route('user.getuser.books')}}">My Books</a></li>
                     <li>
                         <a href="{{route('all_messages')}}">

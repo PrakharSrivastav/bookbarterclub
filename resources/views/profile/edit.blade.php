@@ -5,6 +5,22 @@
         <table class="responsive-table striped bordered">
             <caption class="red darken-2 grey-text text-lighten-4 padding-5 weight-400 left-align">Profile Details</caption>
             <tbody id="profile_table" class="padding-none white ">
+                <tr class="margin-none padding-none">
+                    <td class="padding-none margin-none ">
+                    @if(isset($user->img_path) && $user->img_path != "")
+                        <img id="user_image" src="{{$user->img_path}}" class="img-responsive margin-none full-width padding-none"></td>
+                    @else
+                        <img id="user_image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTn-1U56BaY8TOMYjIGxw6DLiZ5BeX0-EXj6a8JJ8veCUfv6G2N" class="img-responsive margin-none full-width padding-none"></td>
+                    @endif
+                    <td class="center-align">
+                        <form id="imageUploadForm" enctype="multipart/form-data" method="post">
+                            {!! csrf_field() !!}
+                            <input type='file' name="file" id="file" style='width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;'>
+                            <label for="file" class="btn red darken-2 grey-text text-lighten-4 margin-15" style="margin-right:30px">Choose a file</label>
+                            <button type='submit' id="upload-file" class="btn margin-left-15 red darken-2 grey-text text-lighten-4">save Profile Image</button>
+                        </form>
+                    </td>
+                </tr>
                 <tr>
                     <td style="width:30%">Name</td>
                     <td>{{ empty($user->name)?"--":$user->name}}</td>
@@ -136,5 +152,55 @@
         </p>
     </form>
 </div>
-
+@stop
+@section("javascript")
+<script>
+    $(document).ready(function($) {
+        $("#imageUploadForm").submit(function(event) {
+            event.preventDefault();
+            file_is = $("#file").val();
+            console.log(file_is);
+            if(file_is == "" || file_is == undefined){
+                alert("Please select an image to upload");
+                return false;
+            }
+            else{
+                file_ext = file_is.split(".");
+                file_ext = file_ext[file_ext.length-1].toLowerCase();
+                if($.inArray(file_ext, ["gif","jpg","jpeg","gif","bmp","png"]) == -1){
+                    alert('Please select an image. The file type should be in ["gif","jpg","jpeg","gif","bmp","png"]');
+                    return false;
+                }
+                // image_data = nameew FormData($("#imageUploadForm"));
+                
+                $.ajax({
+                    url: "{{route('uploadUserImage')}}",
+                    type: 'POST',
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    data: new FormData(this),
+                })
+                .done(function(a) {
+                    console.log(a);
+                    console.log("success");
+                    if(a !== false){
+                        $("#user_image").attr('src', a);
+                    }
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+                
+            }
+            
+            
+            
+            ;
+        });   
+    });
+</script>
 @stop

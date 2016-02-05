@@ -14,6 +14,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get("/user/nearbyBooks","UserController@bookNearYou")->name('nearbyBooks');
     Route::get("/user/{id}/deleteBooks/{book_id}/{book_type}", "UserController@deleteBooks")->name('user.delete.books');
     Route::get('/user/edit', "UserController@edit")->name('user.edit.profile');
+    Route::post("/user/uploadImage","UserController@uploadImage")->name("uploadUserImage");
     
     Route::resource('user', 'UserController');
     Route::get("/user/{id}/bookshelf","UserController@showUserBookshelf")->name("user.show.bookshelf");
