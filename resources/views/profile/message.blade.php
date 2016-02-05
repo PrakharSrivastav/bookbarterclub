@@ -43,7 +43,7 @@
 			                        	<div><small>{{$every['created_at']}}</small><span class="right">
       <i class="tiny material-icons">visibility_off</i>
             </span></div>
-			                            <div>{{$every['message']}}</div>
+			                            <div>{!!$every['message']!!}</div>
 			                        </div>
 			                    </li>
 			                    @else
@@ -51,7 +51,7 @@
 			                        <div class="">
 			                        	<div><small>{{$every['created_at']}}</small><span class="right">
       <i class="tiny material-icons">visibility</i></span></div>
-			                            <div>{{$every['message']}}</div>
+			                            <div>{!!$every['message']!!}</div>
 			                        </div>
 			                    </li>
 			                    @endif

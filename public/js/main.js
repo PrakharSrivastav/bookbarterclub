@@ -153,12 +153,13 @@
           // return false;
       });
       $('.modal-trigger').leanModal();
+      var cnt = $(".message_count");
       $.ajax({
           url: unreadCount,
           type: 'GET',
           dataType: 'json',
       }).done(function(a) {
-          cnt = $(".message_count");
+          
           if(a.length > 0){
             cnt.empty();
             cnt.text(a.length);

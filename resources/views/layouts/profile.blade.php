@@ -24,7 +24,7 @@
         <nav class="red darken-2">
             <div class="nav-wrapper margin-left-5">
                 <div class="left">
-                    <a href="{{route('dashboard')}}" class="brand-logo weight-300 grey-text text-lighten-4">Book Barter Club</a>
+                    <a href="{{route('nearbyBooks')}}" class="brand-logo weight-300 grey-text text-lighten-4">Book Barter Club</a>
                 </div>
                 <a href="#" data-activates="mobile-view" class="button-collapse"><i class="material-icons grey-text text-lighten-4">menu</i></a>
                 <ul class="right hide-on-med-and-down">

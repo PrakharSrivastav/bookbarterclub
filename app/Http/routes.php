@@ -11,7 +11,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::auth();
     Route::get("/", "PagesController@home")->name("home");
     Route::get('/user/mybooks', "UserController@userbooks")->name('user.getuser.books');
-
+    Route::get("/user/nearbyBooks","UserController@bookNearYou")->name('nearbyBooks');
     Route::get("/user/{id}/deleteBooks/{book_id}/{book_type}", "UserController@deleteBooks")->name('user.delete.books');
     Route::get('/user/edit', "UserController@edit")->name('user.edit.profile');
     

@@ -117,7 +117,7 @@ class MessageController extends Controller
                 $message->to        = $targetUser->id;
                 $message->to_name   = $targetUser->name;
                 $message->type      = '1';
-                $message->message   = $currentUser->name . " said .. : " . $text;
+                $message->message   = "<span class='blue-text'>".$currentUser->name . "</span> said .. : " . $text;
                 $message->book_id   = $book_id;
                 $message->read      = '1';
                 $message->reader    = $targetUser->id;
@@ -137,7 +137,7 @@ class MessageController extends Controller
             $message->to        = $targetUser->id;
             $message->to_name   = $targetUser->name;
             $message->type      = '1';
-            $message->message   = $currentUser->name . " said .. : " . $text;
+            $message->message   = "<span class='blue-text'>".$currentUser->name . "</span> said .. : " . $text;
             $message->book_id   = $book_id;
             $message->read      = '1';
             $message->reader    = $targetUser->id;
@@ -166,7 +166,7 @@ class MessageController extends Controller
         $message->type      = '0';
         $message->read      = '1';
         $message->reader    = $targetUser->id;
-        $message->message   = $currentUser->name . " said .. : " . $text;
+        $message->message   = "<span class='blue-text'>".$currentUser->name . "</span> said .. : " . $text;
         if ($message->save()) {
             $status = ["code" => 100, "message" => "Message sent"];
             // $currentUser->notif = 1;
@@ -206,7 +206,7 @@ class MessageController extends Controller
                 $message->to        = $targetUser->id;
                 $message->to_name   = $targetUser->name;
                 $message->type      = '2';
-                $message->message   = $currentUser->name . " said .. : " . $text;
+                $message->message   = "<span class='blue-text'>".$currentUser->name . "</span> said .. : " . $text;
                 $message->book_id   = $book_id;
                 $message->read      = '1';
                 $message->reader    = $targetUser->id;
@@ -226,7 +226,7 @@ class MessageController extends Controller
             $message->to        = $targetUser->id;
             $message->to_name   = $targetUser->name;
             $message->type      = '2';
-            $message->message   = $currentUser->name . " said .. : " . $text;
+            $message->message   = "<span class='blue-text'>".$currentUser->name . "</span> said .. : " . $text;
             $message->book_id   = $book_id;
             $message->read      = '1';
             $message->reader    = $targetUser->id;

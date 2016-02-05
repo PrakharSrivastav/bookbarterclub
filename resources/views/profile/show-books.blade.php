@@ -173,29 +173,30 @@
             @else
             <h5 class="left-align weight-300">Few more suggestions.</h5>
             @endif
-            @foreach($suggestions as $abook)
-            <div class="col s6 m4 l3 margin-top-5 padding-10">
-                <div class="card hoverable red darken-2 grey-text text-lighten-4 small">
-                    <div class="card-image">
-                        <img class="activator" src="{{$abook['image']}}">
-                    </div>
-                    <div class="card-content padding-5">
-                        <span class="card-title activator grey-text text-lighten-4 light "><i class="mdi-navigation-more-vert right"></i>{{ substr($abook['title'],0,12).".."}}</span>
-                        <div class="light margin-top-5">Distance : {{$abook['distance']}}</div>
-                        <a class="btn white black-text" href="{{route('user.show.books',['book_id'=>$abook['id']])}}" style="position:absolute;bottom:5px;left:5px;">&nbsp;&nbsp;View Details&nbsp;&nbsp;</a>
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class="card-reveal row red darken-2 padding-none" style="overflow-x:hidden">
-                        <div class="card-title col s12 activator red darken-2 padding-5 grey-text text-lighten-4"><i class="mdi-navigation-more-vert right"></i>{{substr($abook['title'],0,12).".."}}</div>
-                        <div class="col s12 white black-text" style="height:227px">
-                            <div class="padding-5 font-13">{{ substr($abook['desc'],0,100)."..." }}</div>
-                            <div class="padding-5 font-13">Rating : {{$abook['rating']}}</div>
+                @foreach($suggestions as $abook)
+                <div class="col s6 m4 l3 margin-top-5 padding-10">
+                    <div class="card  red darken-2 grey-text text-lighten-4 small">
+                        <div class="card-image">
+                            <img class="activator" src="{{$abook['image']}}">
                         </div>
-                        <a class="btn white black-text" href="{{route('user.show.books',['book_id'=>$abook['id']])}}" style="position:absolute;bottom:5px;left:5px">&nbsp;&nbsp;View Details&nbsp;&nbsp;</a>
+                        <div class="card-content padding-5">
+                            <span class="card-title activator grey-text text-lighten-4 light "><i class="mdi-navigation-more-vert right"></i>{{ substr($abook['title'],0,12).".."}}</span>
+                            <div class="light margin-top-5">Distance : {{$abook['distance']}}</div>
+                            <a class="btn white z-depth-0 black-text" href="{{route('user.show.books',['book_id'=>$abook['id']])}}" style="position:absolute;bottom:5px;left:5px;">&nbsp;&nbsp;View Details&nbsp;&nbsp;</a>
+                            <div style="clear:both"></div>
+                        </div>
+                        <div class="card-reveal row red darken-2 padding-none" style="overflow-x:hidden">
+                            <div class="card-title col s12 activator red darken-2 padding-5 grey-text text-lighten-4"><i class="mdi-navigation-more-vert right"></i>{{substr($abook['title'],0,12).".."}}</div>
+                            <div class="col s12 white black-text" style="height:227px">
+                                <div class="padding-5 font-13">{{ substr($abook['desc'],0,100)."..." }}</div>
+                                <div class="padding-5 font-13">Rating : {{$abook['rating']}}</div>
+                            </div>
+                            <a class="btn white z-depth-0 black-text" href="{{route('user.show.books',['book_id'=>$abook['id']])}}" style="position:absolute;bottom:5px;left:5px">&nbsp;&nbsp;View Details&nbsp;&nbsp;</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            @endforeach
+                @endforeach
+                <div class="center-align"><a href="{{route('nearbyBooks')}}" class="btn red darken-2 grey-text text-lighten-4">More Suggestions</a></div>
         </div>
         @endif
     </div>
@@ -387,14 +388,14 @@ $("#addToBookshelf").click(function(e) {
 });
 $("#sell_the_book").click(function(e){
     e.preventDefault();
-    sellable = $("#is_sellable").val();
-    if(sellable == "1"){
-        Materialize.toast("This book is already in your book store.<br>To edit the price go to 'My Books' and edit the book in your book store" , 5000);
-        return false;
-    }
-    else{
+    // sellable = $("#is_sellable").val();
+    // if(sellable == "1"){
+    //     Materialize.toast("This book is already in your book store.<br>To edit the price go to 'My Books' and edit the book in your book store" , 5000);
+    //     return false;
+    // }
+    // else{
         $('#modal-sell').openModal();
-    }
+    // }
     
 });
 $("#selling_price").keyup(function(){
