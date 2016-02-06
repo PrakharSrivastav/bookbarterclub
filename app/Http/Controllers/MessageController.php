@@ -14,10 +14,7 @@ class MessageController extends Controller
 
     public function __construct()
     {
-        if (!Auth::check()) {
-            Auth::logout();
-            return redirect()->route('home');
-        }
+        
     }
 
     /**
@@ -47,7 +44,7 @@ class MessageController extends Controller
                 $sender_name = $senders->sender_name;
                 $id          = $senders->sender_id;
                 if ($count == 0) {
-                    $first_sender['name'] = str_replace(" ", "_", $sender_id);
+                    $first_sender['name'] = str_replace(" ", "_", $sender_name);
                     $first_sender['id']   = $senders->sender_id;
                 }
                 $temp['from']             = $senders->my_id;
@@ -74,6 +71,7 @@ class MessageController extends Controller
             }
             $count++;
         }
+        // return compact("all_data", "user", "books", "first_sender");
         return view("profile.message", compact("all_data", "user", "books", "first_sender"));
     }
 

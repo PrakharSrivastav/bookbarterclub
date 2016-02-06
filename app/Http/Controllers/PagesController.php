@@ -7,6 +7,7 @@ use Auth;
 use Illuminate\Http\Request;
 use \App\Book;
 use \App\User;
+use Mail;
 
 class PagesController extends Controller
 {
@@ -149,16 +150,29 @@ class PagesController extends Controller
                 $valid_users = array_slice($valid_users, 0, 3);
 
                 // sort the array based on distance
-                uasort($suggestions, function ($b) {
-                    return $b['distance'];
-                });
-                $suggestions = array_slice($suggestions, 0, 8);
+                // uasort($suggestions, function ($b) {
+                //     return $b['distance'];
+                // });
+                $suggestions = $this->sort_by_key($suggestions, 'distance');
+                $suggestions = array_slice($suggestions, 0, 18  );
                 $book        = $books[0];
 
                 // return $suggestions;
                 return view("static.foundBooks", compact("valid_users", "book", "suggestions"));
             }
         }
+    }
+
+    public function sort_by_key($arr, $key)
+    {
+        global $key2sort;
+        $key2sort = $key;
+        uasort($arr, function ($a, $b) {
+            global $key2sort;
+            // return (strcasecmp($b[$key2sort],$a[$key2sort] ));
+            return intval($a[$key2sort]) - intval($b[$key2sort]);
+        });
+        return ($arr);
     }
 
     public function register_success($token)
@@ -201,5 +215,21 @@ class PagesController extends Controller
     public function register_success_email()
     {
         return view("static.registrationSuccessEmail");
+    }
+
+    public function contact(Request $request){
+        $msg['name'] = $request->input("name");
+        $msg['email'] = $request->input("email");
+        $msg['text'] = $request->input("text");
+
+        if($msg){
+            Mail::send("static.contact-message", ["msg"=>$msg], function ($message) use($msg){
+                $message->from($msg['email'], $msg['name']);
+                $message->to("test@bookbarterclub.com", "Book Barter Club");
+                $message->subject("Book Barter Club : Contact Message");
+                $message->getSwiftMessage();
+            });
+            return "true";
+        }
     }
 }

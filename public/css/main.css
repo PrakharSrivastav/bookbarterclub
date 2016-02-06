@@ -53,7 +53,7 @@ div#preloader { position: fixed; left: 0; top: 0; z-index: 999; width: 100%; hei
 .margin-top-100 		{margin-top: 100px}
 .margin-bottom-5		{margin-bottom:5px !important;}
 .border-none 			{border: none !important;}
-img,  .btn 				{border-radius: 0px !important}
+img   				{border-radius: 0px !important}
 .btn-block, .full-width {width: 100% !important;}
 .title 					{font-weight: 300;font-size: 37px;margin-left: 10px;}
 .weight-100 			{font-weight: 100 !important}

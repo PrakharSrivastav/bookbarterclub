@@ -3,7 +3,7 @@ Route::get("/search/{query}", "APIController@index")->name("search");
 Route::get("/stories", "PagesController@stories")->name("stories");
 Route::get("/register-success/{token}","PagesController@register_success")->name("register-success");
 Route::get("/register-success-email","PagesController@register_success_email");
-
+Route::post("/contact","PagesController@contact")->name("contact");
 
 Route::group(['middleware' => 'web'], function () {
     Route::get("/getUnreadCount","MessageController@getUnreadCount")->name("unread");

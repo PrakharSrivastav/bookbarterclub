@@ -26,6 +26,7 @@
             var base_url = "{{url('search')}}";
             var book_url = "{{route('book.details')}}";
             var nearest_user = "{{route('book.nearest.user',['book_id'=>'__book_id__'])}}";
+            var sendEmail = "{{route('contact')}}";
         </script>
     </body>
 </html>

@@ -16,10 +16,10 @@
     </head>
     <body class="grey lighten-2">
         <ul id="dropdown1"  class="dropdown-content">
-            <li><a href="{{route('dashboard')}}" class="black-text">Edit Location</a></li>
-            <li><a href="{{route('user.edit.profile')}}" class="black-text">Edit Profile</a></li>
+            <li><a href="{{route('dashboard')}}" class="black-text light">Edit Location</a></li>
+            <li><a href="{{route('user.edit.profile')}}" class="black-text light">Edit Profile</a></li>
             <li class="divider"></li>
-            <li><a href="{{url('/logout')}}" class="red-text">Logout</a></li>
+            <li><a href="{{url('/logout')}}" class="red-text light">Logout</a></li>
         </ul>
         <nav class="red darken-2">
             <div class="nav-wrapper margin-left-5">
@@ -40,6 +40,7 @@
                 </ul>
                 <ul class="side-nav red darken-2" id="mobile-view">
                     <li class="margin-right-10 red darken-2"><span class="margin-left-10 grey-text text-lighten-4">Welcome {{$user->name}}</span></li>
+                    <li><a href="{{route('nearbyBooks   ')}}">Nearest Books</a></li>
                     <li><a href="{{route('user.getuser.books')}}">My Books</a></li>
                     <li>
                         <a href="{{route('all_messages')}}">
@@ -111,6 +112,7 @@
             var base_url = "{{url('search')}}";
             var base = "{{url('/')}}";
             var book_url = "{{url('searchBook')}}";
+            
             // var add_book = "route('user.create.books',$user->id)";
             var show_user = "{{route('user.show.books',['book_id'=>'__book__id__'])}}";
             var unreadCount = "{{route('unread')}}";

@@ -38,3 +38,16 @@ var validator_1 = $("#registration_form").validate({
 		password_confirmation : {required:"<div style='color:red;font-weight:400;'>Please provide the confirmed password field.</div>" , minlength:"<div style='color:red;font-weight:400;'>Confirmed Password should have atleast 3 characters.</div>", equalTo: "<div style='color:red;font-weight:400;'>Password does not match confirmed password.</div>"}
 	}
 });
+
+var validator_2 = $("#contact_us_form").validate({
+    rules : {
+        name : { required:true , minlength:3},
+        email : {required:true , email:true},
+        message : {required:true , minlength:3},
+    },
+    messages : {
+        name : { required:"<div style='color:red;font-weight:400;'>Please provide the name.</div>" , minlength:"<div style='color:red;font-weight:400;'>Name should have atleaset 3 characters.</div>"},
+        email : {required:"<div style='color:red;font-weight:400;'>Please provide the email.</div>" , email:"<div style='color:red;font-weight:400;'>Invalid email format.</div>"},
+        message : {required:"<div style='color:red;font-weight:400;'>Please provide the message.</div>" , minlength:"<div style='color:red;font-weight:400;'>Message should have atleast 3 characters.</div>"},
+    }
+});

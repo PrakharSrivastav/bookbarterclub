@@ -36,6 +36,9 @@
             </ul>
             <!-- <div class="center-align"><small class="">Save your location on right and search for your book</small></div> -->
         </div>
+        <div class="row light white margin-none padding-10 font-16">
+            To see a demo please save your location in the map on the right side and search for a book title in the next tab.
+        </div>
         <div class="row  white black-text padding-none margin-none">
             @if(count($books) > 0)
             <br/>
@@ -97,18 +100,19 @@
             <li>
                 <div class="collapsible-header red grey-text text-lighten-4 darken-2 margin-top-5"><i class="material-icons">message</i>Contact Us</div>
                 <div class="collapsible-body white padding-15">
-                    <form class="row padding-none">
+                    <form id="contact_us_form" class="row padding-none" action="{{route('contact')}}" method="post">    
+                        <div id="error" class="col s12 red-text text-darken-1"></div>
                         <div class="input-field col s12 padding-none">
-                            <input id="first_name" type="text" class="validate padding-none">
-                            <label for="first_name">Name</label>
+                            <input id="name" name="name" type="text" class="validate padding-none">
+                            <label for="name">Name</label>
                         </div>
                         <div class="input-field col s12 padding-none">
-                            <input id="email" type="email" class="validate padding-none">
+                            <input id="email" name="email" type="text" class="validate padding-none">
                             <label for="email">Email</label>
                         </div>
                         <div class="input-field col s12 padding-none">
-                            <textarea id="textarea1" rows='5' class="materialize-textarea padding-none"></textarea>
-                            <label for="textarea1">Your Message</label>
+                            <textarea id="message" name="message" rows='5' class="materialize-textarea padding-none"></textarea>
+                            <label for="message">Your Message</label>
                         </div>
                         <input type="submit" class="red darken-1 btn-large  btn-block  " value="Send">
                     </form>
@@ -132,5 +136,5 @@
 <script type="text/javascript" src="{{url('js/owl.min.js')}}"></script>
 <script type="text/javascript" src="{{url('js/public.script.js')}}"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWQggw-OmClnyma5MoBfzCnKmA7exSqtQ&libraries=places&callback=initAutocomplete"></script>
-<script type="text/javascript" src="{{url('js/google.style.js')}}"></script>
+<script type="text/javascript" src="{{url('js/google.style.js')}}"></script>    
 @stop

@@ -111,4 +111,65 @@ $(document).ready(function($) {
             return false;
         } else {}
     });
+    // working with the contact form
+    $("#contact_us_form").submit(function(event) {
+        event.preventDefault();
+        email = $("#email").val();
+        name = $("#name").val();
+        text = $("#message").val();
+        error = $("#error");
+        flag = true;
+        error_message = "";
+        if (name == "" || name == undefined) {
+            error_message += "<span>Please provide your name</span><br>";
+            flag = false;
+        }
+        if (email == "" || email == undefined) {
+            error_message += "<span>Please provide your email address</span><br>";
+            flag = false;
+        }
+        else if (!validateEmail(email)){
+            error_message += "<span>Invalid email format</span><br>";
+            flag = false;
+        }
+        if (text == "" || text == undefined) {
+            error_message += "<span>Please provide your message</span>";
+            flag = false;
+        }
+        if (flag == false) {
+            error.empty();
+            error.html(error_message);
+        }
+        else{
+            error.empty();
+            $.ajax({
+                url: sendEmail,
+                type: 'POST',
+                dataType: 'json',
+                data: {email:email,name:name,text:text},
+            })
+            .done(function(a) {
+                if(a == true){
+                    error.empty();
+                    $("#email").val("");
+                    $("#name").val("").focus();
+                    $("#message").val("");
+                    Materialize.toast("Your message has been sent, we will respond you as soon as possible", 6000);
+                }
+                else{
+                    Materialize.toast("Error sending email. Please try after sometime", 2000);
+                }
+            })
+            .fail(function() {
+                Materialize.toast("Error sending email. Please try after sometime", 2000);
+            });
+            
+        }
+    });
 });
+
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    console.log(re.test(email));
+    return re.test(email);
+}

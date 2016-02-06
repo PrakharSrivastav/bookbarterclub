@@ -16,6 +16,7 @@ return array(
     'CreateReviewColumn' => $baseDir . '/database/migrations/2016_01_16_025054_create_review_column.php',
     'CreateSellingPriceColumn' => $baseDir . '/database/migrations/2016_01_17_062850_create_selling_price_column.php',
     'CreateSessionsTable' => $baseDir . '/database/migrations/2016_01_15_044827_create_sessions_table.php',
+    'CreateSessionsTableNew' => $baseDir . '/database/migrations/2016_02_05_150807_create_sessions_table_new.php',
     'CreateTrendingTable' => $baseDir . '/database/migrations/2015_12_30_180704_create_trending_table.php',
     'CreateTypeColumn' => $baseDir . '/database/migrations/2016_01_17_142753_create_type_column.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',

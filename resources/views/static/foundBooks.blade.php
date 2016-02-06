@@ -12,7 +12,7 @@
         <div class="row ">
             <h5 class="center-align weight-300">We found below matches near your area</h5>
             <div class="center-align grey-text text-darken-3 padding-bottom-10">
-                <span>By default we show only first 3 matches. To get more matches please <a  href="{{url('/register')}}" class="red-text text-darken-2">[Register]</a> in our system.</span>
+                <span>By default we show only first 3 matches. To get more matches please <a href="{{url('/login')}}" class="red-text text-darken-2 light">[LOGIN]</a> OR <a  href="{{url('/register')}}" class="red-text text-darken-2 light">[REGISTER]</a> in our system.</span>
             </div>
             @foreach($valid_users as $users)
             <div class="col s12 m4 margin-top-5 padding-10">
@@ -46,13 +46,14 @@
                         <div class="card-title activator black-text" style="position:absolute;top:-10px;left:-15px">{{$books['title']}}</div>
                         @endif
                     </div>
-                    <div class="card-content white padding-none margin-none">
+                    <div class="card-content grey lighten-2 padding-none margin-none">
                         <div class="card-title light font-12 activator red darken-2 padding-5 grey-text text-lighten-4"><i class="mdi-navigation-more-vert right"></i>{{substr($books['title'],0,12).".."}}</div>
                         <div class="padding-5 font-12">Distance : {{$books['distance']}}</div>
                         <div class="padding-5 font-12">Rating : {{$books['rating']}}</div>
                     </div>
-                    <div class="card-reveal white padding-none">
+                    <div class="card-reveal grey lighten-2 padding-none">
                         <span class="card-title grey-text red darken-2 padding-5 text-lighten-4 font-12"><i class="mdi-hardware-keyboard-arrow-down right"></i>{{$books['title']}}</span>
+                        <div class="font-12 light padding-5" >{{strip_tags(substr($book->desc,0,150)).".."}}</div>
                     </div>
                 </div>
             </div>
@@ -77,12 +78,12 @@
             <div class="col s12 padding-10">
                 @if(strlen($book->desc)>250)
                 <p>
-                <span class="teaser" >{{substr($book->desc,0,250)}}</span>
-                <span class="complete"  >{!! $book->desc !!}</span>
-                <a href="" class="more blue-text text-darken-2 weight-400"><br>Show More...</a>
+                <span class="teaser" >{{strip_tags(substr($book->desc,0,250))}}</span>
+                <span class="complete"  >{{ strip_tags($book->desc) }}</span>
+                <a href="" class="more red-text text-darken-2 weight-400"><br>Show More...</a>
                 </p>
                 @else
-                <p>{!! $book->desc !!}</p>
+                <p>{{ strip_tags($book->desc) }}</p>
                 @endif
                 
                 </p>

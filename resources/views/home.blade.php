@@ -8,8 +8,11 @@
         <div class="collapsible-header red darken-2 grey-text text-lighten-3 margin-top-5 active"><i class="material-icons">room</i>My Location <small class='right weight-400'>{{ (empty($user->longitude) || (empty($user->latitue)))?'Setup / Edit your location':''}}</small></div>
         <div class="collapsible-body white  min-height-350 padding-10">
             <div class="row no-margin no-padding">
-                <span class="currentLocation grey lighten-2 red-text text-darken-2 padding-5 left">{{$user->location_name}}</span>
-                <a href="" id="saveLocation" class="btn red darken-2 right grey-text text-lighten-4">Save</a>
+                <div class="col s12 m6 currentLocation grey lighten-2 red-text text-darken-2 padding-5">{{$user->location_name}}
+                </div>
+                <div class="col s12 m2 push-m4">
+                    <a href="" id="saveLocation" class="btn btn-block red darken-2 grey-text text-lighten-4">Save</a>
+                </div>
             </div>
             <div class="row no-margin no-padding">
                 <input id="pac-input" class="controls" type="text" placeholder="Search Box" style="margin-top:5px">
