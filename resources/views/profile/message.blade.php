@@ -55,12 +55,10 @@
                     @if($every['read'] == '1' && $every['reader']==$user->
                     id)
                     <li data-attr-id="{{$every['id']}}" class="collection-item avatar yellow {{str_replace(' ','_',$each)}} news">
-                        <img src="{{$user->img_path	}}" alt="" class="circle">
-                        <span class="title">
-                            {{$every['created_at']}}
-                        </span>
+                        <img src="{{$every['s_img']	}}" alt="" class="circle">
+                        <span class=""><span class="blue-text text-darken-2">{{$every['s_navn']}}</span> @ {{$every['created_at']}}</span>
                         <p>
-                            {!!$every['message']!!}
+                            {{$every['message']}}
                         </p>
                         <a href="#!" class="secondary-content">
                             <i class="tiny black-text material-icons">
@@ -70,12 +68,10 @@
                     </li>
                     @else
                     <li data-attr-id="{{$every['id']}}" class="collection-item avatar {{str_replace(' ','_',$each)}} news">
-                        <img src="{{$user->img_path	}}" alt="" class="circle">
-                        <span class="title">
-                            {{$every['created_at']}}
-                        </span>
+                        <img src="{{$every['s_img']	}}" alt="" class="circle">
+                        <span class=""><span class="blue-text text-darken-2">{{$every['s_navn']}}</span> @ {{$every['created_at']}}</span>
                         <p>
-                            {!!$every['message']!!}
+                            {{$every['message']}}
                         </p>
                         <a href="#!" class="secondary-content">
                             <i class="tiny black-text material-icons">

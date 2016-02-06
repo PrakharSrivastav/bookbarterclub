@@ -15,6 +15,7 @@ return array(
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateReviewColumn' => $baseDir . '/database/migrations/2016_01_16_025054_create_review_column.php',
     'CreateSellingPriceColumn' => $baseDir . '/database/migrations/2016_01_17_062850_create_selling_price_column.php',
+    'CreateSenderColumnsForMsg' => $baseDir . '/database/migrations/2016_02_06_034600_create_sender_columns_for_msg.php',
     'CreateSessionsTable' => $baseDir . '/database/migrations/2016_01_15_044827_create_sessions_table.php',
     'CreateSessionsTableNew' => $baseDir . '/database/migrations/2016_02_05_150807_create_sessions_table_new.php',
     'CreateTrendingTable' => $baseDir . '/database/migrations/2015_12_30_180704_create_trending_table.php',
